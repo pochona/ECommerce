@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Client;
+import exceptions.ErreurConnexionClient;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -42,6 +43,20 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
             return c.getId();
         } catch(NoResultException e) {
             throw new exceptions.ExceptionClient();
+        }
+    }
+
+    @Override
+    public long validerConnexion(String mail, String mdp) throws ErreurConnexionClient {
+         try {
+            Query q = em.createQuery(
+               "select c from Client c where c.mail = :mail and c.mdp = :mdp");
+            q.setParameter("mail", mail);
+            q.setParameter("mdp", mdp);
+            Client c = (Client) q.getSingleResult();
+            return c.getId();
+        } catch(NoResultException e) {
+            throw new exceptions.ErreurConnexionClient();
         }
     }
 }

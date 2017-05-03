@@ -4,9 +4,17 @@
         <servlet-name>ClientServlet</servlet-name>
         <servlet-class>WebServices.ClientServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AuthentificationServlet</servlet-name>
+        <servlet-class>WebServices.AuthentificationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ClientServlet</servlet-name>
         <url-pattern>/ClientServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthentificationServlet</servlet-name>
+        <url-pattern>/AuthentificationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
