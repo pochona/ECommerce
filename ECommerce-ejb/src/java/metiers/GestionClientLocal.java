@@ -5,6 +5,7 @@
  */
 package metiers;
 
+import exceptions.ErreurConnexionClient;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -22,4 +23,6 @@ public interface GestionClientLocal {
     List<Long> listeNumComptes(long idClient) throws exceptions.ExceptionClient;
 
     long creerCompte(long idClient) throws exceptions.ExceptionClient;
+    
+    long validerConnexion(String email, String mdp) throws exceptions.ErreurConnexionClient;
 }
