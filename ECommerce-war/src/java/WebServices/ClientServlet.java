@@ -39,7 +39,6 @@ public class ClientServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String type = request.getParameter("type");
-        type = type == null ? "0" : type;
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String idClient = request.getParameter("idClient");
@@ -53,7 +52,7 @@ public class ClientServlet extends HttpServlet {
                         out.println("<!DOCTYPE html>");
                         out.println("<html>");
                         out.println("<head>");
-                        out.println("<title>Servlet ClientServlet</title>");     
+                        out.println("<title>Servlet ClientServlet</title>");            
                         out.println("</head>");
                         out.println("<body>");
                         out.println("<h1>Le client de nom : " + prenom + " " + nom + " a comme id : "+idCl+"</h1>");
@@ -67,7 +66,7 @@ public class ClientServlet extends HttpServlet {
                         out.println("<!DOCTYPE html>");
                         out.println("<html>");
                         out.println("<head>");
-                        out.println("<title>Servlet ClientServlet</title>");      
+                        out.println("<title>Servlet ClientServlet</title>");            
                         out.println("</head>");
                         out.println("<body>");
                         out.println("<h1>Le client de nom : " + prenom + " " + nom + " n'existe pas</h1>");
@@ -77,21 +76,6 @@ public class ClientServlet extends HttpServlet {
                 }
                 break;
             }
-            default: 
-                    try (PrintWriter out = response.getWriter()) {
-                        /* TODO output your page here. You may use following sample code. */
-                        out.println("<!DOCTYPE html>");
-                        out.println("<html>");
-                        out.println("<head>");
-                        out.println("<title>Servlet ClientServlet</title>");     
-                        out.println("</head>");
-                        out.println("<body>");
-                        out.println("<h1>Aucun choix effectué</h1>");
-                        out.println("</body>");
-                        out.println("</html>");
-                    }
-                
-                break;
         }
     }
 

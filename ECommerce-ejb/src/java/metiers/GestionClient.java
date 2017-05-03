@@ -7,7 +7,6 @@ package metiers;
 
 import controllers.ClientFacadeLocal;
 import controllers.CompteFacadeLocal;
-import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionClient;
 import java.util.List;
 import javax.ejb.EJB;
@@ -44,11 +43,6 @@ public class GestionClient implements GestionClientLocal {
     @Override
     public long creerCompte(long idClient) throws ExceptionClient {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public long validerConnexion(String email, String mdp) throws ErreurConnexionClient {
-        return clientFacade.validerConnexion(email, mdp);
     }
     
 }

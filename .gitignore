@@ -1,5 +1,0 @@
-*.jar
-build/ECommerce-ejb.jar
-*.war
-*.class
-build/*

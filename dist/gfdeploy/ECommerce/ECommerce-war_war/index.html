@@ -11,12 +11,14 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div class="container">
-            <form id="form-login" action="/ECommerce-war/AuthentificationServlet" method="get">
-                EMail : <input type="text" name="email" value=""><br>
-                Mot de passe : <input type="text" name="mdp" value=""><br>
-                <input type="submit" name="type" value="connexionClient">
-            </form>
-        </div>
+        <form action="/TPBanqueApp-war/ClientServlet" method="get">
+            Nom : <input type="text" name="nom" value="Morane"><br>
+            Prénom : <input type="text" name="prenom" value="Bob"><br>
+            <input type="submit" name="type" value="chercherClient">
+        </form>
+        
+    <hr>
+           
+    
     </body>
 </html>

@@ -6,7 +6,6 @@
 package controllers;
 
 import entities.Client;
-import exceptions.ErreurConnexionClient;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -32,7 +31,5 @@ public interface ClientFacadeLocal {
     int count();
     
     long chercherClient(String nom, String prenom) throws exceptions.ExceptionClient;
-    
-    long validerConnexion(String mail, String mdp) throws exceptions.ErreurConnexionClient;
     
 }
