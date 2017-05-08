@@ -38,7 +38,11 @@ public class GestionArticle implements GestionArticleLocal{
 
     @Override
     public List<Article> recupererArticle() throws ExceptionArticle {
-        return articleFacade.recupererArticle();
+        return articleFacade.findAll();
+    }
+
+    public Article findArticle(Integer id) throws ExceptionArticle {
+        return articleFacade.find(id);
     }
 
     

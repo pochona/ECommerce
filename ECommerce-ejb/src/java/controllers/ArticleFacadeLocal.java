@@ -32,6 +32,4 @@ public interface ArticleFacadeLocal {
     int count();
     
     String chercherArticle(String description, String lib);
-    
-    List<Article> recupererArticle();
 }

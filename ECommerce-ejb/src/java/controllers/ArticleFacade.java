@@ -48,10 +48,6 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
             return a.getLib();
     }
 
-    @Override
-    public List<Article> recupererArticle() {
-        return findAll();
-    }
 
 
 
