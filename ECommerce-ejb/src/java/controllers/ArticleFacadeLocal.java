@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Article;
+import exceptions.ErreurConnexionClient;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,4 +31,5 @@ public interface ArticleFacadeLocal {
 
     int count();
     
+    String chercherArticle(String description, String lib);
 }

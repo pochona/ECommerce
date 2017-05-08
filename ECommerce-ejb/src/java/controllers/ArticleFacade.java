@@ -6,9 +6,13 @@
 package controllers;
 
 import entities.Article;
+import exceptions.ErreurConnexionClient;
+import exceptions.ExceptionArticle;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 
 /**
  *
@@ -28,5 +32,21 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
     public ArticleFacade() {
         super(Article.class);
     }
+
+    @Override
+    public String chercherArticle(String description, String lib) {
+        Query q = em.createQuery(
+               "select a from Article a where a.description = :description and a.lib = :lib");
+            q.setParameter("description", description);
+            q.setParameter("lib", lib);
+            Article a = (Article) q.getSingleResult();
+            return a.getLib();
+    }
+
+
+
+
+    
+    
     
 }
