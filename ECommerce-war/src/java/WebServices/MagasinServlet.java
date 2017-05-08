@@ -5,27 +5,29 @@
  */
 package WebServices;
 
+import entities.Article;
 import exceptions.ErreurConnexionClient;
+import exceptions.ExceptionArticle;
 import exceptions.ExceptionClient;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import metiers.GestionClientLocal;
+import metiers.GestionArticleLocal;
 
 /**
  *
  * @author Amaury
  */
-public class AuthentificationServlet extends HttpServlet {
+public class MagasinServlet extends HttpServlet {
 
-    
     @EJB
-    private GestionClientLocal gestionClient;
+    private GestionArticleLocal gestionArticle;
      
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,57 +42,36 @@ public class AuthentificationServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String type = request.getParameter("type");
-        String email = request.getParameter("email");
-        String mdp = request.getParameter("mdp");
-
-        if(type.equals("connexionClient")) {
-            try {
-             long idCl = gestionClient.validerConnexion(email, mdp);
-             HttpSession session = request.getSession();
-             session.setAttribute("idClient", idCl);
-                try (PrintWriter out = response.getWriter()) {
-                    /* TODO output your page here. You may use following sample code. */
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet ClientServlet</title>");     
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Vous êtes bien connecté !</h1>");
-                    out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
-                            + "<input type='submit' name='Continuez' value='Continuer sur le magasin' />"+
-                            "</form>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
-            } catch (ErreurConnexionClient ex) {
-                //Logger.getLogger(ClientServlet.class.getName()).log(Level.SEVERE, null, ex);
-                try (PrintWriter out = response.getWriter()) {
-                    /* TODO output your page here. You may use following sample code. */
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet ClientServlet</title>");      
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Mauvaise combinaison</h1>");
-                    out.println("<form method='get' action='./index.html'><button type='submit'>Retour</button></form>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
-            }
-        } else { 
+        HttpSession session = request.getSession();
+        Long idClient = (Long) session.getAttribute("idClient");
+        try {
+            
+            List<Article> listArt = gestionArticle.recupererArticle();
+        
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Servlet ClientServlet</title>");     
+                out.println("<title>Magasin</title>");      
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Aucun choix effectué</h1>");
-                out.println("<form method='get' action='./index.html'><button type='submit'>Retour</button></form>");
+                for (Article monArt : listArt) {
+			out.println("<div>Article : "+monArt.getLib()+"</div>");
+		}
+                out.println("<div style='float: right; font-size: 12px'>Connecté ("+idClient+")</div>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        } catch (ExceptionArticle e) {
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet ClientServlet</title>");      
+                out.println("</head>");
+                out.println("<body>");
+                out.println("Erreur dans la selection des articles.");
                 out.println("</body>");
                 out.println("</html>");
             }

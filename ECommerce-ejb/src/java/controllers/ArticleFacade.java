@@ -8,6 +8,11 @@ package controllers;
 import entities.Article;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,6 +46,11 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
             q.setParameter("lib", lib);
             Article a = (Article) q.getSingleResult();
             return a.getLib();
+    }
+
+    @Override
+    public List<Article> recupererArticle() {
+        return findAll();
     }
 
 

@@ -5,6 +5,8 @@
  */
 package metiers;
 
+import entities.Article;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,4 +21,6 @@ public interface GestionArticleLocal {
     long creerArticle(String description, String lib) throws exceptions.ExceptionArticle;
 
     String chercherArticle(String description, String lib) throws exceptions.ExceptionArticle;
+    
+    List<Article> recupererArticle() throws exceptions.ExceptionArticle;
 }

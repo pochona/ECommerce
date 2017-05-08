@@ -6,8 +6,10 @@
 package metiers;
 
 import controllers.ArticleFacadeLocal;
+import entities.Article;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -31,7 +33,12 @@ public class GestionArticle implements GestionArticleLocal{
 
     @Override
     public String chercherArticle(String description, String lib) throws ExceptionArticle {
-    return articleFacade.chercherArticle(description, lib);
+        return articleFacade.chercherArticle(description, lib);
+    }
+
+    @Override
+    public List<Article> recupererArticle() throws ExceptionArticle {
+        return articleFacade.recupererArticle();
     }
 
     
