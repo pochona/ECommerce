@@ -54,7 +54,9 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
                     out.println("<head>");
-                    out.println("<title>Servlet ClientServlet</title>");     
+                    out.println("<title>Authentification</title>"); 
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Vous êtes bien connecté !</h1>");
@@ -71,7 +73,9 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
                     out.println("<head>");
-                    out.println("<title>Servlet ClientServlet</title>");      
+                    out.println("<title>Authentification</title>");  
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Mauvaise combinaison</h1>");
@@ -86,7 +90,9 @@ public class AuthentificationServlet extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Servlet ClientServlet</title>");     
+                out.println("<title>Authentification</title>"); 
+                out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>Aucun choix effectué</h1>");
