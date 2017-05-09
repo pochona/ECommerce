@@ -9,14 +9,22 @@ and open the template in the editor.
         <title>ECommerce</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
+        <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
     </head>
     <body>
-        <div class="container">
-            <form id="form-login" action="/ECommerce-war/AuthentificationServlet" method="get">
-                EMail : <input type="text" name="email" value=""><br>
-                Mot de passe : <input type="text" name="mdp" value=""><br>
-                <input type="submit" name="type" value="connexionClient">
-            </form>
+        <div class = "container">
+            <div class="wrapper">
+		<form id="form-login" class="form-signin" action="/ECommerce-war/AuthentificationServlet" method="post">     
+                    <h3 class="form-signin-heading">Bienvenue sur ECommerce<br />Veuillez vous connecter.</h3>
+                    <hr class="colorgraph"><br>
+
+                    <input type="text" class="form-control" name="email" placeholder="Email" />
+                    <input type="text" class="form-control" name="mdp" placeholder="Mot de passe" required=""/>     		  
+
+                    <button class="btn btn-lg btn-primary btn-block"  name="type" value="connexionClient" type="submit">Connexion</button>  			
+		</form>			
+            </div>
         </div>
     </body>
 </html>
