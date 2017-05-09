@@ -59,10 +59,13 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
-                    out.println("<h1>Vous êtes bien connecté !</h1>");
+                    out.println("<div class='container'><div class='row'>");
+                    out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                    out.println("<div class='col-md-12'><h1>Vous êtes bien connecté !</h1></div>");
                     out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
-                            + "<input type='submit' name='Continuez' value='Continuer sur le magasin' />"+
+                            + "<div class='col-md-12'><input type='submit' name='Continuez' value='Continuer sur le magasin' /></div>"+
                             "</form>");
+                    out.println("</div></div>");
                     out.println("</body>");
                     out.println("</html>");
                 }
@@ -78,8 +81,11 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
-                    out.println("<h1>Mauvaise combinaison</h1>");
+                    out.println("<div class='container'><div class='row'>");
+                    out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                    out.println("<div class='col-md-12'><h1>Mauvaise combinaison</h1></div>");
                     out.println("<form method='get' action='./index.html'><button type='submit'>Retour</button></form>");
+                    out.println("</div></div>");
                     out.println("</body>");
                     out.println("</html>");
                 }
@@ -95,8 +101,11 @@ public class AuthentificationServlet extends HttpServlet {
                 out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Aucun choix effectué</h1>");
+                out.println("<div class='container'><div class='row'>");
+                out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                out.println("<div class='col-md-12'><h1>Aucun choix effectué</h1></div>");
                 out.println("<form method='get' action='./index.html'><button type='submit'>Retour</button></form>");
+                out.println("</div></div>");    
                 out.println("</body>");
                 out.println("</html>");
             }

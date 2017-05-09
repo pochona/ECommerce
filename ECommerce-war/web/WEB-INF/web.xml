@@ -12,6 +12,10 @@
         <servlet-name>MagasinServlet</servlet-name>
         <servlet-class>WebServices.MagasinServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PanierServlet</servlet-name>
+        <servlet-class>WebServices.PanierServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ClientServlet</servlet-name>
         <url-pattern>/ClientServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>MagasinServlet</servlet-name>
         <url-pattern>/MagasinServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PanierServlet</servlet-name>
+        <url-pattern>/PanierServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

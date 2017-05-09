@@ -12,7 +12,9 @@ import exceptions.ExceptionClient;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -48,7 +50,7 @@ public class MagasinServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Long idClient = (Long) session.getAttribute("idClient");
         Article artAjout = null;
-        List panier = null;
+        Map panier = null;
         // On verifie que l'id client existe, sinon, on n'est pas connecté : on redirige
         if(idClient != null){
             // On regarde si un article est actuellement ajouté au panier
@@ -59,12 +61,12 @@ public class MagasinServlet extends HttpServlet {
                 try {
                     artAjout = gestionArticle.findArticle(Integer.parseInt(idAjouter));
                     if(session.getAttribute("panier") != null){
-                        panier = (List) session.getAttribute("panier");  
-                        panier.add(artAjout.getId());
+                        panier = (Map) session.getAttribute("panier");  
+                        panier.put(artAjout.getId(), 1);
                         session.setAttribute("panier", panier);
                     } else {
-                        panier = new ArrayList();
-                        panier.add(artAjout.getId());
+                        panier = new HashMap();
+                        panier.put(artAjout.getId(), 1);
                         session.setAttribute("panier", panier);
                     }
                     
@@ -85,35 +87,44 @@ public class MagasinServlet extends HttpServlet {
                     out.println("<html>");
                     out.println("<head>");
                     out.println("<title>Magasin</title>");      
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
                     if(panier != null) {
-                        for(Object art : panier){
-                            out.println("Art : " + art);
+                        for(Object art : panier.entrySet()){
+                            Map.Entry a = (Map.Entry) art;
+                            out.println("Art : " + a.getKey() + " / quantité : " + a.getValue());
                         }
                     }
-                    out.println("<div style='float: right; font-size: 12px'>Connecté ("+idClient+")</div>");
+                    out.println("<div class='container'>");
+                    out.println("<ul class='navbar-perso'>"
+                            + "<li class='active'><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
+                            + "<li class='nav-right'><form method='get' action='/ECommerce-war/AuthentificationServlet'><button type='submit'>Déconnexion ("+idClient+")</button></form></li>"
+                            + "<li class='nav-right'><form method='get' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
+                            + "<li class='nav-right'><form method='get' action='./index.html'><button type='submit'>Suivi de commande</button></form></li>"
+                        + "</ul>");
                     if(idAjouter != null){
                         out.println("<div class='recap-ajout' style='border: solid 1px #EEEEEE; font-size: 20px; margin-bottom: 20px;'>Vous venez d'ajouter : "+artAjout.getLib()+"</div>"); 
                     }
                     for (Article monArt : listArt) {
-                        out.println("<div class='article_pre' style='border: solid 1px #DDDDDD; width: 80%; float: left; margin-bottom: 20px;'");
-                        out.println("<span class='article-lib'>Article : "+monArt.getLib()+"</span>");
-                        out.println("<hr />");
-                        out.println("<div class='article-des'>"+monArt.getDescription()+"</div>");
-                        out.println("<hr />");
+                        out.println("<div class='col-md-12'>");
+                        out.println("<div class='panel panel-default'>");
+                        out.println("<div class='panel-heading'>"+monArt.getLib()+"</div>");
+                        out.println("<div class='panel-body'>");
                         out.println("<div class='article-prix'>Prix Hors Taxe : "+monArt.getPrixHt()+" euros</div>");
                         out.println("<div class='article-prix'>Prix TTC : "+(Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0)+" euros</div>");
-                        out.println("<hr />");
-                        out.println("<div class='article-action' style='float:right;'>");
+                        out.println("</div>");
+                        out.println("<div class='panel-footer'>");
                         out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
                                 +"<input name='art' value='"+monArt.getId()+"' style='display:none' />" 
                             + "<input type='submit' name='Ajouter' value='Ajouter' />"+
                             "</form>");
                         out.println("</div>");
-                        out.println("</div>");
+                        out.println("</div>");// close panel-defaut
+                        out.println("</div>"); // close col-md
                     }
-                    
+                    out.println("</div>"); // close container
                     out.println("</body>");
                     out.println("</html>");
                 }
@@ -122,7 +133,9 @@ public class MagasinServlet extends HttpServlet {
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
                     out.println("<head>");
-                    out.println("<title>Servlet ClientServlet</title>");      
+                    out.println("<title>Magasin</title>"); 
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
                     out.println("Erreur dans la selection des articles.");
@@ -137,7 +150,9 @@ public class MagasinServlet extends HttpServlet {
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
                     out.println("<head>");
-                    out.println("<title>Servlet ClientServlet</title>");     
+                    out.println("<title>Magasin</title>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Vous devez être connecté pour accéder au magasin</h1>");
