@@ -9,6 +9,11 @@ package fenetre;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import javax.swing.*;
 
@@ -34,6 +39,19 @@ public class Fenetre extends JFrame {
     private JMenuItem item5 = new JMenuItem("Déclencher la livraison");
     private JMenuItem item6 = new JMenuItem("Fermer");
     private JMenuItem item7 = new JMenuItem("Information");
+    
+    private JButton gererAffichage;
+    private JTextArea errorText;
+    private JList produitList;
+    private JTextField produitID, produitLib, produitDescription;
+    
+    
+    private Connection connexion;
+    private Statement statement;
+    private ResultSet result;
+    private String url = "jdbc:mysql://localhost:3306/jee?zeroDateTimeBehavior=convertToNull";
+    private String login = "root";
+    private String mdp = "";
 
     private Ecouteur unEcouteur = new Ecouteur(this);
 
@@ -55,8 +73,13 @@ public class Fenetre extends JFrame {
                 System.exit(0);
             }
             
+            if ( source == item3){ // gerer affichage
+                setContentPane(affichageProduits());
+                validate();
+            }
+            
             // Ici, en fonction de la source, affichage.
-            // Ex : On clique sur "Gérer l'affichage des produits" , doit s'afficher : la liste des produits avec possibilité de modif
+            // Ex : On clique sur "Gérer l'affichage des produits" , doit s'afficher : la liste des produits avec possibilité de insert, update et delete
         }
     }
 
@@ -110,6 +133,86 @@ public class Fenetre extends JFrame {
         panel.add(label);
         return panel;
     }
+    
+    private JPanel affichageProduits(){
+        
+        JPanel panel = new JPanel();
+        chargementProduit();
+        /*panel.setLayout(new FlowLayout());
+    
+        produitList = new JList();
+        chargementProduit();
+        produitList.setVisibleRowCount(2);
+        JScrollPane scrollProduit = new JScrollPane(produitList);*/
+        
+        gererAffichage = new JButton("Montrer les produits");
+        panel.add(gererAffichage);
+        gererAffichage.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    result.first();
+                    while (result.next()) {
+                        if (result.getString("ID").equals(
+                        produitList.getSelectedValue()))
+                        break;
+                    }
+                    if (!result.isAfterLast()) {
+                        produitID.setText(result.getString("ID"));
+                        produitLib.setText(result.getString("LIB"));
+                        produitDescription.setText(result.getString("DESCRIPTION"));
+                    }
+                } 
+                catch (SQLException selectException) {
+                    displaySQLErrors(selectException);
+                }
+            }
+        });
+        return panel;
+    }
+    
+    
+    public void connexionBD() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } 
+        catch (Exception e) {
+            System.err.println("Driver introuvable");
+            System.exit(1);
+        }
+        
+        try {
+            connexion = DriverManager.getConnection(url, login, mdp);
+            statement = connexion.createStatement();
+            System.out.println("Connexion effective !"); 
+        } 
+        catch (SQLException connectException) {
+        System.out.println(connectException.getMessage());
+        System.exit(1);
+        }
+    }
+    
+    private void displaySQLErrors(SQLException e) {
+        errorText.append("SQLException: " + e.getMessage() + "\n");
+        errorText.append("SQLState:     " + e.getSQLState() + "\n");
+        errorText.append("VendorError:  " + e.getErrorCode() + "\n");
+  }
+    
+    private void chargementProduit() {
+        Vector v = new Vector();
+        System.out.println("1 effective !");
+        try {
+            result = statement.executeQuery("SELECT * FROM article");
+System.out.println("2 effective !");
+            while (result.next()) {
+              v.addElement(result.getString("ID"));
+            }
+        } 
+        catch (SQLException e) {
+          displaySQLErrors(e);
+        }
+        System.out.println("3 effective !");
+        produitList.setListData(v);
+  }
     
     public static void main(String[] args){
         Fenetre f = new Fenetre();
