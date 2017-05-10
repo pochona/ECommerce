@@ -8,6 +8,7 @@ package controllers;
 import entities.Article;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -24,7 +25,7 @@ import javax.persistence.Query;
  * @author Amaury
  */
 @Stateless
-public class ArticleFacade extends AbstractFacade<Article> implements ArticleFacadeLocal {
+public class ArticleFacade extends AbstractFacade<Article> implements ArticleFacadeLocal, ArticleFacadeRemote {
 
     @PersistenceContext(unitName = "ECommerce-ejbPU")
     private EntityManager em;
@@ -48,11 +49,38 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
             return a.getLib();
     }
 
+    @Override
+    public String creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) {
+        Article a = new Article();
+        a.setId(id);
+        a.setLib(lib); 
+        a.setPrixHt(prixHt);
+        a.setTauxTva(tauxTva);
+        a.setStock(stock);
+        this.create(a); // appel de la méthode du CRUD AbstractFacade
+        return a.toString();
+    }
 
+    @Override
+    public List<String> lister() {
+        List<Article> list = this.findAll(); // Appel de la méthode du CRUD
+	List<String> listSt = new ArrayList<String>();
+	for(Article a : list) {
+		listSt.add(a.toString());
+	}
+return listSt;
+    }
 
+    @Override
+    public String infos(long id) {
+        Article a = this.find(id);
+	return a.toString();
+    }
 
-
-    
-    
+    @Override
+    public double prix(long id) {
+        Article a = this.find(id);
+	return a.getPrixHt();
+    }
     
 }

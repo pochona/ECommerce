@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package metiers;
+package frame_laura;
 
 import exceptions.ExceptionClient;
-import metiers.Article_frame;
 
 /**
  *

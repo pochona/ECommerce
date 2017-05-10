@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package metiers;
+package frame_laura;
 
 /**
  *
@@ -25,11 +25,12 @@ import javax.swing.event.ListSelectionListener;
 
 
 
+
 public class Article_frame extends JFrame implements ListSelectionListener {
     
 
-@EJB
-private GestionArticleLocal gestionArticle;
+//@EJB
+//private GestionArticleLocal gestionArticle;
     
 JButton bouton = new JButton("Valider");
 JList liste = new JList();
