@@ -5,6 +5,14 @@
         <servlet-class>WebServices.ClientServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SuiviCommandeServlet</servlet-name>
+        <servlet-class>WebServices.SuiviCommandeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PasserCommandeServlet</servlet-name>
+        <servlet-class>WebServices.PasserCommandeServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AuthentificationServlet</servlet-name>
         <servlet-class>WebServices.AuthentificationServlet</servlet-class>
     </servlet>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>PanierServlet</servlet-name>
         <url-pattern>/PanierServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SuiviCommandeServlet</servlet-name>
+        <url-pattern>/SuiviCommandeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PasserCommandeServlet</servlet-name>
+        <url-pattern>/PasserCommandeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -91,24 +91,25 @@ public class MagasinServlet extends HttpServlet {
                     out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
                     out.println("<body>");
-                    if(panier != null) {
+                    /*if(panier != null) {
+                        
                         for(Object art : panier.entrySet()){
                             Map.Entry a = (Map.Entry) art;
                             out.println("Art : " + a.getKey() + " / quantité : " + a.getValue());
                         }
-                    }
+                    }*/
                     out.println("<div class='container'>");
                     out.println("<ul class='navbar-perso'>"
-                            + "<li class='active'><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
-                            + "<li class='nav-right'><form method='get' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
-                            + "<li class='nav-right'><form method='get' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
-                            + "<li class='nav-right'><form method='get' action='./index.html'><button type='submit'>Suivi de commande</button></form></li>"
+                            + "<li class='active'><form method='post' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
+                            + "<li class='nav-right'><form method='post' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
+                            + "<li class='nav-right'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
+                            + "<li class='nav-right'><form method='post' action='/ECommerce-war/SuiviCommandeServlet'><button type='submit'>Suivi de commande</button></form></li>"
                         + "</ul>");
                     if(idAjouter != null){
-                        out.println("<div class='recap-ajout' style='border: solid 1px #EEEEEE; font-size: 20px; margin-bottom: 20px;'>Vous venez d'ajouter : "+artAjout.getLib()+"</div>"); 
+                        out.println("<div class='row'><div class='col-md-12'><div class='alert alert-success'>Vous venez d'ajouter : "+artAjout.getLib()+"</div></div></div>"); 
                     }
                     for (Article monArt : listArt) {
-                        out.println("<div class='col-md-12'>");
+                        out.println("<div class='row'><div class='col-md-12'>");
                         out.println("<div class='panel panel-default'>");
                         out.println("<div class='panel-heading'>"+monArt.getLib()+"</div>");
                         out.println("<div class='panel-body'>");
@@ -116,13 +117,22 @@ public class MagasinServlet extends HttpServlet {
                         out.println("<div class='article-prix'>Prix TTC : "+(Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0)+" euros</div>");
                         out.println("</div>");
                         out.println("<div class='panel-footer'>");
-                        out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
-                                +"<input name='art' value='"+monArt.getId()+"' style='display:none' />" 
-                            + "<input type='submit' name='Ajouter' value='Ajouter' />"+
-                            "</form>");
+                        if(panier != null){
+                            if(panier.containsKey(monArt.getId())){
+                                out.println("<span class='help-block'>Déjà dans le panier</span>");
+                            } else {
+                                out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
+                                        +"<input name='art' value='"+monArt.getId()+"' style='display:none' />"
+                                        + "<input type='submit' name='Ajouter' value='Ajouter' /></form>");
+                            }
+                        } else {
+                            out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
+                                        +"<input name='art' value='"+monArt.getId()+"' style='display:none' />"
+                                        + "<input type='submit' name='Ajouter' value='Ajouter' /></form>");
+                        }
                         out.println("</div>");
                         out.println("</div>");// close panel-defaut
-                        out.println("</div>"); // close col-md
+                        out.println("</div></div>"); // close col-md / row
                     }
                     out.println("</div>"); // close container
                     out.println("</body>");

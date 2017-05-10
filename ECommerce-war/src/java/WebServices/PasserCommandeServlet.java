@@ -27,7 +27,7 @@ import metiers.GestionClientLocal;
  *
  * @author Amaury
  */
-public class PanierServlet extends HttpServlet {
+public class PasserCommandeServlet extends HttpServlet {
 
     
     @EJB
@@ -55,16 +55,6 @@ public class PanierServlet extends HttpServlet {
         if(idClient != null){
             panier = (Map) session.getAttribute("panier");  
             
-            if(request.getParameter("quantity") != null){
-                int idArticle = Integer.parseInt(request.getParameter("art"));
-                int qte = Integer.parseInt(request.getParameter("qte"));
-                panier.remove(idArticle);
-                if(qte != 0){
-                    panier.put(idArticle, qte);
-                }
-                session.setAttribute("panier", panier);
-            }
-            
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
@@ -79,11 +69,11 @@ public class PanierServlet extends HttpServlet {
                 out.println("<ul class='navbar-perso'>"
                         + "<li><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
-                        + "<li class='nav-right active'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
+                        + "<li class='nav-right'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/SuiviCommandeServlet'><button type='submit'>Suivi de commande</button></form></li>"
                     + "</ul>");
                 if(panier != null) {
-                    for(Object art : panier.entrySet()){
+                    /*for(Object art : panier.entrySet()){
                         Map.Entry a = (Map.Entry) art;
                         Integer quantity = (Integer) a.getValue();
                         Article monArt = null;
@@ -112,9 +102,9 @@ public class PanierServlet extends HttpServlet {
                         out.println("</div>");
                         out.println("</div>");// close panel-defaut
                         out.println("</div>"); // close col-md
-                    }
+                    }*/
                     out.println("<div class='col-md-12'>");
-                    out.println("<form method='get' action='/ECommerce-war/PasserCommandeServlet'><button type='submit'>Passer la commande </button></form>");
+                    out.println("Passer la commande");
                     out.println("</div>");
                 } else {
                     out.println("<div class='col-md-12'>");
@@ -132,7 +122,7 @@ public class PanierServlet extends HttpServlet {
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
                     out.println("<head>");
-                    out.println("<title>Magasin</title>");
+                    out.println("<title>Commander</title>");
                     out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
                     out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                     out.println("</head>");
