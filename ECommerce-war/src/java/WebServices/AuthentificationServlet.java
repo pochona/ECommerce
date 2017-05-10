@@ -90,6 +90,27 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("</html>");
                 }
             }
+        } else if(type.equals("deconnexionClient")){
+            HttpSession session = request.getSession();
+            session.setAttribute("idClient", null);
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Authentification</title>"); 
+                out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<div class='container'><div class='row'>");
+                out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                out.println("<div class='col-md-12'><h1>Vous êtes déconnecté.</h1></div>");
+                out.println("<form method='get' action='./index.html'><button type='submit'>Retour à l'accueil</button></form>");
+                out.println("</div></div>");    
+                out.println("</body>");
+                out.println("</html>");
+            }
         } else { 
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */

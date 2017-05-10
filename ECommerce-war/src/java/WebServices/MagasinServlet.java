@@ -100,7 +100,7 @@ public class MagasinServlet extends HttpServlet {
                     out.println("<div class='container'>");
                     out.println("<ul class='navbar-perso'>"
                             + "<li class='active'><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
-                            + "<li class='nav-right'><form method='get' action='/ECommerce-war/AuthentificationServlet'><button type='submit'>Déconnexion ("+idClient+")</button></form></li>"
+                            + "<li class='nav-right'><form method='get' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
                             + "<li class='nav-right'><form method='get' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
                             + "<li class='nav-right'><form method='get' action='./index.html'><button type='submit'>Suivi de commande</button></form></li>"
                         + "</ul>");

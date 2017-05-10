@@ -65,9 +65,9 @@ public class PanierServlet extends HttpServlet {
                 out.println("<body>");
                 out.println("<div class='container'>");
                 out.println("<ul class='navbar-perso'>"
-                        + "<li><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
-                        + "<li class='nav-right'><form method='get' action='/ECommerce-war/AuthentificationServlet'><button type='submit'>Déconnexion ("+idClient+")</button></form></li>"
-                        + "<li class='active nav-right'><form method='get' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
+                        + "<li class='active'><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
+                        + "<li class='nav-right'><form method='get' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
+                        + "<li class='nav-right'><form method='get' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
                         + "<li class='nav-right'><form method='get' action='./index.html'><button type='submit'>Suivi de commande</button></form></li>"
                     + "</ul>");
                 if(panier != null) {
@@ -92,6 +92,9 @@ public class PanierServlet extends HttpServlet {
                         out.println("</div>");// close panel-defaut
                         out.println("</div>"); // close col-md
                     }
+                    out.println("<div class='col-md-12'>");
+                    out.println("<form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Passer la commande (non fonctionnel)</button></form>");
+                    out.println("</div>");
                 } else {
                     out.println("<div class='col-md-12'>");
                     out.println("<p>Votre panier est actuellement vide.</p>");
