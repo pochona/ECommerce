@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
@@ -137,7 +138,7 @@ public class Fenetre extends JFrame {
     private JPanel affichageProduits(){
         
         JPanel panel = new JPanel();
-        chargementProduit();
+        //chargementProduit();
         /*panel.setLayout(new FlowLayout());
     
         produitList = new JList();
@@ -150,7 +151,9 @@ public class Fenetre extends JFrame {
         gererAffichage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    result.first();
+                    result = statement.executeQuery("SELECT * FROM article WHERE ID=1");
+                    System.out.println("Connexion effective !"); 
+                    /*result.first();
                     while (result.next()) {
                         if (result.getString("ID").equals(
                         produitList.getSelectedValue()))
@@ -160,7 +163,7 @@ public class Fenetre extends JFrame {
                         produitID.setText(result.getString("ID"));
                         produitLib.setText(result.getString("LIB"));
                         produitDescription.setText(result.getString("DESCRIPTION"));
-                    }
+                    }*/
                 } 
                 catch (SQLException selectException) {
                     displaySQLErrors(selectException);
@@ -197,7 +200,7 @@ public class Fenetre extends JFrame {
         errorText.append("VendorError:  " + e.getErrorCode() + "\n");
   }
     
-    private void chargementProduit() {
+    /*private void chargementProduit() {
         Vector v = new Vector();
         System.out.println("1 effective !");
         try {
@@ -212,7 +215,7 @@ System.out.println("2 effective !");
         }
         System.out.println("3 effective !");
         produitList.setListData(v);
-  }
+  }*/
     
     public static void main(String[] args){
         Fenetre f = new Fenetre();
