@@ -25,7 +25,7 @@ import javax.persistence.Query;
  * @author Amaury
  */
 @Stateless
-public class ArticleFacade extends AbstractFacade<Article> implements ArticleFacadeLocal, ArticleFacadeRemote {
+public class ArticleFacade extends AbstractFacade<Article> implements ArticleFacadeLocal /*, ArticleFacadeRemote */{
 
     @PersistenceContext(unitName = "ECommerce-ejbPU")
     private EntityManager em;
@@ -48,7 +48,7 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
             Article a = (Article) q.getSingleResult();
             return a.getLib();
     }
-
+/*
     @Override
     public String creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) {
         Article a = new Article();
@@ -82,5 +82,5 @@ return listSt;
         Article a = this.find(id);
 	return a.getPrixHt();
     }
-    
+    */
 }
