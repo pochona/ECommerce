@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ecommerce.lourd;
+package ecommercelourd;
 
 import exceptions.ExceptionClient;
+import java.util.List;
 import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -30,6 +31,7 @@ public class ECommerceLourd {
         // glassfish default port value will be 3700,
        props.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
        InitialContext ctx = new InitialContext(props);
+       //test
        NamingEnumeration<NameClassPair> list = ctx.list("");
 while (list.hasMore()) {
   System.out.println(list.next().getName());
@@ -53,6 +55,38 @@ while (list.hasMore()) {
             System.out.println("erreur, client inconnu");
         }
         System.out.println("Id Client : " + idCl);*/
-    }
     
+     //test Amélien
+        
+        /*Properties props = new Properties();
+        props.setProperty("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
+        props.setProperty("java.naming.factory.url.pkgs", "com.sun.enterprise.naming");
+        props.setProperty("java.naming.factory.state", "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
+        props.setProperty("java.naming.provider.url", "localhost");*/
+        
+        //InitialContext context = new InitialContext(props);
+        /*
+        System.setProperty("java.naming.factory.initial","com.sun.enterprise.naming.SerialInitContextFactory");
+
+        System.setProperty("org.omg.CORBA.ORBInitialHost", "127.0.0.1");
+
+        System.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+        InitialContext context = new InitialContext();
+        */
+        //appserv-rt.jar
+        /*InitialContext context = new InitialContext();
+                
+        ArticleFacadeRemote articleFacadeRemote = (ArticleFacadeRemote) context.lookup("ecommercelourd.ArticleFacadeRemote");
+        
+        List<String> list = articleFacadeRemote.lister();
+
+        for(String s : list) {
+            System.out.println(s);
+        }*/
+        
+        /*NamingEnumeration<NameClassPair> list = initialContext.list("");
+        while (list.hasMore()) {
+            System.out.println(list.next().getName());
+        }*/
+    }
 }
