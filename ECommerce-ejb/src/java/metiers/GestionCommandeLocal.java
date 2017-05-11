@@ -3,33 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package metiers;
 
 import entities.Commande;
+import entities.Statut;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
 /**
  *
- * @author Amaury
+ * @author Laura
  */
+
 @Local
-public interface CommandeFacadeLocal {
+public interface GestionCommandeLocal {
 
-    void create(Commande commande);
-
-    void edit(Commande commande);
-
-    void remove(Commande commande);
-
-    Commande find(Object id);
-
-    List<Commande> findAll();
-
-    List<Commande> findRange(int[] range);
-
-    int count();
+    List<Commande> recupererCommandes() throws exceptions.ExceptionCommande;
+    
+    Commande findCommande(Integer id) throws exceptions.ExceptionCommande;
     
     List<Commande> findCommandesClient(Integer idClient) throws exceptions.ExceptionCommande;
     
+    Statut findStatut(Integer id) throws exceptions.ExceptionCommande;
 }
