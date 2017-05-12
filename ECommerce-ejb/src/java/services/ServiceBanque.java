@@ -6,16 +6,25 @@
 package services;
 
 import exceptions.ExceptionClient;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import metiers.GestionClientLocal;
 
 /**
  *
  * @author Amaury
  */
+
+@Stateless
 public class ServiceBanque implements ServiceBanqueRemote {
 
+    
+    @EJB
+    private GestionClientLocal gestionClient;
+    
     @Override
     public long chercherClient(String nom, String prenom) throws ExceptionClient {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return gestionClient.chercherClient(nom, prenom);
     }
     
     

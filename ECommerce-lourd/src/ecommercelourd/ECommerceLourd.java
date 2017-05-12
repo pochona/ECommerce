@@ -75,18 +75,38 @@ while (list.hasMore()) {
         */
         //appserv-rt.jar
         /*InitialContext context = new InitialContext();
-                
+        
         ArticleFacadeRemote articleFacadeRemote = (ArticleFacadeRemote) context.lookup("ecommercelourd.ArticleFacadeRemote");
         
         List<String> list = articleFacadeRemote.lister();
 
         for(String s : list) {
-            System.out.println(s);
+        System.out.println(s);
         }*/
         
         /*NamingEnumeration<NameClassPair> list = initialContext.list("");
         while (list.hasMore()) {
             System.out.println(list.next().getName());
         }*/
+        
+        // code proff TP BANQUE
+        // TODO code application logic here
+        /*System.setProperty("java.naming.factory.initial",
+        "com.sun.enterprise.naming.SerialInitContextFactory");
+        System.setProperty("org.omg.CORBA.ORBInitialHost",
+        "127.0.0.1");
+        System.setProperty("org.omg.CORBA.ORBInitialPort",
+        "3700");
+        InitialContext context = new InitialContext();
+        
+        ServiceBanqueRemote souche = (ServiceBanqueRemote) context.lookup("services.ServiceBanqueRemote");
+        long idCl =  10;
+        try {
+            idCl = souche.chercherClient("Patrice", "Torguet");
+        } catch(Exception e) {
+            System.out.println("création");
+            //idCl = souche.creerClient("Patrice", "Torguet");
+        }
+        System.out.println(idCl);*/
     }
 }
