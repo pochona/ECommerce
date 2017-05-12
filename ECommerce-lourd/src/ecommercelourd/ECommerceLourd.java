@@ -25,7 +25,7 @@ public class ECommerceLourd {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws NamingException, ExceptionClient {
-        Properties props = new Properties();
+        /*Properties props = new Properties();
         props.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.enterprise.naming.SerialInitContextFactory");
         props.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
         // glassfish default port value will be 3700,
@@ -35,7 +35,7 @@ public class ECommerceLourd {
        NamingEnumeration<NameClassPair> list = ctx.list("");
 while (list.hasMore()) {
   System.out.println(list.next().getName());
-}
+}*/
         //ServiceBanqueRemote souche = (ServiceBanqueRemote) ctx.lookup("services.ServiceBanqueRemote");
         /*
         System.setProperty("java.naming.factory.initial",
@@ -91,7 +91,7 @@ while (list.hasMore()) {
         
         // code proff TP BANQUE
         // TODO code application logic here
-        /*System.setProperty("java.naming.factory.initial",
+        System.setProperty("java.naming.factory.initial",
         "com.sun.enterprise.naming.SerialInitContextFactory");
         System.setProperty("org.omg.CORBA.ORBInitialHost",
         "127.0.0.1");
@@ -100,13 +100,14 @@ while (list.hasMore()) {
         InitialContext context = new InitialContext();
         
         ServiceBanqueRemote souche = (ServiceBanqueRemote) context.lookup("services.ServiceBanqueRemote");
-        long idCl =  10;
+        long idCl =  99;
+        System.out.println("Avant d'aller dans la DB idCl = "+idCl);
         try {
-            idCl = souche.chercherClient("Patrice", "Torguet");
+            idCl = souche.chercherClient("Mersch", "Amélien");
         } catch(Exception e) {
             System.out.println("création");
             //idCl = souche.creerClient("Patrice", "Torguet");
         }
-        System.out.println(idCl);*/
+        System.out.println("Aprés avoir été chercher le client, idCl = "+idCl);
     }
 }
