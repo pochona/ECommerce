@@ -5,7 +5,11 @@
  */
 package services;
 
+import exceptions.ExceptionCommande;
+import java.util.List;
 import javax.ejb.Remote;
+
+
 
 /**
  *
@@ -15,5 +19,8 @@ import javax.ejb.Remote;
 public interface ServiceBanqueRemote {
     
     long chercherClient(String nom, String prenom) throws exceptions.ExceptionClient;
+   
+    int findIdComByClient(int idClient) throws ExceptionCommande;
+    
     
 }

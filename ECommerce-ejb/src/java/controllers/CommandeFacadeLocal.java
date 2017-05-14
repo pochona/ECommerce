@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Commande;
+import exceptions.ExceptionCommande;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -32,4 +33,5 @@ public interface CommandeFacadeLocal {
     
     List<Commande> findCommandesClient(Integer idClient) throws exceptions.ExceptionCommande;
     
+    int findIdComByClient(int idClient) throws ExceptionCommande;
 }

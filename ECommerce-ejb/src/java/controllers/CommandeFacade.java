@@ -5,15 +5,13 @@
  */
 package controllers;
 
-import entities.Article;
-import entities.Client;
 import entities.Commande;
+import exceptions.ExceptionCommande;
 import java.util.List;
+import java.util.ListIterator;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -42,5 +40,22 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
         List<Commande> results = query.getResultList();
         return results;
     }
+
+    @Override
+    public int findIdComByClient(int idClient) throws ExceptionCommande{
+        /*TypedQuery<Commande> query = em.createNamedQuery("Commande.findByIdClient", Commande.class)
+                                        .setParameter("idClient", idClient);
+        List<Commande> results = query.getResultList();
+        
+        ListIterator<Commande> it = results.listIterator();
+        while(it.hasNext()){
+        Commande cmd = it.next();
+            System.out.println(cmd.getId());
+      }*/
+        System.out.println("controllers.CommandeFacade.findIdComByClient()");
+        
+        return 1;
+    } 
     
+
 }

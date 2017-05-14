@@ -54,6 +54,11 @@ public class GestionCommande implements GestionCommandeLocal{
     public Statut findStatut(Integer id) throws ExceptionCommande {
         return statutFacade.find(id);
     }
+
+    @Override
+    public int findIdComByClient(int idClient) throws ExceptionCommande{
+        return commandeFacade.findIdComByClient(idClient);
+    }
     
     
     
