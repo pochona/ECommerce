@@ -38,4 +38,12 @@ public class ServiceBanque implements ServiceBanqueRemote {
     public int findIdComByClient(int idClient) throws ExceptionCommande {
         return gestionCommande.findIdComByClient(idClient);
     }
+    
+    
+
+
+    
+    
+    
+    
 }

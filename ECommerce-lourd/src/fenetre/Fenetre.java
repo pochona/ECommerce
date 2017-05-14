@@ -16,12 +16,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.swing.*;
-import services.ServiceBanqueRemote;
 
 /**
  *
@@ -30,7 +25,7 @@ import services.ServiceBanqueRemote;
 
 public class Fenetre extends JFrame {
     private JMenuBar menuBar = new JMenuBar();
-    private JMenu comm = new JMenu("Service commercial");
+    private JMenu comm = new JMenu("Service commerciale");
     private JMenu comp = new JMenu("Service comptable");
     private JMenu reapro = new JMenu("Service réapprovisionnement");
     private JMenu livraison = new JMenu("Service livraison");
@@ -71,7 +66,7 @@ public class Fenetre extends JFrame {
 	  
 	public void actionPerformed(ActionEvent arg0){
             Object source = arg0.getSource();
-            if (source == item7){ // Information sur l'application
+            if ( source == item7){ // Information sur l'application
                 setContentPane(concepteur());
                 validate(); // maj des conteneurs
             }
@@ -79,22 +74,8 @@ public class Fenetre extends JFrame {
                 System.exit(0);
             }
             
-            if (source == item1){
-                setContentPane(suivreCommande());
-                validate(); // maj des conteneurs
-            }
-            
-            if (source == item3){ try {
-                // gerer affichage
-                setContentPane(test());
-                } catch (NamingException ex) {
-                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                validate();
-            }
-            
-            if (source == item3){ // gerer affichage
-                //setContentPane(affichageProduits());
+            if ( source == item3){ // gerer affichage
+                setContentPane(affichageProduits());
                 validate();
             }
             
@@ -154,43 +135,88 @@ public class Fenetre extends JFrame {
         return panel;
     }
     
-    private JPanel suivreCommande(){
+    private JPanel affichageProduits(){
+        
         JPanel panel = new JPanel();
-        JTextField jtf = new JTextField("Entrer l'ID de la commande : ");
-        JButton jb = new JButton ("Valider");
-        panel.setLayout(new FlowLayout());
-        panel.add(jtf);
-        panel.add(jb);
+        //chargementProduit();
+        /*panel.setLayout(new FlowLayout());
+    
+        produitList = new JList();
+        chargementProduit();
+        produitList.setVisibleRowCount(2);
+        JScrollPane scrollProduit = new JScrollPane(produitList);*/
+        
+        gererAffichage = new JButton("Montrer les produits");
+        panel.add(gererAffichage);
+        gererAffichage.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    result = statement.executeQuery("SELECT * FROM article WHERE ID=1");
+                    System.out.println("Connexion effective !"); 
+                    /*result.first();
+                    while (result.next()) {
+                        if (result.getString("ID").equals(
+                        produitList.getSelectedValue()))
+                        break;
+                    }
+                    if (!result.isAfterLast()) {
+                        produitID.setText(result.getString("ID"));
+                        produitLib.setText(result.getString("LIB"));
+                        produitDescription.setText(result.getString("DESCRIPTION"));
+                    }*/
+                } 
+                catch (SQLException selectException) {
+                    displaySQLErrors(selectException);
+                }
+            }
+        });
         return panel;
     }
     
-    private JPanel test() throws NamingException{
-        System.setProperty("java.naming.factory.initial",
-        "com.sun.enterprise.naming.SerialInitContextFactory");
-        System.setProperty("org.omg.CORBA.ORBInitialHost",
-        "127.0.0.1");
-        System.setProperty("org.omg.CORBA.ORBInitialPort",
-        "3700");
-        InitialContext context = new InitialContext();
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-        
-        ServiceBanqueRemote souche = (ServiceBanqueRemote) context.lookup("services.ServiceBanqueRemote");
-        long idCl =  99;
-        System.out.println("Avant d'aller dans la DB idCl = "+idCl);
+    
+    public void connexionBD() {
         try {
-            idCl = souche.chercherClient("Pochon", "Amaury");
-        } catch(Exception e) {
-            System.out.println("création");
-            //idCl = souche.creerClient("Patrice", "Torguet");
+            Class.forName("com.mysql.jdbc.Driver");
+        } 
+        catch (Exception e) {
+            System.err.println("Driver introuvable");
+            System.exit(1);
         }
         
-        JLabel label = new JLabel("Aprés avoir été chercher le client, idCl = "+idCl);
-        panel.add(label);
-        panel.add(label);
-        return panel;
+        try {
+            connexion = DriverManager.getConnection(url, login, mdp);
+            statement = connexion.createStatement();
+            System.out.println("Connexion effective !"); 
+        } 
+        catch (SQLException connectException) {
+        System.out.println(connectException.getMessage());
+        System.exit(1);
+        }
     }
-
+    
+    private void displaySQLErrors(SQLException e) {
+        errorText.append("SQLException: " + e.getMessage() + "\n");
+        errorText.append("SQLState:     " + e.getSQLState() + "\n");
+        errorText.append("VendorError:  " + e.getErrorCode() + "\n");
+  }
+    
+    /*private void chargementProduit() {
+        Vector v = new Vector();
+        System.out.println("1 effective !");
+        try {
+            result = statement.executeQuery("SELECT * FROM article");
+System.out.println("2 effective !");
+            while (result.next()) {
+              v.addElement(result.getString("ID"));
+            }
+        } 
+        catch (SQLException e) {
+          displaySQLErrors(e);
+        }
+        System.out.println("3 effective !");
+        produitList.setListData(v);
+  }*/
+    
     public static void main(String[] args){
         Fenetre f = new Fenetre();
     }
