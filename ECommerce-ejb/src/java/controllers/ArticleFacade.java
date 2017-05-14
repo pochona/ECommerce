@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Article;
+import entities.Commande;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 
 /**
@@ -47,6 +49,19 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
             q.setParameter("lib", lib);
             Article a = (Article) q.getSingleResult();
             return a.getLib();
+    }
+    
+    @Override
+    public List<Article> findArticlesCommande(Integer idComm) throws exceptions.ExceptionArticle{
+       /* TypedQuery<Commande> query = em.createNamedQuery("Article.findByIdClient", Commande.class)
+                                        .setParameter("id", idComm);
+        List<Commande> results = query.getResultList();
+        return results;*/
+       Query q = em.createQuery(
+               "select a from Article a join Ligne l on l.ID_ARTICLE = a.ID where l.ID_COMMANDE = :idComm");
+        q.setParameter("idComm", 1);
+        List<Article> a = q.getResultList();
+        return a;
     }
 /*
     @Override

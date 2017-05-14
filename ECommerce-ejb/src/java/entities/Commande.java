@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Commande.findByIdStatut", query = "SELECT c FROM Commande c WHERE c.idStatut = :idStatut")})
 public class Commande implements Serializable {
 
+    @Column(name = "ID_TOURNEE")
+    private Integer idTournee;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,10 +55,6 @@ public class Commande implements Serializable {
     @NotNull
     @Column(name = "ID_CLIENT")
     private int idClient;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_TOURNEE")
-    private int idTournee;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_STATUT")

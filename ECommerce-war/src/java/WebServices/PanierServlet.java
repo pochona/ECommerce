@@ -49,7 +49,8 @@ public class PanierServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Long idClient = (Long) session.getAttribute("idClient");
         
-        
+        double montantTot = 0;
+        double prixTot;
         Map panier = null;
         // On verifie que l'id client existe, sinon, on n'est pas connecté : on redirige
         if(idClient != null){
@@ -87,12 +88,20 @@ public class PanierServlet extends HttpServlet {
                         Map.Entry a = (Map.Entry) art;
                         Integer quantity = (Integer) a.getValue();
                         Article monArt = null;
+                        
+                        // Recup de l'article
                         try {
                             Integer idArt = (Integer) a.getKey();
                             monArt = gestionArticle.findArticle(idArt);
                         } catch (ExceptionArticle ex) {
                             Logger.getLogger("Article introuvable");
                         }
+                        
+                        // Calcul du prix total
+                        prixTot = (Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0);
+                        montantTot = montantTot + (prixTot*quantity);
+                                
+                                
                         out.println("<div class='col-md-12'>");
                         out.println("<div class='panel panel-default'>");
                         out.println("<div class='panel-heading'>"+monArt.getLib());
@@ -107,12 +116,15 @@ public class PanierServlet extends HttpServlet {
                         out.println("</div>"); // End pull-right
                         out.println("</div>"); // End Panel-heading
                         out.println("<div class='panel-body'>");
-                        out.println("<div class='article-prix' style='color: #888888; font-size: 90%'>Prix TTC unitaire : "+(Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0)+" euros</div>");
-                        out.println("<div class='article-prix' style='font-size: 110%'>Prix TTC totale : "+(Math.round((monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0)*quantity) / 100.0)+" euros</div>");
+                        out.println("<div class='article-prix' style='color: #888888; font-size: 90%'>Prix TTC unitaire : "+prixTot+" euros</div>");
+                        out.println("<div class='article-prix' style='font-size: 110%'>Prix TTC totale : "+(prixTot*quantity)+" euros</div>");
                         out.println("</div>");
                         out.println("</div>");// close panel-defaut
                         out.println("</div>"); // close col-md
                     }
+                    out.println("<div class='col-md-12'>");
+                    out.println("Montant total : " + montantTot);
+                    out.println("</div>");
                     out.println("<div class='col-md-12'>");
                     out.println("<form method='get' action='/ECommerce-war/PasserCommandeServlet'><button type='submit'>Passer la commande </button></form>");
                     out.println("</div>");

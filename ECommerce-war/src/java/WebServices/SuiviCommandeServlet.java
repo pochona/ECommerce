@@ -8,6 +8,7 @@ package WebServices;
 
 import entities.Article;
 import entities.Commande;
+import exceptions.ExceptionArticle;
 import exceptions.ExceptionCommande;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
 
 /**
@@ -34,6 +36,10 @@ public class SuiviCommandeServlet extends HttpServlet {
     @EJB
     private GestionCommandeLocal gestionCommande;
      
+    
+    @EJB
+    private GestionArticleLocal gestionArticle;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -79,11 +85,15 @@ public class SuiviCommandeServlet extends HttpServlet {
                     + "</ul>");
                 if(listCommande.size() != 0){
                     for (Commande laComm : listCommande) {
+                        List<Article> artCommande = gestionArticle.getArticleCommande(laComm.getId());
+                        
                         out.println("<div class='row'><div class='col-md-12'>");
                         out.println("<div class='panel panel-default'>");
                         out.println("<div class='panel-heading'>Commande n°"+laComm.getId()+" - "+laComm.getDateCommande()+"</div>");
                         out.println("<div class='panel-body'>");
-                       // Liste des articles à coder
+                        for (Article monArt : artCommande) {
+                            out.println(monArt.getLib());
+                        }
                         out.println("</div>");
                         out.println("<div class='panel-footer'><div>");
                         out.println("<span class='label label-info'>");
@@ -108,6 +118,8 @@ public class SuiviCommandeServlet extends HttpServlet {
                 out.println("</div>"); // close container
                 out.println("</body>");
                 out.println("</html>");
+            } catch (ExceptionArticle ex) {
+                Logger.getLogger(SuiviCommandeServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             // Client non identifié 

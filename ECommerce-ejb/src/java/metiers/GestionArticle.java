@@ -45,6 +45,9 @@ public class GestionArticle implements GestionArticleLocal{
         return articleFacade.find(id);
     }
 
+    public List<Article> getArticleCommande(Integer idCom) throws ExceptionArticle {
+        return articleFacade.findArticlesCommande(idCom);
+    }
     
 }
 

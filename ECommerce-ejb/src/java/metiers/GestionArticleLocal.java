@@ -6,6 +6,7 @@
 package metiers;
 
 import entities.Article;
+import exceptions.ExceptionArticle;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
@@ -25,4 +26,6 @@ public interface GestionArticleLocal {
     List<Article> recupererArticle() throws exceptions.ExceptionArticle;
     
     Article findArticle(Integer id) throws exceptions.ExceptionArticle;
+    
+    List<Article> getArticleCommande(Integer idCom) throws exceptions.ExceptionArticle;
 }
