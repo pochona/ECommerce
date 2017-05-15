@@ -74,6 +74,16 @@ public class PasserCommandeServlet extends HttpServlet {
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/SuiviCommandeServlet'><button type='submit'>Suivi de commande</button></form></li>"
                     + "</ul>");
                 if(panier != null) {
+                    
+                    out.println("<div class='row'><div class='col-md-12'>"
+                            + "<h1>Payez votre commande.</h1></div></div>");
+                   out.println("<div class='row'>");
+                    // recap du panier
+                    out.println("<div class='col-md-3'>");
+                    out.println("<div class='panel panel-default'>");
+                    out.println("<div class='panel-heading'>Recapitulatif</div>");
+                    out.println("<div class='panel-body'>");
+                    out.println("<ul class='list-group'>");
                     for(Object art : panier.entrySet()){
                         Map.Entry a = (Map.Entry) art;
                         Integer quantity = (Integer) a.getValue();
@@ -90,13 +100,40 @@ public class PasserCommandeServlet extends HttpServlet {
                         // Calcul du prix total
                         prixTot = (Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0);
                         montantTot = montantTot + (prixTot*quantity);
-                    }
-                    montantTot = Math.round(montantTot*100.0)/100.0;
                         
-                    out.println("<div class='col-md-12'>"
-                            + "<h4>Payez votre commande d'un montant de " + montantTot + " €.</h4>");
-                    out.println("Passer la commande");
+                        out.println("<li class='list-group-item'>");
+                        out.println(monArt.getLib());
+                        out.println("<span class='badge'>"+quantity+"</span>");
+                        out.println("</li>");
+
+                    } // fin du for
+                    out.println("</ul>");
+                    out.println("</div>"); // fin du panel body
+                    montantTot = Math.round(montantTot*100.0)/100.0;
+                    out.println("<div class='panel-footer'>");
+                    out.println("<h4>Montant total : " + montantTot +"</h4>");
                     out.println("</div>");
+                    out.println("</div>");// close panel-defaut
+                    out.println("</div>"); // close col-md
+                        
+
+ 
+                    
+                    // espace paiement
+                    out.println("<div class='col-md-5 col-md-offset-1'><div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Paiement par carte</h3></div><div class='panel-body'>");
+                    out.println("<div class='form-group row'>" +
+                                "<label for='numCarte' class='col-sm-4 col-form-label'>Numéro de carte</label>" +
+                                "<div class='col-sm-8'>" +
+                                "<input type='text' class='form-control' id='numCarte' placeholder='XXXX-XXXX-XXXX-XXXX'>" +
+                                "</div></div>");
+                    out.println("<div class='form-group row'>" +
+                                "<label for='numCrypto' class='col-sm-4 col-form-label'>Cryptogramme visuel</label>" +
+                                "<div class='col-sm-8'>" +
+                                "<input type='text' class='form-control' id='numCrypto' placeholder='123'>" +
+                                "</div></div>");
+                    out.println("</div><div class='panel-footer'>");
+                    out.println("<form method='get' action='./index.html'><button class='btn btn-success' type='submit'>Payer ("+montantTot+"€)</button></form>");
+                    out.println("</div></div></div>");
                 } else {
                     out.println("<div class='col-md-12'>");
                     out.println("<p>Votre panier est actuellement vide.</p>");
