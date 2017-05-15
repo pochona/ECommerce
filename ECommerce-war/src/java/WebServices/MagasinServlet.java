@@ -74,6 +74,10 @@ public class MagasinServlet extends HttpServlet {
                 } catch (ExceptionArticle ex) {
                     Logger.getLogger("Article introuvable");
                 }
+            } else {
+                if(session.getAttribute("panier") != null){
+                        panier = (Map) session.getAttribute("panier");  
+                }
             }
             
             

@@ -84,7 +84,7 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<div class='container'><div class='row'>");
                     out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
                     out.println("<div class='col-md-12'><h1>Mauvaise combinaison</h1></div>");
-                    out.println("<form method='get' action='./index.html'><button class='btn btn-info'>type='submit'>Retour</button></form>");
+                    out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour</button></form>");
                     out.println("</div></div>");
                     out.println("</body>");
                     out.println("</html>");
