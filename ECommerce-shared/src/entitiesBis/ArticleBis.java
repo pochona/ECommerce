@@ -24,9 +24,6 @@ public class ArticleBis {
     
     public ArticleBis(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) {
         
-        //foreach(List<Article>){
-        
-        
         this.idBis = id;
         this.libBis = lib;
         this.descriptionBis = description;
