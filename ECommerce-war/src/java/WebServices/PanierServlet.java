@@ -77,7 +77,7 @@ public class PanierServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<div class='container'>");
-                out.println("<ul class='navbar-perso'>"
+                out.println("<ul class='navbar-perso' style='margin-bottom: 20px;'>"
                         + "<li><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
                         + "<li class='nav-right active'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
@@ -106,12 +106,12 @@ public class PanierServlet extends HttpServlet {
                         out.println("<div class='panel panel-default'>");
                         out.println("<div class='panel-heading'>"+monArt.getLib());
                         out.println("<div class='pull-right'>");
-                        out.println("<div class='pull-right'><form method='post' action='/ECommerce-war/PanierServlet'>"
+                        out.println("<div class='pull-right' style='margin-top:-8px;'><form method='post' action='/ECommerce-war/PanierServlet'>"
                                 +"<input name='art' value='"+monArt.getId()+"' style='display:none' /><input name='qte' value='"+(quantity+1)+"' style='display:none' />" 
-                                + "<button name='quantity' value='modifQuantity' type='submit'>+</button></form></div>");
-                        out.println("<div class='pull-right'><form method='post' action='/ECommerce-war/PanierServlet'>"
+                                + "<button class='btn btn-default' name='quantity' value='modifQuantity' type='submit'>+</button></form></div>");
+                        out.println("<div class='pull-right' style='margin-top:-8px;'><form method='post' action='/ECommerce-war/PanierServlet'>"
                                 +"<input name='art' value='"+monArt.getId()+"' style='display:none' /><input name='qte' value='"+(quantity-1)+"' style='display:none' />" 
-                                + "<button name='quantity' value='modifQuantity' type='submit'>-</button></form></div>");
+                                + "<button class='btn btn-default' name='quantity' value='modifQuantity' type='submit'>-</button></form></div>");
                         out.println("<span class='pull-right' style='margin-right: 20px'>Quantité : "+quantity+"</span>");
                         out.println("</div>"); // End pull-right
                         out.println("</div>"); // End Panel-heading
@@ -122,11 +122,12 @@ public class PanierServlet extends HttpServlet {
                         out.println("</div>");// close panel-defaut
                         out.println("</div>"); // close col-md
                     }
-                    out.println("<div class='col-md-12'>");
-                    out.println("Montant total : " + montantTot);
+                    montantTot = Math.round(montantTot*100.0)/100.0;
+                    out.println("<div class='col-md-6'>");
+                    out.println("<h4>Montant total : " + montantTot +"</h4>");
                     out.println("</div>");
-                    out.println("<div class='col-md-12'>");
-                    out.println("<form method='get' action='/ECommerce-war/PasserCommandeServlet'><button type='submit'>Passer la commande </button></form>");
+                    out.println("<div class='col-md-6'>");
+                    out.println("<form class='pull-right' method='get' action='/ECommerce-war/PasserCommandeServlet'><button class='btn btn-success' type='submit'>Passer la commande </button></form>");
                     out.println("</div>");
                 } else {
                     out.println("<div class='col-md-12'>");
@@ -150,7 +151,7 @@ public class PanierServlet extends HttpServlet {
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Vous devez être connecté pour accéder au magasin</h1>");
-                   out.println("<form method='get' action='./index.html'><button type='submit'>Retour à la connexion</button></form>");
+                   out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour à la connexion</button></form>");
                     out.println("</body>");
                     out.println("</html>");
                 }

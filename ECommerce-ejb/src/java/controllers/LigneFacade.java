@@ -6,9 +6,12 @@
 package controllers;
 
 import entities.Ligne;
+import exceptions.ExceptionCommande;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -27,6 +30,14 @@ public class LigneFacade extends AbstractFacade<Ligne> implements LigneFacadeLoc
 
     public LigneFacade() {
         super(Ligne.class);
+    }
+
+    @Override
+    public List<Ligne> findByIdCommande(Integer idCommande) throws ExceptionCommande {
+        TypedQuery<Ligne> query = em.createNamedQuery("Ligne.findByIdCommande", Ligne.class)
+                                        .setParameter("idCommande", idCommande);
+        List<Ligne> results = query.getResultList();
+        return results;
     }
     
 }

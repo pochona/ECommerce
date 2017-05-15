@@ -99,7 +99,7 @@ public class MagasinServlet extends HttpServlet {
                         }
                     }*/
                     out.println("<div class='container'>");
-                    out.println("<ul class='navbar-perso'>"
+                    out.println("<ul class='navbar-perso' style='margin-bottom: 20px;'>"
                             + "<li class='active'><form method='post' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
                             + "<li class='nav-right'><form method='post' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
                             + "<li class='nav-right'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
@@ -123,12 +123,12 @@ public class MagasinServlet extends HttpServlet {
                             } else {
                                 out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
                                         +"<input name='art' value='"+monArt.getId()+"' style='display:none' />"
-                                        + "<input type='submit' name='Ajouter' value='Ajouter' /></form>");
+                                        + "<input class='btn btn-success' type='submit' name='Ajouter' value='Ajouter' /></form>");
                             }
                         } else {
                             out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
                                         +"<input name='art' value='"+monArt.getId()+"' style='display:none' />"
-                                        + "<input type='submit' name='Ajouter' value='Ajouter' /></form>");
+                                        + "<input class='btn btn-success' type='submit' name='Ajouter' value='Ajouter' /></form>");
                         }
                         out.println("</div>");
                         out.println("</div>");// close panel-defaut
@@ -166,7 +166,7 @@ public class MagasinServlet extends HttpServlet {
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Vous devez être connecté pour accéder au magasin</h1>");
-                   out.println("<form method='get' action='./index.html'><button type='submit'>Retour à la connexion</button></form>");
+                   out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour à la connexion</button></form>");
                     out.println("</body>");
                     out.println("</html>");
                 }

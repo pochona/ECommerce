@@ -8,6 +8,7 @@ package WebServices;
 
 import entities.Article;
 import entities.Commande;
+import entities.Ligne;
 import exceptions.ExceptionArticle;
 import exceptions.ExceptionCommande;
 import java.io.IOException;
@@ -57,7 +58,9 @@ public class SuiviCommandeServlet extends HttpServlet {
         Long idClientL = (Long) session.getAttribute("idClient");
         Integer idClient = idClientL.intValue();
         List<Commande> listCommande = null;
-        
+        double prixTotUnitaire = 0;
+        double prixTot = 0;
+        double montantTot = 0;
         // On verifie que l'id client existe, sinon, on n'est pas connecté : on redirige
         if(idClient != null){
             
@@ -77,7 +80,7 @@ public class SuiviCommandeServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<div class='container'>");
-                out.println("<ul class='navbar-perso'>"
+                out.println("<ul class='navbar-perso' style='margin-bottom: 20px;'>"
                         + "<li><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
@@ -85,15 +88,23 @@ public class SuiviCommandeServlet extends HttpServlet {
                     + "</ul>");
                 if(listCommande.size() != 0){
                     for (Commande laComm : listCommande) {
-                        List<Article> artCommande = gestionArticle.getArticleCommande(laComm.getId());
+                        List<Ligne> ligneComm = gestionCommande.getLigneCommande(laComm.getId());
                         
                         out.println("<div class='row'><div class='col-md-12'>");
                         out.println("<div class='panel panel-default'>");
                         out.println("<div class='panel-heading'>Commande n°"+laComm.getId()+" - "+laComm.getDateCommande()+"</div>");
                         out.println("<div class='panel-body'>");
-                        for (Article monArt : artCommande) {
-                            out.println(monArt.getLib());
+                        out.println("<ul class='list-group'>");
+                        for (Ligne maLigne : ligneComm) {
+                            Article monArt = gestionArticle.findArticle(maLigne.getIdArticle());
+                            prixTotUnitaire = (Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0);
+                            prixTot = prixTotUnitaire * maLigne.getQte();
+                            montantTot = montantTot + prixTot;
+                            
+                            out.println("<li class='list-group-item'>"+monArt.getLib()+" - Quantité : "+maLigne.getQte()+"<span class='badge'>"+prixTot+" euros</span></li>");
                         }
+                        out.println("</ul>");
+                        out.println("<div class='pull-right'>Montant de la commande : "+montantTot+"</div>");
                         out.println("</div>");
                         out.println("<div class='panel-footer'><div>");
                         out.println("<span class='label label-info'>");
@@ -106,7 +117,7 @@ public class SuiviCommandeServlet extends HttpServlet {
                         out.println("<span class='pull-right'>");
                         out.println("<form action='/ECommerce-war/DetailCommandeServlet' method='post'>"
                                         + "<input name='comm' value='"+laComm.getId()+"' style='display:none' />"
-                                        + "<input type='submit' name='Details' value='Details (KO)' /></form>");
+                                        + "</form>");
                         out.println("</span>");
                         out.println("</div></div>"); // close footer
                         out.println("</div>");// close panel-defaut
@@ -119,6 +130,8 @@ public class SuiviCommandeServlet extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             } catch (ExceptionArticle ex) {
+                Logger.getLogger(SuiviCommandeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExceptionCommande ex) {
                 Logger.getLogger(SuiviCommandeServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -134,7 +147,7 @@ public class SuiviCommandeServlet extends HttpServlet {
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Vous devez être connecté pour accéder au suivi de commande</h1>");
-                    out.println("<form method='get' action='./index.html'><button type='submit'>Retour à la connexion</button></form>");
+                    out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour à la connexion</button></form>");
                     out.println("</body>");
                     out.println("</html>");
                 }

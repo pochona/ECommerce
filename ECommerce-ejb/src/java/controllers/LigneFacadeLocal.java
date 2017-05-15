@@ -30,4 +30,6 @@ public interface LigneFacadeLocal {
 
     int count();
     
+    List<Ligne> findByIdCommande(Integer idCommande) throws exceptions.ExceptionCommande;
+    
 }

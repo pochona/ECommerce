@@ -7,9 +7,11 @@ package metiers;
 
 import controllers.ArticleFacadeLocal;
 import controllers.CommandeFacadeLocal;
+import controllers.LigneFacadeLocal;
 import controllers.StatutFacadeLocal;
 import entities.Article;
 import entities.Commande;
+import entities.Ligne;
 import entities.Statut;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
@@ -34,6 +36,9 @@ public class GestionCommande implements GestionCommandeLocal{
     
     @EJB
     private StatutFacadeLocal statutFacade;
+    
+    @EJB
+    private LigneFacadeLocal ligneFacade;
 
     @Override
     public List<Commande> recupererCommandes() throws ExceptionCommande {
@@ -58,6 +63,11 @@ public class GestionCommande implements GestionCommandeLocal{
     @Override
     public int findIdComByClient(int idClient) throws ExceptionCommande{
         return commandeFacade.findIdComByClient(idClient);
+    }
+
+    @Override
+    public List<Ligne> getLigneCommande(Integer idCommande) throws ExceptionCommande {
+        return ligneFacade.findByIdCommande(idCommande);
     }
     
     

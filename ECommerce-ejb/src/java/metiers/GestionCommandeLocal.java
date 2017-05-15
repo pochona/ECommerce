@@ -6,6 +6,7 @@
 package metiers;
 
 import entities.Commande;
+import entities.Ligne;
 import entities.Statut;
 import exceptions.ExceptionCommande;
 import java.util.ArrayList;
@@ -28,5 +29,7 @@ public interface GestionCommandeLocal {
     
     Statut findStatut(Integer id) throws exceptions.ExceptionCommande;
     
-    int findIdComByClient(int idClient) throws ExceptionCommande;
+    int findIdComByClient(int idClient) throws exceptions.ExceptionCommande;
+    
+    List<Ligne> getLigneCommande(Integer idCommande) throws exceptions.ExceptionCommande;
 }

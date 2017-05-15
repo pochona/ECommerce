@@ -53,15 +53,16 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
     
     @Override
     public List<Article> findArticlesCommande(Integer idComm) throws exceptions.ExceptionArticle{
-       /* TypedQuery<Commande> query = em.createNamedQuery("Article.findByIdClient", Commande.class)
-                                        .setParameter("id", idComm);
-        List<Commande> results = query.getResultList();
-        return results;*/
+        TypedQuery<Article> query = em.createNamedQuery("Article.findByCommande", Article.class);
+                                        //.setParameter("id", idComm);
+        List<Article> results = query.getResultList();
+        return results;
+       /*
        Query q = em.createQuery(
                "select a from Article a join Ligne l on l.ID_ARTICLE = a.ID where l.ID_COMMANDE = :idComm");
         q.setParameter("idComm", 1);
         List<Article> a = q.getResultList();
-        return a;
+        return a;*/
     }
 /*
     @Override

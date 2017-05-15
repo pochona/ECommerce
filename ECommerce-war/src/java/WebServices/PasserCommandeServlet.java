@@ -49,7 +49,8 @@ public class PasserCommandeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Long idClient = (Long) session.getAttribute("idClient");
         
-        
+        double montantTot = 0;
+        double prixTot;
         Map panier = null;
         // On verifie que l'id client existe, sinon, on n'est pas connecté : on redirige
         if(idClient != null){
@@ -66,44 +67,34 @@ public class PasserCommandeServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<div class='container'>");
-                out.println("<ul class='navbar-perso'>"
+                out.println("<ul class='navbar-perso' style='margin-bottom: 20px;'>"
                         + "<li><form method='get' action='/ECommerce-war/MagasinServlet'><button type='submit'>Magasin</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/AuthentificationServlet'><button name='type' value='deconnexionClient' type='submit'>Déconnexion ("+idClient+")</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/PanierServlet'><button type='submit'>Panier</button></form></li>"
                         + "<li class='nav-right'><form method='post' action='/ECommerce-war/SuiviCommandeServlet'><button type='submit'>Suivi de commande</button></form></li>"
                     + "</ul>");
                 if(panier != null) {
-                    /*for(Object art : panier.entrySet()){
+                    for(Object art : panier.entrySet()){
                         Map.Entry a = (Map.Entry) art;
                         Integer quantity = (Integer) a.getValue();
                         Article monArt = null;
+                        
+                        // Recup de l'article
                         try {
                             Integer idArt = (Integer) a.getKey();
                             monArt = gestionArticle.findArticle(idArt);
                         } catch (ExceptionArticle ex) {
                             Logger.getLogger("Article introuvable");
                         }
-                        out.println("<div class='col-md-12'>");
-                        out.println("<div class='panel panel-default'>");
-                        out.println("<div class='panel-heading'>"+monArt.getLib());
-                        out.println("<div class='pull-right'>");
-                        out.println("<div class='pull-right'><form method='post' action='/ECommerce-war/PanierServlet'>"
-                                +"<input name='art' value='"+monArt.getId()+"' style='display:none' /><input name='qte' value='"+(quantity+1)+"' style='display:none' />" 
-                                + "<button name='quantity' value='modifQuantity' type='submit'>+</button></form></div>");
-                        out.println("<div class='pull-right'><form method='post' action='/ECommerce-war/PanierServlet'>"
-                                +"<input name='art' value='"+monArt.getId()+"' style='display:none' /><input name='qte' value='"+(quantity-1)+"' style='display:none' />" 
-                                + "<button name='quantity' value='modifQuantity' type='submit'>-</button></form></div>");
-                        out.println("<span class='pull-right' style='margin-right: 20px'>Quantité : "+quantity+"</span>");
-                        out.println("</div>"); // End pull-right
-                        out.println("</div>"); // End Panel-heading
-                        out.println("<div class='panel-body'>");
-                        out.println("<div class='article-prix' style='color: #888888; font-size: 90%'>Prix TTC unitaire : "+(Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0)+" euros</div>");
-                        out.println("<div class='article-prix' style='font-size: 110%'>Prix TTC totale : "+(Math.round((monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0)*quantity) / 100.0)+" euros</div>");
-                        out.println("</div>");
-                        out.println("</div>");// close panel-defaut
-                        out.println("</div>"); // close col-md
-                    }*/
-                    out.println("<div class='col-md-12'>");
+                        
+                        // Calcul du prix total
+                        prixTot = (Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0);
+                        montantTot = montantTot + (prixTot*quantity);
+                    }
+                    montantTot = Math.round(montantTot*100.0)/100.0;
+                        
+                    out.println("<div class='col-md-12'>"
+                            + "<h4>Payez votre commande d'un montant de " + montantTot + " €.</h4>");
                     out.println("Passer la commande");
                     out.println("</div>");
                 } else {
@@ -128,7 +119,7 @@ public class PasserCommandeServlet extends HttpServlet {
                     out.println("</head>");
                     out.println("<body>");
                     out.println("<h1>Vous devez être connecté pour accéder au magasin</h1>");
-                   out.println("<form method='get' action='./index.html'><button type='submit'>Retour à la connexion</button></form>");
+                   out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour à la connexion</button></form>");
                     out.println("</body>");
                     out.println("</html>");
                 }
