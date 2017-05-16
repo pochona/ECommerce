@@ -7,6 +7,7 @@ package controllers;
 
 import entities.Article;
 import entities.Commande;
+import entitiesBis.ArticleBis;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
 import java.util.ArrayList;
@@ -63,6 +64,32 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
         q.setParameter("idComm", 1);
         List<Article> a = q.getResultList();
         return a;*/
+    }
+    /*
+    @Override
+    public List<ArticleBis> listerBis() {
+        
+        List<Article> list = this.findAll();
+        List<ArticleBis> listBis = new ArrayList<ArticleBis>();
+        for(Article a : list) {    
+            ArticleBis aBis = new ArticleBis(a.getId(), a.getLib(), a.getDescription(), a.getPrixHt(), a.getTauxTva(), a.getStock());
+            listBis.add(aBis);
+        
+        //List<ArticleBis> listBis = new ArrayList<Article>(list);
+        //List<ArticleBis> listBis = (List<Article>) list.clone();
+        }
+        return listBis;
+    }*/
+    
+    @Override
+    public List<String> lister() {
+        List<Article> list = this.findAll(); // Appel de la méthode du CRUD
+	List<String> listSt = new ArrayList<String>();
+	for(Article a : list) {
+		listSt.add(a.toString());
+                listSt.add(a.getDescription());
+	}
+return listSt;
     }
 /*
     @Override

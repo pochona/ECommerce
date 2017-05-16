@@ -138,60 +138,15 @@ public class Fenetre extends JFrame {
     private JPanel affichageProduits(){
         
         JPanel panel = new JPanel();
-        //chargementProduit();
-        /*panel.setLayout(new FlowLayout());
+        panel.setLayout(new FlowLayout());
     
         produitList = new JList();
-        chargementProduit();
         produitList.setVisibleRowCount(2);
-        JScrollPane scrollProduit = new JScrollPane(produitList);*/
+        JScrollPane scrollProduit = new JScrollPane(produitList);
         
         gererAffichage = new JButton("Montrer les produits");
         panel.add(gererAffichage);
-        gererAffichage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    result = statement.executeQuery("SELECT * FROM article WHERE ID=1");
-                    System.out.println("Connexion effective !"); 
-                    /*result.first();
-                    while (result.next()) {
-                        if (result.getString("ID").equals(
-                        produitList.getSelectedValue()))
-                        break;
-                    }
-                    if (!result.isAfterLast()) {
-                        produitID.setText(result.getString("ID"));
-                        produitLib.setText(result.getString("LIB"));
-                        produitDescription.setText(result.getString("DESCRIPTION"));
-                    }*/
-                } 
-                catch (SQLException selectException) {
-                    displaySQLErrors(selectException);
-                }
-            }
-        });
         return panel;
-    }
-    
-    
-    public void connexionBD() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } 
-        catch (Exception e) {
-            System.err.println("Driver introuvable");
-            System.exit(1);
-        }
-        
-        try {
-            connexion = DriverManager.getConnection(url, login, mdp);
-            statement = connexion.createStatement();
-            System.out.println("Connexion effective !"); 
-        } 
-        catch (SQLException connectException) {
-        System.out.println(connectException.getMessage());
-        System.exit(1);
-        }
     }
     
     private void displaySQLErrors(SQLException e) {
@@ -199,23 +154,6 @@ public class Fenetre extends JFrame {
         errorText.append("SQLState:     " + e.getSQLState() + "\n");
         errorText.append("VendorError:  " + e.getErrorCode() + "\n");
   }
-    
-    /*private void chargementProduit() {
-        Vector v = new Vector();
-        System.out.println("1 effective !");
-        try {
-            result = statement.executeQuery("SELECT * FROM article");
-System.out.println("2 effective !");
-            while (result.next()) {
-              v.addElement(result.getString("ID"));
-            }
-        } 
-        catch (SQLException e) {
-          displaySQLErrors(e);
-        }
-        System.out.println("3 effective !");
-        produitList.setListData(v);
-  }*/
     
     public static void main(String[] args){
         Fenetre f = new Fenetre();

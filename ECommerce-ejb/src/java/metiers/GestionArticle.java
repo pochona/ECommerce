@@ -7,6 +7,7 @@ package metiers;
 
 import controllers.ArticleFacadeLocal;
 import entities.Article;
+import entitiesBis.ArticleBis;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
 import java.util.List;
@@ -47,6 +48,15 @@ public class GestionArticle implements GestionArticleLocal{
 
     public List<Article> getArticleCommande(Integer idCom) throws ExceptionArticle {
         return articleFacade.findArticlesCommande(idCom);
+    }
+    
+    /*
+    public List<ArticleBis> listerBis() {
+        return articleFacade.listerBis();
+    }*/
+    
+    public List<String> lister() {
+        return articleFacade.lister();
     }
     
 }

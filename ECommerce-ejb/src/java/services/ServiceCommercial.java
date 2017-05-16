@@ -5,9 +5,7 @@
  */
 package services;
 
-import entities.Article;
 import entitiesBis.ArticleBis;
-import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,13 +17,19 @@ import metiers.GestionArticleLocal;
  */
 
 @Stateless
-public class ServiceCommercial /*implements ServiceCommercialRemote*/{
-    /*
+public class ServiceCommercial implements ServiceCommercialRemote{
+    
     @EJB
     private GestionArticleLocal gestionArticle;
     
+    /*
     @Override
-        public List<ArticleBis> recupererArticle() throws ExceptionArticle {
-        return gestionArticle.recupererArticle();
+    public List<ArticleBis> listerBis() {
+        return gestionArticle.listerBis();
     }*/
+    
+    @Override
+    public List<String> lister(){
+        return gestionArticle.lister();
+    }
 }
