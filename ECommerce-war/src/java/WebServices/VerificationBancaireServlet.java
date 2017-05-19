@@ -5,12 +5,16 @@
  */
 package WebServices;
 
+import entities.Commande;
+import entities.Ligne;
 import entitiesBis.CompteShared;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionBancaire;
 import exceptions.ExceptionClient;
+import exceptions.ExceptionCommande;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -19,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import metiers.GestionCommandeLocal;
 import services.ServiceBanqueRemote;
 
 /**
@@ -30,6 +35,9 @@ public class VerificationBancaireServlet extends HttpServlet {
     
     @EJB
     private ServiceBanqueRemote serviceBanque;
+    
+    @EJB
+    private GestionCommandeLocal gestionCommande;
      
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,61 +52,88 @@ public class VerificationBancaireServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String numCarte = request.getParameter("numCarte");
-        String numCrypto = request.getParameter("numCrypto");
-        CompteShared c = null;
-        boolean verif = false;
-        
-        // On regarde si le numéro de compte saisie n'est pas null 
-        if(numCrypto != null && !"".equals(numCrypto) && numCarte != null && !"".equals(numCarte)){
-            try {
-                c = serviceBanque.validerCoordonnees(numCarte, numCrypto);
-                verif = true;
-            } catch (ExceptionBancaire ex) {
-                verif = false;
+        HttpSession session = request.getSession();
+        Integer idClient = ((Long) session.getAttribute("idClient")).intValue();
+        Map panier = null;
+        // On verifie que l'id client existe, sinon, on n'est pas connecté : on redirige
+        if(idClient != null){
+
+            String numCarte = request.getParameter("numCarte");
+            String numCrypto = request.getParameter("numCrypto");
+            
+            panier = (Map) session.getAttribute("panier");  
+            CompteShared compte = null;
+            Commande commande = null;
+            Ligne ligne = null;
+            boolean verif = false;
+
+            // On regarde si le numéro de compte saisie n'est pas null 
+            if(numCrypto != null && !"".equals(numCrypto) && numCarte != null && !"".equals(numCarte)){
+                try {
+                    compte = serviceBanque.validerCoordonnees(numCarte, numCrypto);
+                    verif = true;
+                } catch (ExceptionBancaire ex) {
+                    verif = false;
+                }
             }
-        }
-        
-        if(verif){
-        // Coordonnées bancaires ok :
-        // On enregistre la commande, et on vide le panier
-        }
 
-
-        try (PrintWriter out = response.getWriter()) {
-            response.setHeader("Refresh", "3;url=/ECommerce-war/MagasinServlet");
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Vérification bancaire</title>"); 
-            out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
-            out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<div class='container'><div class='row'>");
-            out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
             if(verif){
-                response.setHeader("Refresh", "3;url=/ECommerce-war/MagasinServlet");
-                out.println("<div class='col-md-12'><h1>Coordonnées validées</h1></div>");
-                out.println("num compte: " + c.getId());
-                out.println("<div class='col-md-12'><h3>Votre commande est en attente de prélèvement.</h3></div>");
-                out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
-                out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
-                    + "<div class='col-md-12'><input class='btn btn-success' type='submit' name='Continuez' value='Retour au magasin' /></div>"+
-                    "</form>");
-            } else {
-                response.setHeader("Refresh", "3;url=/ECommerce-war/PasserCommandeServlet");
-                out.println("<div class='col-md-12'><h1>Coordonnées invalides</h1></div>");
-                out.println("<div class='col-md-12'><h3>Veuillez resaisir vos coordonnées.</h3></div>");
-                out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas.<p></div>");
-                out.println("<form action='/ECommerce-war/PasserCommandeServlet' method='post'>"
-                    + "<div class='col-md-12'><input class='btn btn-default' type='submit' name='retour' value='Retour' /></div>"+
-                    "</form>");
+                try {
+                    // insertion de la commande
+                    commande = gestionCommande.creerCommande(idClient, compte.getId());
+                    
+                    // insertion des articles
+                    for(Object art : panier.entrySet()){
+                        Map.Entry a = (Map.Entry) art;
+                        Integer idArticle = (Integer) a.getKey();
+                        Integer quantity = (Integer) a.getValue();
+                        ligne = gestionCommande.creerLigne(idArticle, commande.getId(), quantity);
+                    } // fin du for
+                    
+                    // mise à zero du panier
+                    session.removeAttribute("panier");
+                } catch (ExceptionCommande ex) {
+                    Logger.getLogger(VerificationBancaireServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            out.println("</div></div>");
-            out.println("</body>");
-            out.println("</html>");
+
+
+            try (PrintWriter out = response.getWriter()) {
+                response.setHeader("Refresh", "3;url=/ECommerce-war/MagasinServlet");
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Vérification bancaire</title>"); 
+                out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<div class='container'><div class='row'>");
+                out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                if(verif){
+                    response.setHeader("Refresh", "3;url=/ECommerce-war/MagasinServlet");
+                    out.println("<div class='col-md-12'><h1>Coordonnées validées</h1></div>");
+                    out.println("<div class='col-md-12'><h3>Votre commande est en attente de prélèvement.</h3></div>");
+                    out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
+                    out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
+                        + "<div class='col-md-12'><input class='btn btn-success' type='submit' name='Continuez' value='Retour au magasin' /></div>"+
+                        "</form>");
+                } else {
+                    response.setHeader("Refresh", "3;url=/ECommerce-war/PasserCommandeServlet");
+                    out.println("<div class='col-md-12'><h1>Coordonnées invalides</h1></div>");
+                    out.println("<div class='col-md-12'><h3>Veuillez resaisir vos coordonnées.</h3></div>");
+                    out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas.<p></div>");
+                    out.println("<form action='/ECommerce-war/PasserCommandeServlet' method='post'>"
+                        + "<div class='col-md-12'><input class='btn btn-default' type='submit' name='retour' value='Retour' /></div>"+
+                        "</form>");
+                }
+                out.println("</div></div>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        } else {
+             response.setHeader("Refresh", "0;url=/ECommerce-war/erreur.html");
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

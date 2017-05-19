@@ -49,7 +49,7 @@ public class ServiceBanque implements ServiceBanqueRemote {
     
     @Override
     public CompteShared validerCoordonnees(String numCarte, String numCrypto) throws ExceptionBancaire {
-        Log.log(new String[]{numCarte, numCrypto});
+        //Log.log(new String[]{numCarte, numCrypto});
         Compte c = compteFacade.validerCoordonnees(numCarte, numCrypto);
         return new CompteShared(c.getNumCarte(), c.getNumCarte(), c.getId(), c.getSolde());
     }

@@ -17,6 +17,7 @@ import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
 import exceptions.ExceptionClient;
 import exceptions.ExceptionCommande;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,28 @@ public class GestionCommande implements GestionCommandeLocal{
     public List<Ligne> getLigneCommande(Integer idCommande) throws ExceptionCommande {
         return ligneFacade.findByIdCommande(idCommande);
     }
+
+    @Override
+    public Commande creerCommande(Integer idClient, Integer idCompte) throws ExceptionCommande {
+        Commande c = new Commande();
+        c.setIdClient(idClient);
+        c.setIdCompte(idCompte);
+        c.setIdStatut(1);
+        c.setDateCommande(new Date());
+        commandeFacade.create(c);
+        return c;
+    }
     
+    @Override
+    public Ligne creerLigne(Integer idArticle, Integer idCommande, Integer qte) throws ExceptionCommande {
+        Ligne l = new Ligne();
+        l.setIdArticle(idArticle);
+        l.setIdCommande(idCommande);
+        l.setQte(qte);
+        
+        ligneFacade.create(l);
+        return l;
+    }
     
     
 }

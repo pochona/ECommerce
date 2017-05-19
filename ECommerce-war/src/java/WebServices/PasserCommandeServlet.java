@@ -144,22 +144,7 @@ public class PasserCommandeServlet extends HttpServlet {
                 out.println("</html>");
             }
         } else {
-            // Client non identifié 
-            try (PrintWriter out = response.getWriter()) {
-                    /* TODO output your page here. You may use following sample code. */
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Commander</title>");
-                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
-                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Vous devez être connecté pour accéder au magasin</h1>");
-                   out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour à la connexion</button></form>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
+           response.setHeader("Refresh", "0;url=/ECommerce-war/erreur.html");
         }
     }
 
