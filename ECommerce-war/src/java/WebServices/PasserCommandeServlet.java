@@ -61,7 +61,7 @@ public class PasserCommandeServlet extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Magasin</title>");      
+                out.println("<title>Magasin</title>"); 
                 out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
                 out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
                 out.println("</head>");

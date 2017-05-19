@@ -50,6 +50,7 @@ public class AuthentificationServlet extends HttpServlet {
              HttpSession session = request.getSession();
              session.setAttribute("idClient", idCl);
                 try (PrintWriter out = response.getWriter()) {
+                    response.setHeader("Refresh", "3;url=/ECommerce-war/MagasinServlet");
                     /* TODO output your page here. You may use following sample code. */
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
@@ -62,6 +63,7 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<div class='container'><div class='row'>");
                     out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
                     out.println("<div class='col-md-12'><h1>Vous êtes bien connecté !</h1></div>");
+                    out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
                     out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
                             + "<div class='col-md-12'><input class='btn btn-success' type='submit' name='Continuez' value='Continuer sur le magasin' /></div>"+
                             "</form>");
@@ -72,6 +74,7 @@ public class AuthentificationServlet extends HttpServlet {
             } catch (ErreurConnexionClient ex) {
                 //Logger.getLogger(ClientServlet.class.getName()).log(Level.SEVERE, null, ex);
                 try (PrintWriter out = response.getWriter()) {
+                    response.setHeader("Refresh", "3;url=/ECommerce-war/index.html");
                     /* TODO output your page here. You may use following sample code. */
                     out.println("<!DOCTYPE html>");
                     out.println("<html>");
@@ -84,6 +87,7 @@ public class AuthentificationServlet extends HttpServlet {
                     out.println("<div class='container'><div class='row'>");
                     out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
                     out.println("<div class='col-md-12'><h1>Mauvaise combinaison</h1></div>");
+                    out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
                     out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour</button></form>");
                     out.println("</div></div>");
                     out.println("</body>");
@@ -94,6 +98,7 @@ public class AuthentificationServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("idClient", null);
             try (PrintWriter out = response.getWriter()) {
+                response.setHeader("Refresh", "3;url=/ECommerce-war/index.html");
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
@@ -106,6 +111,7 @@ public class AuthentificationServlet extends HttpServlet {
                 out.println("<div class='container'><div class='row'>");
                 out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
                 out.println("<div class='col-md-12'><h1>Vous êtes déconnecté.</h1></div>");
+                out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
                 out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour à l'accueil</button></form>");
                 out.println("</div></div>");    
                 out.println("</body>");
