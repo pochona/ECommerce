@@ -5,6 +5,8 @@
  */
 package ecommercelourd;
 
+import entitiesBis.ArticleBis;
+import exceptions.ExceptionArticle;
 import exceptions.ExceptionClient;
 import java.util.List;
 import java.util.Properties;
@@ -14,6 +16,7 @@ import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import services.ServiceBanqueRemote;
+import services.ServiceCommercialRemote;
 
 /**
  *
@@ -24,7 +27,7 @@ public class ECommerceLourd {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NamingException, ExceptionClient {
+    public static void main(String[] args) throws NamingException, ExceptionClient, ExceptionArticle {
         /*Properties props = new Properties();
         props.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.enterprise.naming.SerialInitContextFactory");
         props.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
@@ -99,6 +102,8 @@ while (list.hasMore()) {
         "3700");
         InitialContext context = new InitialContext();
         
+        // Test du service banque pour aller chercher l'ID d'un client
+        
         ServiceBanqueRemote souche = (ServiceBanqueRemote) context.lookup("services.ServiceBanqueRemote");
         long idCl =  99;
         System.out.println("Avant d'aller dans la DB idCl = "+idCl);
@@ -109,5 +114,26 @@ while (list.hasMore()) {
             //idCl = souche.creerClient("Patrice", "Torguet");
         }
         System.out.println("Aprés avoir été chercher le client, idCl = "+idCl);
+        System.out.println("------------------------");
+        
+        // Test du service commercial pour afficher la list des articles
+        
+            // Avec la méthode List<String> lister()
+        ServiceCommercialRemote souche2 = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
+        System.out.println("Retour méthode List<String> lister()");
+        List<String> list = souche2.lister();
+
+        for(String a : list) {
+            System.out.println(a);
+        }
+        /*
+        ServiceCommercialRemote souche3 = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
+        System.out.println("------------------------");
+        System.out.println("Retour méthode List<ArticleBis> listerbis()");
+        List<ArticleBis> listbis = souche3.listerBis();
+
+        for(ArticleBis a : listbis) {
+            System.out.println(a.toString());
+        }*/
     }
 }

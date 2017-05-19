@@ -6,6 +6,7 @@
 package metiers;
 
 import entities.Article;
+import entitiesBis.ArticleBis;
 import exceptions.ExceptionArticle;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,10 @@ public interface GestionArticleLocal {
     String chercherArticle(String description, String lib) throws exceptions.ExceptionArticle;
     
     List<Article> recupererArticle() throws exceptions.ExceptionArticle;
+    
+    //List<ArticleBis> listerBis();
+    
+    List<String> lister();
     
     Article findArticle(Integer id) throws exceptions.ExceptionArticle;
     

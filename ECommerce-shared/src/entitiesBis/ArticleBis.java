@@ -32,5 +32,7 @@ public class ArticleBis {
         this.stockBis = stock;
     }
     
-    
+    public String toString() {
+        return "ArticleBis[ id=" + idBis + " ] - Description : " + descriptionBis+"";
+    }
 }

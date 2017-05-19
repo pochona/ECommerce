@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Article;
+import entitiesBis.ArticleBis;
 import exceptions.ErreurConnexionClient;
 import java.util.List;
 import javax.ejb.Local;
@@ -26,7 +27,11 @@ public interface ArticleFacadeLocal {
     Article find(Object id);
 
     List<Article> findAll();
+    
+    //List<ArticleBis> listerBis();
 
+    List<String> lister();
+    
     List<Article> findRange(int[] range);
 
     int count();
