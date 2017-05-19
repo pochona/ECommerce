@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 19 Mai 2017 à 12:12
+-- Généré le :  Ven 19 Mai 2017 à 17:37
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -93,7 +93,9 @@ INSERT INTO `commande` (`ID`, `DATE_COMMANDE`, `ID_CLIENT`, `ID_TOURNEE`, `ID_ST
 (1, '2017-05-03', 1, NULL, 1, 0),
 (2, '2017-05-09', 2, NULL, 1, 0),
 (3, '2017-05-03', 2, NULL, 1, 0),
-(4, '2017-05-09', 2, NULL, 1, 0);
+(4, '2017-05-09', 2, NULL, 1, 0),
+(12, '2017-05-19', 1, NULL, 1, 1),
+(11, '2017-05-19', 1, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -134,7 +136,12 @@ CREATE TABLE `ligne` (
 
 INSERT INTO `ligne` (`ID`, `ID_ARTICLE`, `ID_COMMANDE`, `QTE`) VALUES
 (1, 1, 1, 2),
-(2, 3, 1, 4);
+(2, 3, 1, 4),
+(3, 1, 11, 3),
+(4, 2, 11, 2),
+(5, 3, 11, 1),
+(6, 1, 12, 1),
+(7, 2, 12, 4);
 
 -- --------------------------------------------------------
 
@@ -153,8 +160,8 @@ CREATE TABLE `statut` (
 --
 
 INSERT INTO `statut` (`ID`, `LIB`, `DESCRIPTION`) VALUES
-(1, 'ENCOURS', 'En cours'),
-(2, 'PAIEMENTVALID', 'Paiement validé'),
+(1, 'ENCOURS', 'En cours (paiement non validé)'),
+(2, 'PAIEMENTVALID', 'En cours (paiement validé)'),
 (3, 'ENVOYE', 'Commande envoyé'),
 (4, 'RECU', 'Commande recu');
 
@@ -235,7 +242,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `compte`
 --
@@ -245,7 +252,7 @@ ALTER TABLE `compte`
 -- AUTO_INCREMENT pour la table `ligne`
 --
 ALTER TABLE `ligne`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --
