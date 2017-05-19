@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,8 +29,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Compte.findAll", query = "SELECT c FROM Compte c")
     , @NamedQuery(name = "Compte.findById", query = "SELECT c FROM Compte c WHERE c.id = :id")
+    , @NamedQuery(name = "Compte.findByNumCarte", query = "SELECT c FROM Compte c WHERE c.numCarte = :numCarte")
+    , @NamedQuery(name = "Compte.findByCoordonnees", query = "SELECT c FROM Compte c WHERE c.numCarte = :numCarte AND c.crypto = :crypto")
     , @NamedQuery(name = "Compte.findBySolde", query = "SELECT c FROM Compte c WHERE c.solde = :solde")})
 public class Compte implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "NUM_CARTE")
+    private String numCarte;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 3)
+    @Column(name = "CRYPTO")
+    private String crypto;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -93,6 +107,22 @@ public class Compte implements Serializable {
     @Override
     public String toString() {
         return "entities.Compte[ id=" + id + " ]";
+    }
+
+    public String getNumCarte() {
+        return numCarte;
+    }
+
+    public void setNumCarte(String numCarte) {
+        this.numCarte = numCarte;
+    }
+
+    public String getCrypto() {
+        return crypto;
+    }
+
+    public void setCrypto(String crypto) {
+        this.crypto = crypto;
     }
     
 }

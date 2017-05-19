@@ -75,7 +75,7 @@ public class PasserCommandeServlet extends HttpServlet {
                     + "</ul>");
                 if(panier != null) {
                     
-                    out.println("<div class='row'><div class='col-md-12'>"
+                    out.println("<form method='post' action='/ECommerce-war/VerificationBancaireServlet'><div class='row'><div class='col-md-12'>"
                             + "<h1>Payez votre commande.</h1></div></div>");
                    out.println("<div class='row'>");
                     // recap du panier
@@ -124,16 +124,16 @@ public class PasserCommandeServlet extends HttpServlet {
                     out.println("<div class='form-group row'>" +
                                 "<label for='numCarte' class='col-sm-4 col-form-label'>Numéro de carte</label>" +
                                 "<div class='col-sm-8'>" +
-                                "<input type='text' class='form-control' id='numCarte' placeholder='XXXX-XXXX-XXXX-XXXX'>" +
+                                "<input type='text' class='form-control' id='numCarte' name='numCarte' placeholder='XXXX-XXXX-XXXX-XXXX'>" +
                                 "</div></div>");
                     out.println("<div class='form-group row'>" +
                                 "<label for='numCrypto' class='col-sm-4 col-form-label'>Cryptogramme visuel</label>" +
                                 "<div class='col-sm-8'>" +
-                                "<input type='text' class='form-control' id='numCrypto' placeholder='123'>" +
+                                "<input type='text' class='form-control' id='numCrypto' name='numCrypto' placeholder='123'>" +
                                 "</div></div>");
                     out.println("</div><div class='panel-footer'>");
-                    out.println("<form method='get' action='./index.html'><button class='btn btn-success' type='submit'>Payer ("+montantTot+"€)</button></form>");
-                    out.println("</div></div></div>");
+                    out.println("<button class='btn btn-success' type='submit'>Payer ("+montantTot+"€)</button>");
+                    out.println("</div></div></div></form>");
                 } else {
                     out.println("<div class='col-md-12'>");
                     out.println("<p>Votre panier est actuellement vide.</p>");

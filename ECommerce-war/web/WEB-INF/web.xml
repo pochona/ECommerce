@@ -9,6 +9,10 @@
         <servlet-class>WebServices.SuiviCommandeServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>VerificationBancaireServlet</servlet-name>
+        <servlet-class>WebServices.VerificationBancaireServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>PasserCommandeServlet</servlet-name>
         <servlet-class>WebServices.PasserCommandeServlet</servlet-class>
     </servlet>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>PasserCommandeServlet</servlet-name>
         <url-pattern>/PasserCommandeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerificationBancaireServlet</servlet-name>
+        <url-pattern>/VerificationBancaireServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

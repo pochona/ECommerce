@@ -37,6 +37,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Commande.findByIdStatut", query = "SELECT c FROM Commande c WHERE c.idStatut = :idStatut")})
 public class Commande implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID_COMPTE")
+    private int idCompte;
+
     @Column(name = "ID_TOURNEE")
     private Integer idTournee;
 
@@ -138,6 +143,14 @@ public class Commande implements Serializable {
     @Override
     public String toString() {
         return "entities.Commande[ id=" + id + " ]";
+    }
+
+    public int getIdCompte() {
+        return idCompte;
+    }
+
+    public void setIdCompte(int idCompte) {
+        this.idCompte = idCompte;
     }
     
 }

@@ -5,6 +5,8 @@
  */
 package services;
 
+import entitiesBis.CompteShared;
+import exceptions.ExceptionBancaire;
 import exceptions.ExceptionCommande;
 import java.util.List;
 import javax.ejb.Remote;
@@ -22,5 +24,5 @@ public interface ServiceBanqueRemote {
    
     int findIdComByClient(int idClient) throws ExceptionCommande;
     
-    
+    public CompteShared validerCoordonnees(String numCarte, String numCrypto) throws ExceptionBancaire;
 }

@@ -48,7 +48,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
 
     @Override
     public long validerConnexion(String mail, String mdp) throws ErreurConnexionClient {
-         try {
+        try {
             Query q = em.createQuery(
                "select c from Client c where c.mail = :mail and c.mdp = :mdp");
             q.setParameter("mail", mail);

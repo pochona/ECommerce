@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Compte;
+import exceptions.ExceptionBancaire;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface CompteFacadeLocal {
     List<Compte> findRange(int[] range);
 
     int count();
+    
+    Compte validerCoordonnees(String numCarte, String numCrypto) throws ExceptionBancaire;
     
 }
