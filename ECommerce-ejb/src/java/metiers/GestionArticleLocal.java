@@ -33,4 +33,5 @@ public interface GestionArticleLocal {
     Article findArticle(Integer id) throws exceptions.ExceptionArticle;
     
     List<Article> getArticleCommande(Integer idCom) throws exceptions.ExceptionArticle;
+    
 }

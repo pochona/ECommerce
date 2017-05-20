@@ -33,6 +33,36 @@ public class ArticleBis {
     }
     
     public String toString() {
-        return "ArticleBis[ id=" + idBis + " ] - Description : " + descriptionBis+"";
+        return "ArticleBis[ id=" + getIdBis() + " ] - Description : " + getDescriptionBis()+"";
     }
+
+    public Integer getIdBis() {
+        return idBis;
+    }
+
+    public String getLibBis() {
+        return libBis;
+    }
+
+    public String getDescriptionBis() {
+        return descriptionBis;
+    }
+
+    public double getPrixHtBis() {
+        return prixHtBis;
+    }
+
+    public float getTauxTvaBis() {
+        return tauxTvaBis;
+    }
+
+    public int getStockBis() {
+        return stockBis;
+    }
+
+    public List getList() {
+        return list;
+    }
+    
+    
 }

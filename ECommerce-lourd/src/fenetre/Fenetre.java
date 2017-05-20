@@ -6,17 +6,25 @@
 package fenetre;
 
 
+import entitiesBis.ArticleBis;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.Float.parseFloat;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.swing.*;
+import services.ServiceCommercialRemote;
 
 /**
  *
@@ -35,7 +43,10 @@ public class Fenetre extends JFrame {
     private JMenuItem item1bis = new JMenuItem("Suivre commande");
     private JMenuItem item2 = new JMenuItem("Gérer les prélèvements");
     private JMenuItem item2bis = new JMenuItem("Gérer les prélèvements");
-    private JMenuItem item3 = new JMenuItem("Gérer l'affichage des produits");
+    private JMenuItem item31 = new JMenuItem("Modifier un produit");
+    private JMenuItem item32 = new JMenuItem("Créer un produit");
+    private JMenuItem item33 = new JMenuItem("Supprimer un produit");
+    private JMenuItem item34 = new JMenuItem("Afficher tous les produits");
     private JMenuItem item4 = new JMenuItem("Gérer le stock");
     private JMenuItem item5 = new JMenuItem("Déclencher la livraison");
     private JMenuItem item6 = new JMenuItem("Fermer");
@@ -44,7 +55,9 @@ public class Fenetre extends JFrame {
     private JButton gererAffichage;
     private JTextArea errorText;
     private JList produitList;
-    private JTextField produitID, produitLib, produitDescription;
+    
+    @EJB
+    private ServiceCommercialRemote serviceCommercial;
     
     
     private Connection connexion;
@@ -74,9 +87,21 @@ public class Fenetre extends JFrame {
                 System.exit(0);
             }
             
-            if ( source == item3){ // gerer affichage
+            if ( source == item32){ try {
+                // Créer un produit
+                setContentPane(creerArticle());
+                } catch (NamingException ex) {
+                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                validate(); // maj des conteneurs
+            }
+            
+            if ( source == item34){ try {  // afficher tous les produits 
                 setContentPane(affichageProduits());
                 validate();
+                } catch (NamingException ex) {
+                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
             // Ici, en fonction de la source, affichage.
@@ -101,8 +126,14 @@ public class Fenetre extends JFrame {
         item2bis.addActionListener(unEcouteur);
         
         this.comm.addSeparator();
-        this.comm.add(item3); // affichage pdts
-        item3.addActionListener(unEcouteur);
+        this.comm.add(item31); // affichage pdts
+        item31.addActionListener(unEcouteur);
+        this.comm.add(item32);
+        item32.addActionListener(unEcouteur);
+        this.comm.add(item33); 
+        item33.addActionListener(unEcouteur);
+        this.comm.add(item34); 
+        item34.addActionListener(unEcouteur);
         
         this.reapro.add(item4); // gérer le stock
         item4.addActionListener(unEcouteur);
@@ -135,17 +166,116 @@ public class Fenetre extends JFrame {
         return panel;
     }
     
-    private JPanel affichageProduits(){
+    private JPanel affichageProduits() throws NamingException{
         
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-    
-        produitList = new JList();
-        produitList.setVisibleRowCount(2);
-        JScrollPane scrollProduit = new JScrollPane(produitList);
         
-        gererAffichage = new JButton("Montrer les produits");
-        panel.add(gererAffichage);
+        GridLayout tableau = new GridLayout(10,3);
+        //panel.setLayout(new FlowLayout());
+        panel.setLayout(tableau);
+        
+        // Connection 
+        System.setProperty("java.naming.factory.initial",
+        "com.sun.enterprise.naming.SerialInitContextFactory");
+        System.setProperty("org.omg.CORBA.ORBInitialHost",
+        "127.0.0.1");
+        System.setProperty("org.omg.CORBA.ORBInitialPort",
+        "3700");
+        InitialContext context = new InitialContext();
+        
+        ServiceCommercialRemote souche1 = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
+        System.out.println("Retour méthode List<String> lister()");
+        List<String> list = souche1.lister();
+
+        for(String a : list) {
+            System.out.println(a);
+            JLabel JL = new JLabel();
+            JL.setText(a);
+            panel.add(JL);
+        }
+        
+        //produitList = new JList();
+        //produitList.setVisibleRowCount(2);
+        //JScrollPane scrollProduit = new JScrollPane(produitList);
+        
+        
+        return panel;
+    }
+    
+     private JPanel creerArticle() throws NamingException{
+        
+        JButton valider = new JButton ("Valider");
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        
+        Integer id;
+        String lib,des;
+        Double px;
+        Float tx;
+        int stk;
+        
+        JTextField articleID = new JTextField("999");
+        articleID.setPreferredSize(new Dimension(150, 30));
+        JTextField articleLib = new JTextField("Libellé");
+        articleLib.setPreferredSize(new Dimension(150, 30));
+        JTextField articleDes = new JTextField("Description");
+        articleDes.setPreferredSize(new Dimension(250, 30));
+        JTextField articlePrix = new JTextField("99.99");
+        articlePrix.setPreferredSize(new Dimension(150, 30));
+        JTextField articleTaux = new JTextField("0.2");
+        articleTaux.setPreferredSize(new Dimension(150, 30));
+        JTextField articleStock = new JTextField("0");
+        articleStock.setPreferredSize(new Dimension(150, 30));
+        
+        JLabel JLtitre = new JLabel("CREATION D'UN NOUVEL ARTICLE");
+        JLabel JLid = new JLabel("Reférence : ");
+        JLabel JLlib = new JLabel("Libellé : ");
+        JLabel JLdes = new JLabel("Description : ");
+        JLabel JLprix = new JLabel("Prix Hors Taxe : ");
+        JLabel JLtaux = new JLabel("Taux TVA : ");
+        JLabel JLstock = new JLabel("Stock : ");
+        
+        panel.add(JLtitre);
+        panel.add(JLid);
+        panel.add(articleID);
+        panel.add(JLlib);
+        panel.add(articleLib);
+        panel.add(JLdes);
+        panel.add(articleDes);
+        panel.add(JLprix);
+        panel.add(articlePrix);
+        panel.add(JLtaux);
+        panel.add(articleTaux);
+        panel.add(JLstock);
+        panel.add(articleStock);
+        panel.add(valider);
+        
+        id=Integer.parseInt(articleID.getText());
+        lib=articleLib.getText();
+        des=articleDes.getText();
+        px=Double.parseDouble(articlePrix.getText());
+        tx=parseFloat(articleTaux.getText());
+        stk=Integer.parseInt(articleStock.getText());
+        /*
+        System.setProperty("java.naming.factory.initial",
+        "com.sun.enterprise.naming.SerialInitContextFactory");
+        System.setProperty("org.omg.CORBA.ORBInitialHost",
+        "127.0.0.1");
+        System.setProperty("org.omg.CORBA.ORBInitialPort",
+        "3700");
+        InitialContext context = new InitialContext();
+        
+        ServiceCommercialRemote souche = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
+        */
+        
+        valider.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ArticleBis a;
+                a=serviceCommercial.creer(id, lib, des, px, tx, stk);
+            }
+        }
+        );
+        
         return panel;
     }
     

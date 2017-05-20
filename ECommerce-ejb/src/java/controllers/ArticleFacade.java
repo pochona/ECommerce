@@ -87,23 +87,23 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
 	List<String> listSt = new ArrayList<String>();
 	for(Article a : list) {
 		listSt.add(a.toString());
-                listSt.add(a.getDescription());
+                //listSt.add(a.getDescription());
 	}
 return listSt;
     }
-/*
+
     @Override
-    public String creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) {
-        Article a = new Article();
-        a.setId(id);
+    public Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) {
+        Article a = new Article(id, lib, description, prixHt, tauxTva, stock);
+        /*a.setId(id);
         a.setLib(lib); 
         a.setPrixHt(prixHt);
         a.setTauxTva(tauxTva);
         a.setStock(stock);
-        this.create(a); // appel de la méthode du CRUD AbstractFacade
-        return a.toString();
+        this.create(a);*/
+        return a;
     }
-
+/*
     @Override
     public List<String> lister() {
         List<Article> list = this.findAll(); // Appel de la méthode du CRUD
