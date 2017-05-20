@@ -24,9 +24,6 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     @EJB
     private GestionArticleLocal gestionArticle;
     
-    @EJB
-    private ArticleFacadeLocal articleFacade;
-    
     /*
     @Override
     public List<ArticleBis> listerBis() {
@@ -39,8 +36,27 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     }
     
     @Override
-    public ArticleBis creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock){
-        Article a = articleFacade.creer(id, lib, description, prixHt, tauxTva, stock);
-        return new ArticleBis(a.getId(), a.getLib(), a.getDescription(), a.getPrixHt(), a.getTauxTva(), a.getStock());
+    public ArticleBis creer(String art){
+        /*Integer id;
+        String lib, des;
+        double prixHt;
+        float tauxTva;
+        int stock;
+        System.out.println(art);
+        String values[] = art.split(",");
+        id = Integer.parseInt(values[0]);
+        lib = values[1];
+        des = values[2];
+        prixHt = Double.parseDouble(values[3]);
+        tauxTva = Float.parseFloat(values[4]);
+        stock = Integer.parseInt(values[5]);
+        System.out.println(id);
+        System.out.println(des);
+        System.out.println(prixHt);
+        System.out.println(tauxTva);
+        System.out.println(stock);
+        */
+        Article a = gestionArticle.creer(art);
+        return new ArticleBis(art);
     }
 }

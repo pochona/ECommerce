@@ -21,5 +21,5 @@ public interface ServiceCommercialRemote {
     
     List<String> lister();
     
-    public ArticleBis creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock);
+    public ArticleBis creer(String art);
 }

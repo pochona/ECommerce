@@ -40,5 +40,5 @@ public interface ArticleFacadeLocal {
     
     List<Article> findArticlesCommande(Integer idComm) throws exceptions.ExceptionArticle;
     
-    Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock);
+    Article creer(String art);
 }

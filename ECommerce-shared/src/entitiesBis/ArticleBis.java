@@ -32,6 +32,30 @@ public class ArticleBis {
         this.stockBis = stock;
     }
     
+    public ArticleBis(String art){
+        Integer id;
+        String lib, des;
+        double prixHt;
+        float tauxTva;
+        int stock;
+
+        String values[] = art.split(",");
+        
+        id = Integer.parseInt(values[0]);
+        lib = values[1];
+        des = values[2];
+        prixHt = Double.parseDouble(values[3]);
+        tauxTva = Float.parseFloat(values[4]);
+        stock = Integer.parseInt(values[5]);
+        
+        this.idBis = id;
+        this.libBis = lib;
+        this.descriptionBis = des;
+        this.prixHtBis = prixHt;
+        this.tauxTvaBis = tauxTva;
+        this.stockBis = stock;
+    }
+    
     public String toString() {
         return "ArticleBis[ id=" + getIdBis() + " ] - Description : " + getDescriptionBis()+"";
     }

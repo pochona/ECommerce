@@ -207,12 +207,8 @@ public class Fenetre extends JFrame {
         JButton valider = new JButton ("Valider");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        
-        Integer id;
-        String lib,des;
-        Double px;
-        Float tx;
-        int stk;
+
+        String id,lib,des,px,tx,stk;
         
         JTextField articleID = new JTextField("999");
         articleID.setPreferredSize(new Dimension(150, 30));
@@ -250,13 +246,13 @@ public class Fenetre extends JFrame {
         panel.add(articleStock);
         panel.add(valider);
         
-        id=Integer.parseInt(articleID.getText());
+        id=articleID.getText();
         lib=articleLib.getText();
         des=articleDes.getText();
-        px=Double.parseDouble(articlePrix.getText());
-        tx=parseFloat(articleTaux.getText());
-        stk=Integer.parseInt(articleStock.getText());
-        /*
+        px=articlePrix.getText();
+        tx=articleTaux.getText();
+        stk=articleStock.getText();
+        
         System.setProperty("java.naming.factory.initial",
         "com.sun.enterprise.naming.SerialInitContextFactory");
         System.setProperty("org.omg.CORBA.ORBInitialHost",
@@ -266,24 +262,25 @@ public class Fenetre extends JFrame {
         InitialContext context = new InitialContext();
         
         ServiceCommercialRemote souche = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
-        */
+        
+        
+        String art = id+","+lib+","+des+","+px+","+tx+","+stk;
+        System.out.println(art+"PROBLEME");
+        
+        try {
         
         valider.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ArticleBis a;
-                a=serviceCommercial.creer(id, lib, des, px, tx, stk);
+                ArticleBis a = souche.creer(art);
             }
         }
         );
+        } catch(Exception e) {
+            System.out.println("PROBLEME");
+        }
         
         return panel;
     }
-    
-    private void displaySQLErrors(SQLException e) {
-        errorText.append("SQLException: " + e.getMessage() + "\n");
-        errorText.append("SQLState:     " + e.getSQLState() + "\n");
-        errorText.append("VendorError:  " + e.getErrorCode() + "\n");
-  }
     
     public static void main(String[] args){
         Fenetre f = new Fenetre();

@@ -59,6 +59,10 @@ public class GestionArticle implements GestionArticleLocal{
         return articleFacade.lister();
     }
     
+    public Article creer(String art){
+        return articleFacade.creer(art);
+    }
+    
 }
 
 
