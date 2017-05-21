@@ -8,6 +8,7 @@ package services;
 import controllers.ArticleFacadeLocal;
 import entities.Article;
 import entitiesBis.ArticleBis;
+import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -36,7 +37,7 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     }
     
     @Override
-    public ArticleBis creer(String art){
+    public void creer(String art)throws ExceptionArticle{
         /*Integer id;
         String lib, des;
         double prixHt;
@@ -56,7 +57,8 @@ public class ServiceCommercial implements ServiceCommercialRemote{
         System.out.println(tauxTva);
         System.out.println(stock);
         */
+        
         Article a = gestionArticle.creer(art);
-        return new ArticleBis(art);
+        //return new ArticleBis(art);
     }
 }

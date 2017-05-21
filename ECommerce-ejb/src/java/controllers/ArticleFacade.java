@@ -93,30 +93,14 @@ return listSt;
     }
 
     @Override
-    public Article creer(String art) {
-        
-        Integer id;
-        String lib, des;
-        double prixHt;
-        float tauxTva;
-        int stock;
-
-        String values[] = art.split(",");
-        
-        id = Integer.parseInt(values[0]);
-        lib = values[1];
-        des = values[2];
-        prixHt = Double.parseDouble(values[3]);
-        tauxTva = Float.parseFloat(values[4]);
-        stock = Integer.parseInt(values[5]);
-
-        Article a = new Article(id, lib, des, prixHt, tauxTva, stock);
+    public Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) throws ExceptionArticle {
+        Article a = new Article(id, lib, description, prixHt, tauxTva, stock);
         /*a.setId(id);
         a.setLib(lib); 
         a.setPrixHt(prixHt);
         a.setTauxTva(tauxTva);
-        a.setStock(stock);
-        this.create(a);*/
+        a.setStock(stock);*/
+        this.create(a);
         return a;
     }
 /*

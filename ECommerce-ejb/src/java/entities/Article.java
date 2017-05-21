@@ -152,7 +152,7 @@ public class Article implements Serializable {
 
     @Override
     public String toString() {
-        return "ID=" + id + "    Libellé=" + lib + "Description =" + description + "    PRIX=" + prixHt + "    tauxTVA=" + tauxTva + "    Stock=" + stock;
+        return "ID=" + id + "    Libellé=" + lib + "    Description =" + description + "    Prix=" + prixHt + "    tauxTVA=" + tauxTva + "    Stock=" + stock;
     }
     
 }

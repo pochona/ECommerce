@@ -7,6 +7,7 @@ package fenetre;
 
 
 import entitiesBis.ArticleBis;
+import exceptions.ExceptionArticle;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -196,7 +197,7 @@ public class Fenetre extends JFrame {
         
         //produitList = new JList();
         //produitList.setVisibleRowCount(2);
-        //JScrollPane scrollProduit = new JScrollPane(produitList);
+        //JScrollPane scrollProduit = new JScrollPane(panel);
         
         
         return panel;
@@ -207,23 +208,23 @@ public class Fenetre extends JFrame {
         JButton valider = new JButton ("Valider");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-
-        String id,lib,des,px,tx,stk;
+        JOptionPane JOP;
+        
+        //String id,lib,des,px,tx,stk;
         
         JTextField articleID = new JTextField("999");
-        articleID.setPreferredSize(new Dimension(150, 30));
+        articleID.setPreferredSize(new Dimension(380, 30));
         JTextField articleLib = new JTextField("Libellé");
-        articleLib.setPreferredSize(new Dimension(150, 30));
+        articleLib.setPreferredSize(new Dimension(550, 30));
         JTextField articleDes = new JTextField("Description");
-        articleDes.setPreferredSize(new Dimension(250, 30));
+        articleDes.setPreferredSize(new Dimension(550, 30));
         JTextField articlePrix = new JTextField("99.99");
-        articlePrix.setPreferredSize(new Dimension(150, 30));
+        articlePrix.setPreferredSize(new Dimension(100, 30));
         JTextField articleTaux = new JTextField("0.2");
-        articleTaux.setPreferredSize(new Dimension(150, 30));
+        articleTaux.setPreferredSize(new Dimension(100, 30));
         JTextField articleStock = new JTextField("0");
-        articleStock.setPreferredSize(new Dimension(150, 30));
-        
-        JLabel JLtitre = new JLabel("CREATION D'UN NOUVEL ARTICLE");
+        articleStock.setPreferredSize(new Dimension(100, 30));
+        JLabel JLtitre = new JLabel("||  CREATION D'UN NOUVEL ARTICLE  ||");
         JLabel JLid = new JLabel("Reférence : ");
         JLabel JLlib = new JLabel("Libellé : ");
         JLabel JLdes = new JLabel("Description : ");
@@ -245,13 +246,13 @@ public class Fenetre extends JFrame {
         panel.add(JLstock);
         panel.add(articleStock);
         panel.add(valider);
-        
-        id=articleID.getText();
+
+        /*id=articleID.getText();
         lib=articleLib.getText();
         des=articleDes.getText();
         px=articlePrix.getText();
         tx=articleTaux.getText();
-        stk=articleStock.getText();
+        stk=articleStock.getText();*/
         
         System.setProperty("java.naming.factory.initial",
         "com.sun.enterprise.naming.SerialInitContextFactory");
@@ -263,22 +264,43 @@ public class Fenetre extends JFrame {
         
         ServiceCommercialRemote souche = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
         
-        
+        /*
         String art = id+","+lib+","+des+","+px+","+tx+","+stk;
-        System.out.println(art+"PROBLEME");
-        
-        try {
+        System.out.println(art+"PROBLEME");*/
         
         valider.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ArticleBis a = souche.creer(art);
+                try {
+                    String id,lib,des,px,tx,stk;
+                    boolean entreeOK = false;
+                    Integer id2;
+                    String lib2, des2;
+                    double prixHt2;
+                    float tauxTva2;
+                    int stock2;
+                    id=articleID.getText();
+                    lib=articleLib.getText();
+                    des=articleDes.getText();
+                    px=articlePrix.getText();
+                    tx=articleTaux.getText();
+                    stk=articleStock.getText();
+                    String art = id+","+lib+","+des+","+px+","+tx+","+stk;
+                    id2 = Integer.parseInt(id);
+                    prixHt2 = Double.parseDouble(px);
+                    tauxTva2 = Float.parseFloat(tx);
+                    stock2 = Integer.parseInt(stk);
+                    souche.creer(art);
+                } catch (NumberFormatException exc) {
+                    System.out.println("PROBLEME DE TYPE222");
+                    JOptionPane JOP;
+                    JOP = new JOptionPane();
+                    JOP.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
+                } catch (ExceptionArticle ex) {
+                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         );
-        } catch(Exception e) {
-            System.out.println("PROBLEME");
-        }
-        
         return panel;
     }
     

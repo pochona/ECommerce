@@ -8,6 +8,7 @@ package controllers;
 import entities.Article;
 import entitiesBis.ArticleBis;
 import exceptions.ErreurConnexionClient;
+import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -40,5 +41,5 @@ public interface ArticleFacadeLocal {
     
     List<Article> findArticlesCommande(Integer idComm) throws exceptions.ExceptionArticle;
     
-    Article creer(String art);
+    Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) throws ExceptionArticle;
 }

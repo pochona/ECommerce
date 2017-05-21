@@ -34,6 +34,6 @@ public interface GestionArticleLocal {
     
     List<Article> getArticleCommande(Integer idCom) throws exceptions.ExceptionArticle;
     
-    Article creer(String art);
+    Article creer(String art) throws ExceptionArticle;
     
 }

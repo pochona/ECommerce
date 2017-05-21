@@ -59,8 +59,23 @@ public class GestionArticle implements GestionArticleLocal{
         return articleFacade.lister();
     }
     
-    public Article creer(String art){
-        return articleFacade.creer(art);
+    public Article creer(String art) throws ExceptionArticle{
+        Integer id;
+        String lib, des;
+        double prixHt;
+        float tauxTva;
+        int stock;
+
+        String values[] = art.split(",");
+        
+        id = Integer.parseInt(values[0]);
+        lib = values[1];
+        des = values[2];
+        prixHt = Double.parseDouble(values[3]);
+        tauxTva = Float.parseFloat(values[4]);
+        stock = Integer.parseInt(values[5]);
+        
+        return articleFacade.creer(id, lib, des, prixHt, tauxTva, stock);
     }
     
 }
