@@ -25,6 +25,8 @@ import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.*;
+import panel.AfficheProduit;
+import panel.CreerArticle;
 import services.ServiceCommercialRemote;
 
 /**
@@ -72,37 +74,32 @@ public class Fenetre extends JFrame {
 
     private class Ecouteur implements ActionListener{
 	  
-        private JFrame fen;
+        private Fenetre fen;
 	  
-	public Ecouteur(JFrame f){
+	public Ecouteur(Fenetre f){
             fen = f;
 	}
 	  
 	public void actionPerformed(ActionEvent arg0){
             Object source = arg0.getSource();
             if ( source == item7){ // Information sur l'application
-                setContentPane(concepteur());
+                //setContentPane(concepteur(this.fen));
                 validate(); // maj des conteneurs
             }
             if ( source == item6){ // Fermer
                 System.exit(0);
             }
             
-            if ( source == item32){ try {
+            if ( source == item32){ 
                 // Créer un produit
-                setContentPane(creerArticle());
-                } catch (NamingException ex) {
-                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                setContentPane(new CreerArticle(this.fen));
                 validate(); // maj des conteneurs
             }
             
-            if ( source == item34){ try {  // afficher tous les produits 
-                setContentPane(affichageProduits());
+            if ( source == item34){
+                // afficher tous les produits 
+                setContentPane(new AfficheProduit(this.fen));
                 validate();
-                } catch (NamingException ex) {
-                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
             
             // Ici, en fonction de la source, affichage.
@@ -114,7 +111,31 @@ public class Fenetre extends JFrame {
         this.setSize(700, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setTitle("Projet Ecommerce");
+        this.creerMenu();
+        this.creerLienNaming();
+        this.setVisible(true);
+    }
+    
+    public void creerLienNaming(){
+        // Connection 
+        System.setProperty("java.naming.factory.initial",
+        "com.sun.enterprise.naming.SerialInitContextFactory");
+        System.setProperty("org.omg.CORBA.ORBInitialHost",
+        "127.0.0.1");
+        System.setProperty("org.omg.CORBA.ORBInitialPort",
+        "3700");
+        InitialContext context;
+        try {
+            context = new InitialContext();
+            this.serviceCommercial = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
+        } catch (NamingException ex) {
+            Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+    }
+  
+    public void creerMenu(){
         this.comm.add(item1); //On initialise nos menus avec add - Suivre commande
         item1.addActionListener(unEcouteur);
         this.livraison.add(item1bis);
@@ -155,10 +176,8 @@ public class Fenetre extends JFrame {
         this.menuBar.add(livraison);
         this.menuBar.add(autre);
         this.setJMenuBar(menuBar);
-        this.setTitle("Projet Ecommerce");
-        this.setVisible(true);
     }
-  
+    
     private JPanel concepteur(){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -167,144 +186,11 @@ public class Fenetre extends JFrame {
         return panel;
     }
     
-    private JPanel affichageProduits() throws NamingException{
-        
-        JPanel panel = new JPanel();
-        
-        GridLayout tableau = new GridLayout(10,3);
-        //panel.setLayout(new FlowLayout());
-        panel.setLayout(tableau);
-        
-        // Connection 
-        System.setProperty("java.naming.factory.initial",
-        "com.sun.enterprise.naming.SerialInitContextFactory");
-        System.setProperty("org.omg.CORBA.ORBInitialHost",
-        "127.0.0.1");
-        System.setProperty("org.omg.CORBA.ORBInitialPort",
-        "3700");
-        InitialContext context = new InitialContext();
-        
-        ServiceCommercialRemote souche1 = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
-        System.out.println("Retour méthode List<String> lister()");
-        List<String> list = souche1.lister();
-
-        for(String a : list) {
-            System.out.println(a);
-            JLabel JL = new JLabel();
-            JL.setText(a);
-            panel.add(JL);
-        }
-        
-        //produitList = new JList();
-        //produitList.setVisibleRowCount(2);
-        //JScrollPane scrollProduit = new JScrollPane(panel);
-        
-        
-        return panel;
-    }
-    
-     private JPanel creerArticle() throws NamingException{
-        
-        JButton valider = new JButton ("Valider");
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-        JOptionPane JOP;
-        
-        //String id,lib,des,px,tx,stk;
-        
-        JTextField articleID = new JTextField("999");
-        articleID.setPreferredSize(new Dimension(380, 30));
-        JTextField articleLib = new JTextField("Libellé");
-        articleLib.setPreferredSize(new Dimension(550, 30));
-        JTextField articleDes = new JTextField("Description");
-        articleDes.setPreferredSize(new Dimension(550, 30));
-        JTextField articlePrix = new JTextField("99.99");
-        articlePrix.setPreferredSize(new Dimension(100, 30));
-        JTextField articleTaux = new JTextField("0.2");
-        articleTaux.setPreferredSize(new Dimension(100, 30));
-        JTextField articleStock = new JTextField("0");
-        articleStock.setPreferredSize(new Dimension(100, 30));
-        JLabel JLtitre = new JLabel("||  CREATION D'UN NOUVEL ARTICLE  ||");
-        JLabel JLid = new JLabel("Reférence : ");
-        JLabel JLlib = new JLabel("Libellé : ");
-        JLabel JLdes = new JLabel("Description : ");
-        JLabel JLprix = new JLabel("Prix Hors Taxe : ");
-        JLabel JLtaux = new JLabel("Taux TVA : ");
-        JLabel JLstock = new JLabel("Stock : ");
-        
-        panel.add(JLtitre);
-        panel.add(JLid);
-        panel.add(articleID);
-        panel.add(JLlib);
-        panel.add(articleLib);
-        panel.add(JLdes);
-        panel.add(articleDes);
-        panel.add(JLprix);
-        panel.add(articlePrix);
-        panel.add(JLtaux);
-        panel.add(articleTaux);
-        panel.add(JLstock);
-        panel.add(articleStock);
-        panel.add(valider);
-
-        /*id=articleID.getText();
-        lib=articleLib.getText();
-        des=articleDes.getText();
-        px=articlePrix.getText();
-        tx=articleTaux.getText();
-        stk=articleStock.getText();*/
-        
-        System.setProperty("java.naming.factory.initial",
-        "com.sun.enterprise.naming.SerialInitContextFactory");
-        System.setProperty("org.omg.CORBA.ORBInitialHost",
-        "127.0.0.1");
-        System.setProperty("org.omg.CORBA.ORBInitialPort",
-        "3700");
-        InitialContext context = new InitialContext();
-        
-        ServiceCommercialRemote souche = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
-        
-        /*
-        String art = id+","+lib+","+des+","+px+","+tx+","+stk;
-        System.out.println(art+"PROBLEME");*/
-        
-        valider.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String id,lib,des,px,tx,stk;
-                    boolean entreeOK = false;
-                    Integer id2;
-                    String lib2, des2;
-                    double prixHt2;
-                    float tauxTva2;
-                    int stock2;
-                    id=articleID.getText();
-                    lib=articleLib.getText();
-                    des=articleDes.getText();
-                    px=articlePrix.getText();
-                    tx=articleTaux.getText();
-                    stk=articleStock.getText();
-                    String art = id+","+lib+","+des+","+px+","+tx+","+stk;
-                    id2 = Integer.parseInt(id);
-                    prixHt2 = Double.parseDouble(px);
-                    tauxTva2 = Float.parseFloat(tx);
-                    stock2 = Integer.parseInt(stk);
-                    souche.creer(art);
-                } catch (NumberFormatException exc) {
-                    System.out.println("PROBLEME DE TYPE222");
-                    JOptionPane JOP;
-                    JOP = new JOptionPane();
-                    JOP.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
-                } catch (ExceptionArticle ex) {
-                    Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        );
-        return panel;
-    }
-    
     public static void main(String[] args){
         Fenetre f = new Fenetre();
+    }
+    
+    public ServiceCommercialRemote getServiceCommercial(){
+        return this.serviceCommercial;
     }
 }
