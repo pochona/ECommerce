@@ -5,24 +5,25 @@
  */
 package entitiesBis;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author ameli
  */
-public class ArticleBis {
+public class ArticleBis implements Serializable {
     
     private Integer idBis;
     private String libBis;
     private String descriptionBis;
-    private double prixHtBis;
-    private float tauxTvaBis;
-    private int stockBis;
-    private List list;
+    private Double prixHtBis;
+    private Float tauxTvaBis;
+    private Integer stockBis;
+   // private List list;
     
     
-    public ArticleBis(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) {
+    public ArticleBis(Integer id, String lib, String description, Double prixHt, Float tauxTva, Integer stock) {
         
         this.idBis = id;
         this.libBis = lib;
@@ -83,10 +84,10 @@ public class ArticleBis {
     public int getStockBis() {
         return stockBis;
     }
-
+/*
     public List getList() {
         return list;
     }
-    
+  */  
     
 }
