@@ -36,10 +36,13 @@ public class ServiceCommercial implements ServiceCommercialRemote{
         return gestionArticle.lister();
     }
     
+    public List<ArticleBis> listerBis(){
+        return gestionArticle.listerBis();
+    }
+    
     @Override
     public void creer(String art)throws ExceptionArticle{
         /*Integer id;
-        
         String lib, des;
         double prixHt;
         float tauxTva;
