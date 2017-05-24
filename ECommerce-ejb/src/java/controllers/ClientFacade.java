@@ -6,12 +6,16 @@
 package controllers;
 
 import entities.Client;
+import entities.Ligne;
 import exceptions.ErreurConnexionClient;
+import exceptions.ExceptionClient;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -58,5 +62,13 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         } catch(NoResultException e) {
             throw new exceptions.ErreurConnexionClient();
         }
+    }
+
+    @Override
+    public Client findWithMail(String email) throws ExceptionClient {
+        TypedQuery<Client> query = em.createNamedQuery("Client.findByMail", Client.class)
+                                        .setParameter("mail", email);
+        Client c = query.getSingleResult();
+        return c;
     }
 }

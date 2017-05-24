@@ -7,8 +7,11 @@ package WebServices;
 
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionClient;
+import exceptions.ExceptionCreationClient;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,10 +44,10 @@ public class AuthentificationServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String type = request.getParameter("type");
-        String email = request.getParameter("email");
-        String mdp = request.getParameter("mdp");
 
         if(type.equals("connexionClient")) {
+            String email = request.getParameter("email");
+            String mdp = request.getParameter("mdp");
             try {
              long idCl = gestionClient.validerConnexion(email, mdp);
              HttpSession session = request.getSession();
@@ -116,6 +119,64 @@ public class AuthentificationServlet extends HttpServlet {
                 out.println("</div></div>");    
                 out.println("</body>");
                 out.println("</html>");
+            }
+        } else if(type.equals("creationClient")){
+            try {
+            String nom = request.getParameter("nom");
+            String prenom = request.getParameter("prenom");
+            String email = request.getParameter("email");
+            String mdp = request.getParameter("mdp");
+            String ville = request.getParameter("ville");
+            String adresse = request.getParameter("adresse");
+            String tel = request.getParameter("tel");
+            long idCl = gestionClient.creerClient(nom, prenom, email, mdp, ville, adresse, tel);
+             
+             HttpSession session = request.getSession();
+             session.setAttribute("idClient", idCl);
+                try (PrintWriter out = response.getWriter()) {
+                    response.setHeader("Refresh", "3;url=/ECommerce-war/MagasinServlet");
+                    /* TODO output your page here. You may use following sample code. */
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Authentification</title>"); 
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<div class='container'><div class='row'>");
+                    out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                    out.println("<div class='col-md-12'><h1>Compte créé !</h1></div>");
+                    out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
+                    out.println("<form action='/ECommerce-war/MagasinServlet' method='post'>"
+                            + "<div class='col-md-12'><input class='btn btn-success' type='submit' name='Continuez' value='Continuer sur le magasin' /></div>"+
+                            "</form>");
+                    out.println("</div></div>");
+                    out.println("</body>");
+                    out.println("</html>");
+                }
+            } catch (ExceptionCreationClient ex) {
+                              //Logger.getLogger(ClientServlet.class.getName()).log(Level.SEVERE, null, ex);
+                try (PrintWriter out = response.getWriter()) {
+                    response.setHeader("Refresh", "3;url=/ECommerce-war/index.html");
+                    /* TODO output your page here. You may use following sample code. */
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Authentification</title>");  
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/style.css'>");
+                    out.println("<link rel='stylesheet' type='text/css' href='./css/bootstrap.css'>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<div class='container'><div class='row'>");
+                    out.println("<div class='col-md-12'><img src='./img/banniere.jpg' alt='Banniere'></div>");
+                    out.println("<div class='col-md-12'><h1>Mauvaise combinaison</h1></div>");
+                    out.println("<div class='col-md-12'><p>Attendez 3 secondes, ou cliquez sur le bouton suivant si la redirection ne fonctionne pas<p></div>");
+                    out.println("<form method='get' action='./index.html'><button class='btn btn-info' type='submit'>Retour</button></form>");
+                    out.println("</div></div>");
+                    out.println("</body>");
+                    out.println("</html>");
+                }
             }
         } else { 
             try (PrintWriter out = response.getWriter()) {

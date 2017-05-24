@@ -5,13 +5,19 @@
  */
 package metiers;
 
+import controllers.ClientFacade;
 import controllers.ClientFacadeLocal;
 import controllers.CompteFacadeLocal;
+import entities.Client;
+import entities.Commande;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionClient;
+import exceptions.ExceptionCreationClient;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import utilities.Log;
 
 /**
  *
@@ -27,11 +33,6 @@ public class GestionClient implements GestionClientLocal {
     private ClientFacadeLocal clientFacade;
     
     @Override
-    public long creerClient(String nom, String prenom) throws ExceptionClient {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public long chercherClient(String nom, String prenom) throws ExceptionClient {
         return clientFacade.chercherClient(nom, prenom);
     }
@@ -40,15 +41,35 @@ public class GestionClient implements GestionClientLocal {
     public List<Long> listeNumComptes(long idClient) throws ExceptionClient {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+/*
     @Override
     public long creerCompte(long idClient) throws ExceptionClient {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+*/
     @Override
     public long validerConnexion(String email, String mdp) throws ErreurConnexionClient {
         return clientFacade.validerConnexion(email, mdp);
+    }
+
+    @Override
+    public long creerClient(String nom, String prenom, String email, String mdp, String ville, String adresse, String tel) throws ExceptionCreationClient {
+        Client c = new Client();
+        c.setId(null);
+        c.setNom(nom);
+        c.setPrenom(prenom);
+        c.setMail(email);
+        c.setMdp(mdp);
+        c.setTel(tel);
+        c.setVille(ville);
+        c.setAdresse(adresse);
+        try {
+            clientFacade.create(c);
+            c = clientFacade.findWithMail(email);
+        } catch (ExceptionClient e){
+            throw new ExceptionCreationClient("Creation impossible");
+        }
+        return c.getId();
     }
     
 }

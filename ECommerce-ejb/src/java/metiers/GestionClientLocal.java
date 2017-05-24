@@ -5,6 +5,7 @@
  */
 package metiers;
 
+import exceptions.ExceptionCreationClient;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,14 +15,14 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionClientLocal {
-    
-    long creerClient(String nom, String prenom) throws exceptions.ExceptionClient;
 
     long chercherClient(String nom, String prenom) throws exceptions.ExceptionClient;
 
     List<Long> listeNumComptes(long idClient) throws exceptions.ExceptionClient;
 
-    long creerCompte(long idClient) throws exceptions.ExceptionClient;
+    /*long creerCompte(long idClient) throws exceptions.ExceptionClient;*/
     
     long validerConnexion(String email, String mdp) throws exceptions.ErreurConnexionClient;
+    
+    long creerClient(String nom, String prenom, String email, String mdp, String ville, String adresse, String tel) throws ExceptionCreationClient;
 }

@@ -33,4 +33,6 @@ public interface ClientFacadeLocal {
     long chercherClient(String nom, String prenom) throws exceptions.ExceptionClient;
     
     long validerConnexion(String mail, String mdp) throws exceptions.ErreurConnexionClient;
+    
+    Client findWithMail(String email) throws exceptions.ExceptionClient;
 }

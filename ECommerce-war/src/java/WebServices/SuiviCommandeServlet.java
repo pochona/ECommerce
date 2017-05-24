@@ -103,6 +103,7 @@ public class SuiviCommandeServlet extends HttpServlet {
                             
                             out.println("<li class='list-group-item'>"+monArt.getLib()+" - Quantité : "+maLigne.getQte()+"<span class='badge'>"+prixTot+" euros</span></li>");
                         }
+                        montantTot = Math.round(montantTot*100.0)/100.0;
                         out.println("</ul>");
                         out.println("<div class='pull-right'>Montant de la commande : "+montantTot+"</div>");
                         out.println("</div>");

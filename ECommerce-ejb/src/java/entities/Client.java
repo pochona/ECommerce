@@ -6,7 +6,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,8 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Client.findByAdresse", query = "SELECT c FROM Client c WHERE c.adresse = :adresse")
     , @NamedQuery(name = "Client.findByTel", query = "SELECT c FROM Client c WHERE c.tel = :tel")
     , @NamedQuery(name = "Client.findByMail", query = "SELECT c FROM Client c WHERE c.mail = :mail")
-    , @NamedQuery(name = "Client.findByMdp", query = "SELECT c FROM Client c WHERE c.mdp = :mdp")
-    , @NamedQuery(name = "Client.findByLastConnexion", query = "SELECT c FROM Client c WHERE c.lastConnexion = :lastConnexion")})
+    , @NamedQuery(name = "Client.findByMdp", query = "SELECT c FROM Client c WHERE c.mdp = :mdp")})
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,11 +81,6 @@ public class Client implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "MDP")
     private String mdp;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "LAST_CONNEXION")
-    @Temporal(TemporalType.DATE)
-    private Date lastConnexion;
 
     public Client() {
     }
@@ -96,7 +89,7 @@ public class Client implements Serializable {
         this.id = id;
     }
 
-    public Client(Integer id, String nom, String prenom, String ville, String adresse, String tel, String mail, String mdp, Date lastConnexion) {
+    public Client(Integer id, String nom, String prenom, String ville, String adresse, String tel, String mail, String mdp) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -105,7 +98,6 @@ public class Client implements Serializable {
         this.tel = tel;
         this.mail = mail;
         this.mdp = mdp;
-        this.lastConnexion = lastConnexion;
     }
 
     public Integer getId() {
@@ -170,14 +162,6 @@ public class Client implements Serializable {
 
     public void setMdp(String mdp) {
         this.mdp = mdp;
-    }
-
-    public Date getLastConnexion() {
-        return lastConnexion;
-    }
-
-    public void setLastConnexion(Date lastConnexion) {
-        this.lastConnexion = lastConnexion;
     }
 
     @Override
