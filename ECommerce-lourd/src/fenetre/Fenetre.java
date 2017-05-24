@@ -27,6 +27,7 @@ import javax.naming.NamingException;
 import javax.swing.*;
 import panel.AfficheProduit;
 import panel.CreerArticle;
+import panel.GererCommande;
 import services.ServiceCommercialRemote;
 
 /**
@@ -102,6 +103,10 @@ public class Fenetre extends JFrame {
                 validate();
             }
             
+            if (source == item1bis) {
+                setContentPane(new GererCommande(this.fen));
+                validate();
+            }
             // Ici, en fonction de la source, affichage.
             // Ex : On clique sur "Gérer l'affichage des produits" , doit s'afficher : la liste des produits avec possibilité de insert, update et delete
         }
@@ -131,8 +136,7 @@ public class Fenetre extends JFrame {
             this.serviceCommercial = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
         } catch (NamingException ex) {
             Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }   
     }
   
     public void creerMenu(){
