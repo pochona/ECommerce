@@ -26,7 +26,7 @@ public interface GestionArticleLocal {
     
     List<Article> recupererArticle() throws exceptions.ExceptionArticle;
     
-    //List<ArticleBis> listerBis();
+    List<ArticleBis> listerBis();
     
     List<String> lister();
     

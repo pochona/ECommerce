@@ -18,7 +18,7 @@ import javax.ejb.Remote;
 @Remote
 public interface ServiceCommercialRemote {
     
-    //List<ArticleBis> listerBis();
+    List<ArticleBis> listerBis();
     
     List<String> lister();
     

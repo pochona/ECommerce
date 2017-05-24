@@ -10,11 +10,13 @@ import entities.Article;
 import entitiesBis.ArticleBis;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionArticle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import utilities.Log;
 
 /**
  *
@@ -50,10 +52,16 @@ public class GestionArticle implements GestionArticleLocal{
         return articleFacade.findArticlesCommande(idCom);
     }
     
-    /*
+    
     public List<ArticleBis> listerBis() {
-        return articleFacade.listerBis();
-    }*/
+        List<Article> a = articleFacade.findAll();
+        List<ArticleBis> b = new ArrayList<ArticleBis>();
+        for(Article monArt : a){
+            ArticleBis bis = new ArticleBis(monArt.getId(), monArt.getLib(), monArt.getDescription(), monArt.getPrixHt(), monArt.getTauxTva(), monArt.getStock());
+            b.add(bis);
+        }
+        return b;
+    }
     
     public List<String> lister() {
         return articleFacade.lister();
