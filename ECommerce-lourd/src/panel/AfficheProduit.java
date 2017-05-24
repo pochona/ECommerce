@@ -5,11 +5,14 @@
  */
 package panel;
 
+import app.App;
+import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
 import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 /**
  *
@@ -18,27 +21,37 @@ import javax.swing.JPanel;
 public class AfficheProduit extends JPanel {
  
     Fenetre maFenetre;
+    App app;
     
-    public AfficheProduit(Fenetre maFenetre){
+    public AfficheProduit(Fenetre maFenetre, App app){
         this.maFenetre = maFenetre;
+        this.app = app;
 
         GridLayout tableau = new GridLayout(10,3);
         //panel.setLayout(new FlowLayout());
         this.setLayout(tableau);
-        
-        
-        System.out.println("Retour méthode List<String> lister()");
-        List<String> list = this.maFenetre.getServiceCommercial().lister();
 
-        for(String a : list) {
-            System.out.println(a);
-            JLabel JL = new JLabel();
-            JL.setText(a);
-            this.add(JL);
-        }
+        String[] titreColonnes = {"ID","Libellé", "Description","Prix Hors taxe", "TVA", "Stock"}; 
+
+        List<ArticleBis> list = this.app.getServiceCommercial().listerBis();
+
+        // Initialisation de la taille
+        Object[][] donneeArticle = new Object [list.size()][6];
+        int index = 0;
         
-        //produitList = new JList();
-        //produitList.setVisibleRowCount(2);
-        //JScrollPane scrollProduit = new JScrollPane(panel);
+        for(ArticleBis articleBis : list) {
+            donneeArticle[index][0] = articleBis.getIdBis();
+            donneeArticle[index][1] = articleBis.getLibBis();
+            donneeArticle[index][2] = articleBis.getDescriptionBis();
+            donneeArticle[index][3] = articleBis.getPrixHtBis();
+            donneeArticle[index][4] = articleBis.getTauxTvaBis();
+            donneeArticle[index][5] = articleBis.getStockBis();
+            index++;
+        }
+        //TabModel modelArticle = new TabModel(donneeArticle, titreColonnes);
+        JTable JT = new JTable(donneeArticle, titreColonnes);
+        this.add(JT);
+        // S'il y a plus d'articles que la fenêtre ne peut afficher
+        //getContentPane().add(new JScrollPane(tableau), BorderLayout.CENTER);
     }
 }

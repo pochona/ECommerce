@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import panel.AfficheProduit;
 import panel.CreerArticle;
+import panel.GererCommande;
 
 /**
  *
@@ -39,7 +40,7 @@ public class Ecouteur implements ActionListener {
     private JMenuItem itemInfo = new JMenuItem("Information");*/
         String source = act.getActionCommand();
         if (source.equals("Suivre commande")){ // Information sur l'application
-            //setContentPane(concepteur(this.fen));
+            this.fenetre.setContentPane(new GererCommande(this.fenetre, this.app));
         } else if (source.equals("Gérer les prélèvements")){ // Fermer
             //this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
         } else if (source.equals("Modifier un produit")){ 
@@ -49,15 +50,15 @@ public class Ecouteur implements ActionListener {
         } else if (source.equals("Supprimer un produit")){ // Fermer
             System.exit(0);
         } else if (source.equals("Afficher tous les produits")){ 
-            //this.fenetre.setContentPane(new CreerArticle(this.fenenetre, this.app));
+            this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
         } else if (source.equals("Gérer le stock")){
             //this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
         } else if (source.equals("Déclencher la livraison")){
-            //this.fenetre.setContentPane(new CreerArticle(this.fenenetre, this.app));
+            //this.fenetre.setContentPane(new CreerArticle(this.fenetre, this.app));
         } else if (source.equals("Fermer")){
             System.exit(0);
         } else if (source.equals("Information")){
-            //this.fenetre.setContentPane(new CreerArticle(this.fenenetre, this.app));
+            //this.fenetre.setContentPane(new CreerArticle(this.fenetre, this.app));
         }
         this.fenetre.validate(); // maj des conteneurs
     }

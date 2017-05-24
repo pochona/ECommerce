@@ -5,6 +5,7 @@
  */
 package panel;
 
+import app.App;
 import fenetre.Fenetre;
 import java.awt.GridLayout;
 import java.util.List;
@@ -17,9 +18,11 @@ import javax.swing.JPanel;
  */
 public class GererCommande extends JPanel {
     Fenetre maFenetre;
+        App app;
     
-    public GererCommande(Fenetre maFen){
+    public GererCommande(Fenetre maFen, App app){
         this.maFenetre = maFen;
+        this.app = app;
         init(); 
        
     }
