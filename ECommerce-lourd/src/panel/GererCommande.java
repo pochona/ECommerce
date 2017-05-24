@@ -11,7 +11,9 @@ import fenetre.Fenetre;
 import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import utilities.TabModel;
 
 /**
  *
@@ -20,12 +22,14 @@ import javax.swing.JTable;
 public class GererCommande extends JPanel {
     Fenetre maFenetre;
     App app;
+    private TabModel tabModelCom;
+    private JTable JTCommande;
     
     public GererCommande(Fenetre maFen, App app){
         this.maFenetre = maFen;
         this.app = app;
-        GridLayout tableau = new GridLayout(10,3);
-        //panel.setLayout(new FlowLayout());
+        
+        GridLayout tableau = new GridLayout(2, 1);
         this.setLayout(tableau);
 
         String[] titreColonnes = {"Id commande","Date commande","Id client", "Id tournée","Id statut"}; 
@@ -45,11 +49,14 @@ public class GererCommande extends JPanel {
 
             index++;
         }
+        
+        
+        TabModel modelArticle = new TabModel(donneeCommande, titreColonnes);
+        JTCommande = new JTable(modelArticle);
 
-        JTable JT = new JTable(donneeCommande, titreColonnes);
-        this.add(JT);
-        // S'il y a plus d'articles que la fenêtre ne peut afficher
-        //getContentPane().add(new JScrollPane(tableau), BorderLayout.CENTER);
-       
+        JScrollPane scrollPaneA = new JScrollPane(JTCommande);
+
+        this.add(scrollPaneA);
+
     }
 }
