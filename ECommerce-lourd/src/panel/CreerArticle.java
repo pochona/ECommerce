@@ -5,6 +5,7 @@
  */
 package panel;
 
+import app.App;
 import exceptions.ExceptionArticle;
 import fenetre.Fenetre;
 import java.awt.Dimension;
@@ -29,11 +30,13 @@ import services.ServiceCommercialRemote;
 public class CreerArticle extends JPanel {
 
     Fenetre maFenetre;
+    App app;
 
-    public CreerArticle(Fenetre maFenetre) {
+    public CreerArticle(Fenetre maFenetre, App a) {
 
         this.maFenetre = maFenetre;
-
+        this.app = a;
+        
         JButton valider = new JButton("Valider");
         
         this.setLayout(new FlowLayout());
@@ -104,7 +107,7 @@ public class CreerArticle extends JPanel {
                     prixHt2 = Double.parseDouble(px);
                     tauxTva2 = Float.parseFloat(tx);
                     stock2 = Integer.parseInt(stk);
-                    maFenetre.getServiceCommercial().creer(art);
+                    app.getServiceCommercial().creer(art);
                 } catch (NumberFormatException exc) {
                     System.out.println("PROBLEME DE TYPE222");
                     JOptionPane JOP;
