@@ -33,5 +33,6 @@ public interface CommandeFacadeLocal {
     
     List<Commande> findCommandesClient(Integer idClient) throws exceptions.ExceptionCommande;
     
-    int findIdComByClient(int idClient) throws ExceptionCommande;
+    /*int findIdComByClient(int idClient) throws ExceptionCommande;*/
+
 }

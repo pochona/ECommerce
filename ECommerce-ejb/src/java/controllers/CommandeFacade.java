@@ -7,6 +7,7 @@ package controllers;
 
 import entities.Commande;
 import exceptions.ExceptionCommande;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.ejb.Stateless;
@@ -41,7 +42,7 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
         return results;
     }
 
-    @Override
+   /* @Override
     public int findIdComByClient(int idClient) throws ExceptionCommande{
         /*TypedQuery<Commande> query = em.createNamedQuery("Commande.findByIdClient", Commande.class)
                                         .setParameter("idClient", idClient);
@@ -51,11 +52,14 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
         while(it.hasNext()){
         Commande cmd = it.next();
             System.out.println(cmd.getId());
-      }*/
+      }
         System.out.println("controllers.CommandeFacade.findIdComByClient()");
         
         return 1;
-    } 
+    } */
+
+    
+}
     
 
-}
+

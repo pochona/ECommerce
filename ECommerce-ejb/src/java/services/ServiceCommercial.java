@@ -39,6 +39,7 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     @Override
     public void creer(String art)throws ExceptionArticle{
         /*Integer id;
+        
         String lib, des;
         double prixHt;
         float tauxTva;

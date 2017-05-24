@@ -32,9 +32,6 @@ public class ServiceBanque implements ServiceBanqueRemote {
     private GestionClientLocal gestionClient;
     
     @EJB
-    private GestionCommandeLocal gestionCommande;
-    
-    @EJB
     private CompteFacadeLocal compteFacade;
     
     @Override
@@ -42,10 +39,10 @@ public class ServiceBanque implements ServiceBanqueRemote {
         return gestionClient.chercherClient(nom, prenom);
     }
 
-    @Override
+   /*@Override
     public int findIdComByClient(int idClient) throws ExceptionCommande {
         return gestionCommande.findIdComByClient(idClient);
-    }
+    }*/
     
     @Override
     public CompteShared validerCoordonnees(String numCarte, String numCrypto) throws ExceptionBancaire {
@@ -53,5 +50,5 @@ public class ServiceBanque implements ServiceBanqueRemote {
         Compte c = compteFacade.validerCoordonnees(numCarte, numCrypto);
         return new CompteShared(c.getNumCarte(), c.getNumCarte(), c.getId(), c.getSolde());
     }
-
+    
 }

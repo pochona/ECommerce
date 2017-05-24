@@ -61,10 +61,10 @@ public class GestionCommande implements GestionCommandeLocal{
         return statutFacade.find(id);
     }
 
-    @Override
+    /*@Override
     public int findIdComByClient(int idClient) throws ExceptionCommande{
         return commandeFacade.findIdComByClient(idClient);
-    }
+    }*/
 
     @Override
     public List<Ligne> getLigneCommande(Integer idCommande) throws ExceptionCommande {
@@ -93,7 +93,7 @@ public class GestionCommande implements GestionCommandeLocal{
         return l;
     }
     
-    
+
 }
 
 

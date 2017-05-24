@@ -22,7 +22,8 @@ public interface ServiceBanqueRemote {
     
     long chercherClient(String nom, String prenom) throws exceptions.ExceptionClient;
    
-    int findIdComByClient(int idClient) throws ExceptionCommande;
+    /*int findIdComByClient(int idClient) throws ExceptionCommande;*/
     
     public CompteShared validerCoordonnees(String numCarte, String numCrypto) throws ExceptionBancaire;
+
 }

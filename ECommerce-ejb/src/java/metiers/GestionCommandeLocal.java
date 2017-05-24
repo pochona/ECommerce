@@ -29,11 +29,12 @@ public interface GestionCommandeLocal {
     
     Statut findStatut(Integer id) throws exceptions.ExceptionCommande;
     
-    int findIdComByClient(int idClient) throws exceptions.ExceptionCommande;
+    /*int findIdComByClient(int idClient) throws exceptions.ExceptionCommande;*/
     
     List<Ligne> getLigneCommande(Integer idCommande) throws exceptions.ExceptionCommande;
     
     Commande creerCommande(Integer idClient, Integer idCompte) throws exceptions.ExceptionCommande;
     
     Ligne creerLigne(Integer idArticle, Integer idCommande, Integer qte) throws ExceptionCommande;
+
 }

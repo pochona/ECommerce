@@ -6,6 +6,9 @@
 package panel;
 
 import fenetre.Fenetre;
+import java.awt.GridLayout;
+import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -17,5 +20,23 @@ public class GererCommande extends JPanel {
     
     public GererCommande(Fenetre maFen){
         this.maFenetre = maFen;
+        init(); 
+       
+    }
+    
+    public void init(){
+        
+         GridLayout tableau = new GridLayout(10,3);
+        //panel.setLayout(new FlowLayout());
+        this.setLayout(tableau);
+        
+        
+        /*List<String> list = this.maFenetre.getServiceBanque().lister();
+        for(String c : list) {
+            System.out.println(c);
+            JLabel JL = new JLabel();
+            JL.setText(c);
+            this.add(JL);
+        }*/
     }
 }
