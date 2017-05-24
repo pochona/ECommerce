@@ -5,14 +5,16 @@
  */
 package services;
 
-import controllers.ArticleFacadeLocal;
+
 import entities.Article;
 import entitiesBis.ArticleBis;
+import entitiesBis.CommandeBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import metiers.GestionArticleLocal;
+import metiers.GestionCommandeLocal;
 
 /**
  *
@@ -24,6 +26,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     
     @EJB
     private GestionArticleLocal gestionArticle;
+    
+    @EJB
+    private GestionCommandeLocal gestionCommande;
     
     /*
     @Override
@@ -39,6 +44,8 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     public List<ArticleBis> listerBis(){
         return gestionArticle.listerBis();
     }
+    
+    
     
     @Override
     public void creer(String art)throws ExceptionArticle{
@@ -64,5 +71,15 @@ public class ServiceCommercial implements ServiceCommercialRemote{
         
         Article a = gestionArticle.creer(art);
         //return new ArticleBis(art);
+    }
+
+    @Override
+    public List<CommandeBis> listerCommandeBis() {
+        return gestionCommande.listerCommandeBis();
+    }
+
+    @Override
+    public List<String> listerCommande() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

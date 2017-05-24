@@ -6,11 +6,12 @@
 package panel;
 
 import app.App;
+import entitiesBis.CommandeBis;
 import fenetre.Fenetre;
 import java.awt.GridLayout;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 /**
  *
@@ -18,28 +19,37 @@ import javax.swing.JPanel;
  */
 public class GererCommande extends JPanel {
     Fenetre maFenetre;
-        App app;
+    App app;
     
     public GererCommande(Fenetre maFen, App app){
         this.maFenetre = maFen;
         this.app = app;
-        init(); 
-       
-    }
-    
-    public void init(){
-        
-         GridLayout tableau = new GridLayout(10,3);
+        GridLayout tableau = new GridLayout(10,3);
         //panel.setLayout(new FlowLayout());
         this.setLayout(tableau);
+
+        String[] titreColonnes = {"Id commande","Date commande","Id client", "Id tournée","Id statut"}; 
+
+        List<CommandeBis> list = this.app.getServiceCommercial().listerCommandeBis();
+
+        // Initialisation de la taille
+        Object[][] donneeCommande = new Object [list.size()][5];
+        int index = 0;
         
-        
-        /*List<String> list = this.maFenetre.getServiceBanque().lister();
-        for(String c : list) {
-            System.out.println(c);
-            JLabel JL = new JLabel();
-            JL.setText(c);
-            this.add(JL);
-        }*/
+        for(CommandeBis commandeBis : list) {
+            donneeCommande[index][0] = commandeBis.getIdBis();
+            donneeCommande[index][1] = commandeBis.getDateCommandeBis();
+            donneeCommande[index][2] = commandeBis.getIdClientBis();
+            donneeCommande[index][3] = commandeBis.getIdTourneeBis();
+            donneeCommande[index][4] = commandeBis.getIdStatutBis();
+
+            index++;
+        }
+
+        JTable JT = new JTable(donneeCommande, titreColonnes);
+        this.add(JT);
+        // S'il y a plus d'articles que la fenêtre ne peut afficher
+        //getContentPane().add(new JScrollPane(tableau), BorderLayout.CENTER);
+       
     }
 }

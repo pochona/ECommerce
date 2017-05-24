@@ -6,6 +6,7 @@
 package services;
 
 import entitiesBis.ArticleBis;
+import entitiesBis.CommandeBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.Remote;
@@ -21,6 +22,10 @@ public interface ServiceCommercialRemote {
     List<ArticleBis> listerBis();
     
     List<String> lister();
+    
+    List<CommandeBis> listerCommandeBis();
+    
+    List<String> listerCommande();
     
     public void creer(String art) throws ExceptionArticle;
 }

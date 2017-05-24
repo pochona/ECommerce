@@ -8,8 +8,8 @@ package metiers;
 import entities.Commande;
 import entities.Ligne;
 import entities.Statut;
+import entitiesBis.CommandeBis;
 import exceptions.ExceptionCommande;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -36,5 +36,7 @@ public interface GestionCommandeLocal {
     Commande creerCommande(Integer idClient, Integer idCompte) throws exceptions.ExceptionCommande;
     
     Ligne creerLigne(Integer idArticle, Integer idCommande, Integer qte) throws ExceptionCommande;
+    
+    List<CommandeBis> listerCommandeBis();
 
 }
