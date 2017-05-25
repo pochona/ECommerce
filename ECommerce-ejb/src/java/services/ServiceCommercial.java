@@ -8,6 +8,7 @@ package services;
 
 import entities.Article;
 import entitiesBis.ArticleBis;
+import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.ejb.Stateless;
 import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
 import java.lang.String;
+import metiers.GestionClientLocal;
 
 /**
  *
@@ -30,6 +32,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     
     @EJB
     private GestionCommandeLocal gestionCommande;
+    
+    @EJB
+    private GestionClientLocal gestionClient;
     
     /*
     @Override
@@ -75,7 +80,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     public List<CommandeBis> findCommandesClient(String idC) {
         return gestionCommande.findCommandesClient(idC);
     }
-
-
-
+    
+    @Override
+    public List<ClientBis> listerClientBis() {
+        return gestionClient.listerClientBis();
+    }
 }

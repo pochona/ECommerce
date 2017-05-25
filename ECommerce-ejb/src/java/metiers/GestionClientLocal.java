@@ -5,6 +5,7 @@
  */
 package metiers;
 
+import entitiesBis.ClientBis;
 import exceptions.ExceptionCreationClient;
 import java.util.List;
 import javax.ejb.Local;
@@ -25,4 +26,6 @@ public interface GestionClientLocal {
     long validerConnexion(String email, String mdp) throws exceptions.ErreurConnexionClient;
     
     long creerClient(String nom, String prenom, String email, String mdp, String ville, String adresse, String tel) throws ExceptionCreationClient;
+    
+    List<ClientBis> listerClientBis();
 }

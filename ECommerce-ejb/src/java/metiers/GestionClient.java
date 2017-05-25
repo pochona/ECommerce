@@ -10,9 +10,11 @@ import controllers.ClientFacadeLocal;
 import controllers.CompteFacadeLocal;
 import entities.Client;
 import entities.Commande;
+import entitiesBis.ClientBis;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionClient;
 import exceptions.ExceptionCreationClient;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -70,6 +72,17 @@ public class GestionClient implements GestionClientLocal {
             throw new ExceptionCreationClient("Creation impossible");
         }
         return c.getId();
+    }
+    
+        @Override
+    public List<ClientBis> listerClientBis() {
+        List<Client> c = clientFacade.findAll();
+        List<ClientBis> b = new ArrayList<ClientBis>();
+        for(Client monClt : c){
+            ClientBis bis = new ClientBis(monClt.getId(), monClt.getNom(), monClt.getPrenom(), monClt.getVille(), monClt.getAdresse(), monClt.getTel(), monClt.getMail(), monClt.getMdp());
+            b.add(bis);
+        }
+        return b;
     }
     
 }

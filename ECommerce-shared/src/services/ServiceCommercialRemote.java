@@ -6,6 +6,7 @@
 package services;
 
 import entitiesBis.ArticleBis;
+import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
@@ -34,4 +35,6 @@ public interface ServiceCommercialRemote {
     public void editer(ArticleBis a);
     
     List<CommandeBis> findCommandesClient(String idC);
+    
+    List<ClientBis> listerClientBis();
 }
