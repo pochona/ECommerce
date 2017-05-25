@@ -10,8 +10,11 @@ import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -83,12 +86,20 @@ public class AfficheProduit extends JPanel {
         // Ajout des boutons
         JPanel btnPanel = new JPanel();
         //btnPanel.setLayout(new ());
+
         
         btnPanel.add(boutonModifier);
         
-        
+        boutonModifier.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int col = 0;
+                int row = JTarticle.getSelectedRow(); // On envoie la ligne 
+                Object cellule = tabSelected.getValueAt(row,col);
+                //System.out.println(cellule.toString());
+                //ActionProduit ap = new ActionProduit(cellule);
+            }
+        });
         btnPanel.add(boutonSupprimer);
-        
         this.add(btnPanel);
         
     }
@@ -103,5 +114,9 @@ public class AfficheProduit extends JPanel {
     
     public TabModel getTabSelected() {
         return this.tabSelected;
+    }
+    
+    public int getLine(){
+        return this.getJTarticle().getSelectedRow();
     }
 }
