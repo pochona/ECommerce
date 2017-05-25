@@ -87,16 +87,12 @@ public class GestionArticle implements GestionArticleLocal{
     }
     
     public void supprimer(ArticleBis a){
-        Integer idArt = a.getIdBis();
-        Article art = new Article(idArt);
-        art.find(idArt);
-        Article test = Article.find(idArt);
+        Article art = articleFacade.find(a.getIdBis());
         articleFacade.remove(art);
     }
     
     public void editer(ArticleBis a){
-        Integer idArt = a.getIdBis();
-        Article art = new Article(idArt);
+        Article art = articleFacade.find(a.getIdBis());
         articleFacade.edit(art);
     }
 }
