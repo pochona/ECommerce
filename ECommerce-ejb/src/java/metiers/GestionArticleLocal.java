@@ -36,4 +36,7 @@ public interface GestionArticleLocal {
     
     Article creer(String art) throws ExceptionArticle;
     
+    public void supprimer(ArticleBis a);
+    
+    public void editer(ArticleBis a);
 }

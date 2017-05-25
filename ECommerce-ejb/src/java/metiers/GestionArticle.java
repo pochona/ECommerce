@@ -86,11 +86,17 @@ public class GestionArticle implements GestionArticleLocal{
         return articleFacade.creer(id, lib, des, prixHt, tauxTva, stock);
     }
     
+    public void supprimer(ArticleBis a){
+        Integer idArt = a.getIdBis();
+        Article art = new Article(idArt);
+        art.find(idArt);
+        Article test = Article.find(idArt);
+        articleFacade.remove(art);
+    }
+    
+    public void editer(ArticleBis a){
+        Integer idArt = a.getIdBis();
+        Article art = new Article(idArt);
+        articleFacade.edit(art);
+    }
 }
-
-
-    
-    
-    
-
-
