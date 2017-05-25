@@ -28,4 +28,6 @@ public interface ServiceCommercialRemote {
     List<String> listerCommande();
     
     public void creer(String art) throws ExceptionArticle;
+    
+    List<CommandeBis> findCommandesClient(String idC);
 }

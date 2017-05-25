@@ -38,5 +38,7 @@ public interface GestionCommandeLocal {
     Ligne creerLigne(Integer idArticle, Integer idCommande, Integer qte) throws ExceptionCommande;
     
     List<CommandeBis> listerCommandeBis();
+    
+    List<CommandeBis> findCommandesClient(String idC);
 
 }

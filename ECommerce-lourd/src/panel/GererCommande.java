@@ -34,7 +34,8 @@ public class GererCommande extends JPanel {
 
         String[] titreColonnes = {"Id commande","Date commande","Id client", "Id tournée","Id statut"}; 
 
-        List<CommandeBis> list = this.app.getServiceCommercial().listerCommandeBis();
+        //List<CommandeBis> list = this.app.getServiceCommercial().listerCommandeBis();
+        List<CommandeBis> list = this.app.getServiceCommercial().findCommandesClient("3");
 
         // Initialisation de la taille
         Object[][] donneeCommande = new Object [list.size()][5];

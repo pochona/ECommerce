@@ -19,6 +19,9 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import utilities.Log;
 
 /**
@@ -102,6 +105,38 @@ public class GestionCommande implements GestionCommandeLocal {
             b.add(bis);
         }
         return b;
+    }
+
+    @Override
+    public List<CommandeBis> findCommandesClient(String idC) {
+        //List <Commande> c = commandeFacade.findByIdClient(idClient);
+        
+        int idClient = Integer.parseInt(idC); 
+        
+        TypedQuery<Commande> query = em.createNamedQuery("Commande.findByIdClient", Commande.class)
+                                        .setParameter("idClient", idClient);
+        List<Commande> results = query.getResultList();
+        
+        
+        List<CommandeBis> b = new ArrayList<CommandeBis>();
+        for (Commande maCom : results) {
+            CommandeBis bis = null;
+            try {
+                bis = new CommandeBis(maCom.getId(), maCom.getDateCommande(), maCom.getIdClient(), maCom.getIdTournee(), maCom.getIdStatut());
+            } catch (NullPointerException e) {
+                bis = new CommandeBis(maCom.getId(), maCom.getDateCommande(), maCom.getIdClient(), maCom.getIdStatut());
+            }
+            b.add(bis);
+        }
+        return b;
+    }
+    
+    @PersistenceContext(unitName = "ECommerce-ejbPU")
+    private EntityManager em;
+
+
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
 }

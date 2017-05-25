@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
+import java.lang.String;
 
 /**
  *
@@ -82,4 +83,12 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     public List<String> listerCommande() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<CommandeBis> findCommandesClient(String idC) {
+        return gestionCommande.findCommandesClient(idC);
+    }
+
+
+
 }
