@@ -138,5 +138,12 @@ public class GestionCommande implements GestionCommandeLocal {
     protected EntityManager getEntityManager() {
         return em;
     }
+    
+    @Override
+    public List<CommandeBis> listerCommandeBisALivrer() {
+        List<CommandeBis> list = new ArrayList<CommandeBis>();
+        // A coder @AP
+        return list;
+    }
 
 }

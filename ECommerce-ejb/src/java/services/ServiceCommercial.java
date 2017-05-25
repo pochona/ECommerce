@@ -85,4 +85,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     public List<ClientBis> listerClientBis() {
         return gestionClient.listerClientBis();
     }
+    
+    @Override
+    public List<CommandeBis> listerCommandeBisALivrer(){
+        return gestionCommande.listerCommandeBisALivrer();
+    }
 }

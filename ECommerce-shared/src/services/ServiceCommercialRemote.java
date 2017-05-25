@@ -37,4 +37,6 @@ public interface ServiceCommercialRemote {
     List<CommandeBis> findCommandesClient(String idC);
     
     List<ClientBis> listerClientBis();
+    
+    List<CommandeBis> listerCommandeBisALivrer();
 }
