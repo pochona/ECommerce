@@ -35,90 +35,87 @@ public class DelencherLivraison extends JPanel {
     // Liste d'id des commandes selectionnées 
     private ArrayList<Integer> commandesSelect;
     // TabModel d
-    private TabModel tabSelected;
+    private TabModel tabModelCommande;
+    private TabModel tabModelSelect;
     private JButton boutonLivraison;
     
     private JPanel panelBtn;
+    private JPanel panelList;
+    private JPanel panelListAll;
+    private JPanel panelListSelect;
+    private Object[][] donneeCommande = new Object[0][0];
+    private JScrollPane scrollPaneCommande;
+    private JScrollPane scrollPaneSelect;
     
-    private JScrollPane scrollPaneA;
-    
+    private String[] titre = {"ID", "Date", "Disponibilité articles", "Selectionner"};
     
     public DelencherLivraison(Fenetre maFenetre, App app) {
         this.maFenetre = maFenetre;
         this.app = app;
         
         this.creerLayout();
-        
+        this.creerList();
         this.listerCommande();
+        this.actualiserList();
     }
     
-    public void creerLayout(){
-        // Layout principal avec le tableau et les btn
-        GridLayout tableau = new GridLayout(2,1);
-        this.setLayout(tableau);
-        
-        // Ajout du scrollPane
-        this.scrollPaneA = new JScrollPane();
+    private void creerLayout(){
 
-        this.add(scrollPaneA);
-        
-        
+        this.setLayout(new GridLayout(2,1));
+
         this.boutonLivraison = new JButton("Valider livraison");        
         // Ajout des boutons
         this.panelBtn = new JPanel();
-        //btnPanel.setLayout(new ());
+        this.panelList = new JPanel();
+        this.panelList.setLayout(new GridLayout(1, 2));
+        
+        this.panelListAll = new JPanel();
+        this.panelListSelect = new JPanel();
+        this.panelList.add(panelListAll);
+        this.panelList.add(panelListSelect);
         
         panelBtn.add(boutonLivraison);
-        
+        this.add(panelList);
         this.add(panelBtn);
     }
     
-    public void listerCommande(){
-        String[] titreColonnes = {"ID", "Date", "Disponibilité articles", "Selectionner"};
+    private void creerList(){
+        this.tabModelCommande = new TabModel(this.donneeCommande, titre);
+        this.tabModelSelect = new TabModel(new Object[0][0], titre);
+        JTCommande = new JTable(tabModelCommande);
+
+        this.scrollPaneCommande = new JScrollPane(JTCommande);
+        this.scrollPaneSelect = new JScrollPane(new JTable());
+       
+        this.panelListAll.add(scrollPaneCommande);
+        this.panelListSelect.add(scrollPaneSelect);
+    }
+    
+    private void actualiserList(){
+        this.panelListAll.removeAll();
+        //this.scrollPaneCommande.repaint();
+        this.panelListAll.add(scrollPaneCommande);
+        this.panelListAll.revalidate();
+        this.panelListAll.repaint();
+        //this.panelListSelect.add(this.scrollPaneSelect);
+       
+    }
+    
+    private void listerCommande(){
 
         List<CommandeBis> list = this.app.getServiceCommercial().listerCommandeBis();
 
         // Initialisation de la taille
-        Object[][] donneeCommande = new Object[list.size()][6];
+        this.donneeCommande = new Object[list.size()][6];
         int index = 0;
 
         for (CommandeBis maCommande : list) {
-            System.out.println(maCommande.getIdBis());
             donneeCommande[index][0] = maCommande.getIdBis();
             donneeCommande[index][1] = maCommande.getDateCommandeBis();
             donneeCommande[index][2] = "Article Dispo";
             donneeCommande[index][3] = "[ ]";
             index++;
         }
-
-        TabModel tabModelCommande = new TabModel(donneeCommande, titreColonnes);
-        JTCommande = new JTable(tabModelCommande);
-        
-        this.scrollPaneA.add(JTCommande);
-        this.scrollPaneA.repaint();
-       
-
-        JTCommande.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            private DelencherLivraison panel;
-
-            public void valueChanged(ListSelectionEvent arg0) {
-                //panel.JTarticle.clearSelection();
-                //panel.setTabSelected(modelArticle);
-            }
-
-            private ListSelectionListener init(DelencherLivraison panel) {
-                panel = panel;
-                return this;
-            }
-        }.init(this));        
-    }
-
-
-    public void setTabSelected(TabModel tm) {
-        this.tabSelected = tm;
-    }
-    
-    public TabModel getTabSelected() {
-        return this.tabSelected;
+      
     }
 }

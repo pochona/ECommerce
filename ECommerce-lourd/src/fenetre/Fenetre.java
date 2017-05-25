@@ -73,7 +73,7 @@ public class Fenetre extends JFrame {
     }
     
     public void configurerFenetre(){
-        this.setSize(700, 500);
+        this.setSize(1200, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setTitle("Projet Ecommerce");
