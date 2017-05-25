@@ -6,111 +6,58 @@
 package panel;
 
 import app.App;
-import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
 import fenetre.Fenetre;
 import java.awt.GridLayout;
 import java.util.List;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import utilities.TabModel;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import static sun.io.Win32ErrorMode.initialize;
 
 /**
  *
  * @author Laura
  */
 public class GererCommande extends JPanel {
-    
     Fenetre maFenetre;
     App app;
+    private TabModel tabModelCom;
     private JTable JTCommande;
-    private JComboBox listeClient;
-    private Font myFont;
-    private String idC = "1";
-
-  
+    
     public GererCommande(Fenetre maFen, App app){
         this.maFenetre = maFen;
         this.app = app;
         
-        
-        
-        //création label texte
-        myFont = new Font(" TimesRoman ",Font.BOLD,20);
-        JLabel label = new JLabel("Veuillez choisir un client");
-        label.setFont(myFont);
-        
-     
-        //creation liste deroulante
-        listeClient = new JComboBox();
-        
-        List<ClientBis> listClient = this.app.getServiceCommercial().listerClientBis();
-        
-        for(ClientBis clientBis : listClient) {
-            listeClient.addItem(""+clientBis.getIdBis()+"-"+clientBis.getNomBis()+"-"+clientBis.getPrenomBis());
-        }
-        
-        /*String clientSelect = (String) listeClient.getSelectedItem();
-        String[] parts = clientSelect.split("-");
-        System.out.println(parts[0]);*/
-        
-         //Postionnement des elements dans une gridlayout
-        GridLayout tableau = new GridLayout(3, 1);
-        this.add(label);      
-        this.add(listeClient);
+        GridLayout tableau = new GridLayout(2, 1);
         this.setLayout(tableau);
-        
-        
-        //création tableau commandes
-        String[] titreColonnes = {"Id commande","Date commande", "Id tournée","Id statut"}; 
-        
-        List<CommandeBis> list = this.app.getServiceCommercial().findCommandesClient(idC);
+
+        String[] titreColonnes = {"Id commande","Date commande","Id client", "Id tournée","Id statut"}; 
+
+        //List<CommandeBis> list = this.app.getServiceCommercial().listerCommandeBis();
+        List<CommandeBis> list = this.app.getServiceCommercial().findCommandesClient("3");
 
         // Initialisation de la taille
-        Object[][] donneeCommande = new Object [list.size()][4];
+        Object[][] donneeCommande = new Object [list.size()][5];
         int index = 0;
         
         for(CommandeBis commandeBis : list) {
             donneeCommande[index][0] = commandeBis.getIdBis();
             donneeCommande[index][1] = commandeBis.getDateCommandeBis();
-            donneeCommande[index][2] = commandeBis.getIdTourneeBis();
-            donneeCommande[index][3] = commandeBis.getIdStatutBis();
+            donneeCommande[index][2] = commandeBis.getIdClientBis();
+            donneeCommande[index][3] = commandeBis.getIdTourneeBis();
+            donneeCommande[index][4] = commandeBis.getIdStatutBis();
 
             index++;
         }
         
+        
         TabModel modelArticle = new TabModel(donneeCommande, titreColonnes);
         JTCommande = new JTable(modelArticle);
+
         JScrollPane scrollPaneA = new JScrollPane(JTCommande);
+
         this.add(scrollPaneA);
-        
 
-       listeClient.addItemListener(listener);
- 
-    
     }
-    
-        ItemListener listener = new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange() == ItemEvent.SELECTED) {
-                    String clientSelect = (String) e.getItem();
-                    String[] parts = clientSelect.split("-");                   
-                    System.out.println(parts[0]);
-                    idC = parts[0];
-                    
-                }   
-            } 
-        };
-
-    
-   
 }
