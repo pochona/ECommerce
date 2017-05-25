@@ -31,7 +31,7 @@ public class DelencherLivraison extends JPanel {
     Fenetre maFenetre;
     App app;
     // JTable des commandes
-    private JTable JTCommande;
+    public JTable JTCommande;
     // Liste d'id des commandes selectionnées 
     private ArrayList<Integer> commandesSelect;
     // TabModel d
@@ -56,7 +56,7 @@ public class DelencherLivraison extends JPanel {
         this.creerLayout();
         this.creerList();
         this.listerCommande();
-        this.actualiserList();
+        //this.actualiserList();
     }
     
     private void creerLayout(){
@@ -83,20 +83,30 @@ public class DelencherLivraison extends JPanel {
         this.tabModelCommande = new TabModel(this.donneeCommande, titre);
         this.tabModelSelect = new TabModel(new Object[0][0], titre);
         JTCommande = new JTable(tabModelCommande);
-
+        
         this.scrollPaneCommande = new JScrollPane(JTCommande);
-        this.scrollPaneSelect = new JScrollPane(new JTable());
+        this.scrollPaneSelect = new JScrollPane(new JTable(tabModelSelect));
        
-        this.panelListAll.add(scrollPaneCommande);
-        this.panelListSelect.add(scrollPaneSelect);
+        //this.panelListAll.add(scrollPaneCommande);
+        //this.panelListSelect.add(scrollPaneSelect);
     }
     
     private void actualiserList(){
+        System.out.println("panel actu");
+        JTCommande = new JTable(tabModelCommande);
+        this.scrollPaneCommande.removeAll();
+        this.scrollPaneCommande = new JScrollPane(JTCommande);
         this.panelListAll.removeAll();
-        //this.scrollPaneCommande.repaint();
+        this.scrollPaneCommande.revalidate();
+        this.scrollPaneCommande.repaint();
         this.panelListAll.add(scrollPaneCommande);
         this.panelListAll.revalidate();
         this.panelListAll.repaint();
+        
+        this.panelListSelect.removeAll();
+        this.panelListSelect.add(scrollPaneSelect);
+        this.panelListSelect.revalidate();
+        this.panelListSelect.repaint();
         //this.panelListSelect.add(this.scrollPaneSelect);
        
     }
@@ -110,12 +120,41 @@ public class DelencherLivraison extends JPanel {
         int index = 0;
 
         for (CommandeBis maCommande : list) {
-            donneeCommande[index][0] = maCommande.getIdBis();
-            donneeCommande[index][1] = maCommande.getDateCommandeBis();
-            donneeCommande[index][2] = "Article Dispo";
-            donneeCommande[index][3] = "[ ]";
+            this.donneeCommande[index][0] = maCommande.getIdBis();
+            this.donneeCommande[index][1] = maCommande.getDateCommandeBis();
+            this.donneeCommande[index][2] = "Article Dispo";
+            this.donneeCommande[index][3] = "[ ]";
             index++;
         }
-      
+        
+        this.tabModelCommande = new TabModel(this.donneeCommande, titre);
+        this.JTCommande = new JTable(tabModelCommande);
+        
+        JTCommande.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            private DelencherLivraison decLivraison;
+
+            public void valueChanged(ListSelectionEvent arg0) {
+               // decLivraison.JTCommande.clearSelection();
+                int col = 3;
+                int row = decLivraison.JTCommande.getSelectedRow(); // On envoie la ligne 
+                decLivraison.JTCommande.setValueAt("[abcx]", row, col);
+                decLivraison.JTCommande.revalidate();
+                decLivraison.JTCommande.repaint();
+                System.out.println(decLivraison.JTCommande.getValueAt(row, col));
+                //System.out.println(tabModelCommande.getRowCount());
+                //tabModelCommande.removeRow(JTCommande.getSelectedRow());
+
+                //decLivraison.actualiserList();
+            }
+
+            private ListSelectionListener init(DelencherLivraison var) {
+                decLivraison = var;
+                return this;
+            }
+        }.init(this));
+        
+        this.scrollPaneCommande = new JScrollPane(JTCommande);
+        this.panelListAll.add(scrollPaneCommande);
+        this.panelListSelect.add(scrollPaneSelect);
     }
 }
