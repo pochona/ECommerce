@@ -69,20 +69,6 @@ public class AfficheProduit extends JPanel {
 
         this.add(scrollPaneA);
 
-        JTarticle.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            private AfficheProduit affProduit;
-
-            public void valueChanged(ListSelectionEvent arg0) {
-                affProduit.JTarticle.clearSelection();
-                affProduit.setTabSelected(modelArticle);
-            }
-
-            private ListSelectionListener init(AfficheProduit var) {
-                affProduit = var;
-                return this;
-            }
-        }.init(this));
-        
         // Ajout des boutons
         JPanel btnPanel = new JPanel();
         //btnPanel.setLayout(new ());
@@ -94,8 +80,8 @@ public class AfficheProduit extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int col = 0;
                 int row = JTarticle.getSelectedRow(); // On envoie la ligne 
-                Object cellule = tabSelected.getValueAt(row,col);
-                //System.out.println(cellule.toString());
+                Object cellule = JTarticle.getValueAt(row,col);
+                System.out.println("Id selected : " + cellule);
                 //ActionProduit ap = new ActionProduit(cellule);
             }
         });
