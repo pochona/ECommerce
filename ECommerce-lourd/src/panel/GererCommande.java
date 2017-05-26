@@ -18,11 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import utilities.TabModel;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import static sun.io.Win32ErrorMode.initialize;
+
 
 /**
  *
@@ -35,15 +33,13 @@ public class GererCommande extends JPanel {
     private JTable JTCommande;
     private JComboBox listeClient;
     private Font myFont;
-    private String idC = "1";
 
   
     public GererCommande(Fenetre maFen, App app){
         this.maFenetre = maFen;
         this.app = app;
-        
-        
-        
+      
+       
         //création label texte
         myFont = new Font(" TimesRoman ",Font.BOLD,20);
         JLabel label = new JLabel("Veuillez choisir un client");
@@ -52,25 +48,41 @@ public class GererCommande extends JPanel {
      
         //creation liste deroulante
         listeClient = new JComboBox();
+        listeClient.addItemListener(listener);
         
         List<ClientBis> listClient = this.app.getServiceCommercial().listerClientBis();
         
         for(ClientBis clientBis : listClient) {
             listeClient.addItem(""+clientBis.getIdBis()+"-"+clientBis.getNomBis()+"-"+clientBis.getPrenomBis());
         }
-        
-        /*String clientSelect = (String) listeClient.getSelectedItem();
-        String[] parts = clientSelect.split("-");
-        System.out.println(parts[0]);*/
-        
+
          //Postionnement des elements dans une gridlayout
         GridLayout tableau = new GridLayout(3, 1);
         this.add(label);      
         this.add(listeClient);
         this.setLayout(tableau);
+
+    }
+    
+        ItemListener listener = new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                
+           
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    String clientSelect = (String) e.getItem();
+                    String[] parts = clientSelect.split("-");   
+                    System.out.println(parts[0]);
+                    ConstruitTab(parts[0]); 
+                    
+                }   
+            } 
+        };
         
-        
+        public void ConstruitTab(String idC){
+            
         //création tableau commandes
+        repaint();
+       
         String[] titreColonnes = {"Id commande","Date commande", "Id tournée","Id statut"}; 
         
         List<CommandeBis> list = this.app.getServiceCommercial().findCommandesClient(idC);
@@ -79,38 +91,24 @@ public class GererCommande extends JPanel {
         Object[][] donneeCommande = new Object [list.size()][4];
         int index = 0;
         
-        for(CommandeBis commandeBis : list) {
-            donneeCommande[index][0] = commandeBis.getIdBis();
-            donneeCommande[index][1] = commandeBis.getDateCommandeBis();
-            donneeCommande[index][2] = commandeBis.getIdTourneeBis();
-            donneeCommande[index][3] = commandeBis.getIdStatutBis();
+            for(CommandeBis commandeBis : list) {
+                donneeCommande[index][0] = commandeBis.getIdBis();
+                donneeCommande[index][1] = commandeBis.getDateCommandeBis();
+                donneeCommande[index][2] = commandeBis.getIdTourneeBis();
+                donneeCommande[index][3] = commandeBis.getIdStatutBis();
 
-            index++;
-        }
+                index++;
+            }
         
-        TabModel modelArticle = new TabModel(donneeCommande, titreColonnes);
-        JTCommande = new JTable(modelArticle);
+        TabModel modelCommande = new TabModel(donneeCommande, titreColonnes);
+        JTCommande = new JTable(modelCommande);
         JScrollPane scrollPaneA = new JScrollPane(JTCommande);
         this.add(scrollPaneA);
+        modelCommande.fireTableDataChanged(); 
+        System.out.println("construit!");
         
-
-       listeClient.addItemListener(listener);
- 
-    
-    }
-    
-        ItemListener listener = new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange() == ItemEvent.SELECTED) {
-                    String clientSelect = (String) e.getItem();
-                    String[] parts = clientSelect.split("-");                   
-                    System.out.println(parts[0]);
-                    idC = parts[0];
-                    
-                }   
-            } 
-        };
-
-    
-   
+        modelCommande.fireTableDataChanged() ;
+        JTCommande.revalidate();
+        
+        }
 }
