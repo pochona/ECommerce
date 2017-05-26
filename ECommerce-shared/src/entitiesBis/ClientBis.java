@@ -96,7 +96,10 @@ public class ClientBis implements Serializable{
     public void setMdpBis(String mdpBis) {
         this.mdpBis = mdpBis;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "ClientBis{" + "idBis=" + idBis + ", nomBis=" + nomBis + ", prenomBis=" + prenomBis + ", villeBis=" + villeBis + ", adresseBis=" + adresseBis + ", telBis=" + telBis + ", mailBis=" + mailBis + ", mdpBis=" + mdpBis + '}';
+    }
     
 }

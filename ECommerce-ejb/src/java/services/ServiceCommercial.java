@@ -10,6 +10,7 @@ import entities.Article;
 import entitiesBis.ArticleBis;
 import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
+import entitiesBis.StatutBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.EJB;
@@ -18,6 +19,7 @@ import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
 import java.lang.String;
 import metiers.GestionClientLocal;
+import metiers.GestionStatutLocal;
 
 /**
  *
@@ -35,6 +37,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     
     @EJB
     private GestionClientLocal gestionClient;
+    
+    @EJB
+    private GestionStatutLocal gestionStatut;
     
     /*
     @Override
@@ -89,5 +94,10 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     @Override
     public List<CommandeBis> listerCommandeBisALivrer(){
         return gestionCommande.listerCommandeBisALivrer();
+    }
+
+    @Override
+    public List<StatutBis> findDescrStatutById(String idStatut) {
+        return gestionStatut.findDescrStatutById(idStatut);
     }
 }

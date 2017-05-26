@@ -8,6 +8,7 @@ package panel;
 import app.App;
 import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
+import entitiesBis.StatutBis;
 import fenetre.Fenetre;
 import java.awt.GridLayout;
 import java.util.List;
@@ -82,10 +83,15 @@ public class GererCommande extends JPanel {
             
         //création tableau commandes
         repaint();
-       
+        //String idStatut="1";
+        
         String[] titreColonnes = {"Id commande","Date commande", "Id tournée","Id statut"}; 
         
         List<CommandeBis> list = this.app.getServiceCommercial().findCommandesClient(idC);
+        
+        //List<StatutBis> listStatutBis = this.app.getServiceCommercial().findDescrStatutById("1");
+
+
 
         // Initialisation de la taille
         Object[][] donneeCommande = new Object [list.size()][4];
@@ -96,6 +102,8 @@ public class GererCommande extends JPanel {
                 donneeCommande[index][1] = commandeBis.getDateCommandeBis();
                 donneeCommande[index][2] = commandeBis.getIdTourneeBis();
                 donneeCommande[index][3] = commandeBis.getIdStatutBis();
+                //donneeCommande[index][3] = statutDescr.getDescriptionBis();
+              
 
                 index++;
             }

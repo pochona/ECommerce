@@ -81,5 +81,10 @@ public class CommandeBis implements Serializable{
         return idStatutBis;
     }
 
+    @Override
+    public String toString() {
+        return "CommandeBis{" + "idBis=" + idBis + ", dateCommandeBis=" + dateCommandeBis + ", idClientBis=" + idClientBis + ", idTourneeBis=" + idTourneeBis + ", idStatutBis=" + idStatutBis + '}';
+    }
+
     
 }

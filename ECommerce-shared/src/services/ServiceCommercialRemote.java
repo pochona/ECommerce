@@ -8,6 +8,7 @@ package services;
 import entitiesBis.ArticleBis;
 import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
+import entitiesBis.StatutBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.Remote;
@@ -39,4 +40,6 @@ public interface ServiceCommercialRemote {
     List<ClientBis> listerClientBis();
     
     List<CommandeBis> listerCommandeBisALivrer();
+    
+    List<StatutBis> findDescrStatutById(String idStatut);
 }
