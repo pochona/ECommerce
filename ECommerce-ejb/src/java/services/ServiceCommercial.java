@@ -58,8 +58,8 @@ public class ServiceCommercial implements ServiceCommercialRemote{
         Article a = gestionArticle.creer(art);
     }
     
-    public void supprimer(ArticleBis a){
-        gestionArticle.supprimer(a);
+    public void supprimer(String i){
+        Article a = gestionArticle.supprimer(i);
     }
     
     public void editer(ArticleBis a){

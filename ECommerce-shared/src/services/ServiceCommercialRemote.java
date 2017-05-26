@@ -30,7 +30,7 @@ public interface ServiceCommercialRemote {
     
     public void creer(String art) throws ExceptionArticle;
     
-    public void supprimer(ArticleBis a);
+    public void supprimer(String i);
     
     public void editer(ArticleBis a);
     
