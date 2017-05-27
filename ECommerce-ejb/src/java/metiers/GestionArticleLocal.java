@@ -38,5 +38,7 @@ public interface GestionArticleLocal {
     
     Article supprimer(String i);
     
-    public void editer(ArticleBis a);
+    Article editer(ArticleBis a);
+    
+    public ArticleBis retourArticle(Integer id);
 }

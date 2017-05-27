@@ -70,6 +70,10 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     public void editer(ArticleBis a){
         gestionArticle.editer(a);
     }
+    
+    public ArticleBis retourArticle(Integer id){
+        return gestionArticle.retourArticle(id);
+    }
 
     @Override
     public List<CommandeBis> listerCommandeBis() {

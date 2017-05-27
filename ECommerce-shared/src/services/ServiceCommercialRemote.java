@@ -35,6 +35,8 @@ public interface ServiceCommercialRemote {
     
     public void editer(ArticleBis a);
     
+    public ArticleBis retourArticle(Integer id);
+    
     List<CommandeBis> findCommandesClient(String idC);
     
     List<ClientBis> listerClientBis();

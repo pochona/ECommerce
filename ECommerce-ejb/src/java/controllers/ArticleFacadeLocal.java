@@ -44,4 +44,6 @@ public interface ArticleFacadeLocal {
     Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) throws ExceptionArticle;
     
     Article supprimer(Article a);
+    
+    Article editer(Article a);
 }

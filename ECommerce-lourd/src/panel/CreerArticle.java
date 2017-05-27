@@ -19,14 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import services.ServiceCommercialRemote;
 
 /**
  *
  * @author Amaury_PC
  */
+
 public class CreerArticle extends JPanel {
 
     Fenetre maFenetre;
@@ -41,30 +39,26 @@ public class CreerArticle extends JPanel {
         
         this.setLayout(new FlowLayout());
 
-        //String id,lib,des,px,tx,stk;
-        JTextField articleID = new JTextField("999");
-        articleID.setPreferredSize(new Dimension(380, 30));
+        // Déclaration des JTextField et de leurs dimensions
         JTextField articleLib = new JTextField("Libellé");
-        articleLib.setPreferredSize(new Dimension(550, 30));
+        articleLib.setPreferredSize(new Dimension(1080, 30));
         JTextField articleDes = new JTextField("Description");
-        articleDes.setPreferredSize(new Dimension(550, 30));
+        articleDes.setPreferredSize(new Dimension(1080, 30));
         JTextField articlePrix = new JTextField("99.99");
         articlePrix.setPreferredSize(new Dimension(100, 30));
         JTextField articleTaux = new JTextField("0.2");
         articleTaux.setPreferredSize(new Dimension(100, 30));
         JTextField articleStock = new JTextField("0");
         articleStock.setPreferredSize(new Dimension(100, 30));
-        JLabel JLtitre = new JLabel("||  CREATION D'UN NOUVEL ARTICLE  ||");
-        JLabel JLid = new JLabel("Reférence : ");
-        JLabel JLlib = new JLabel("Libellé : ");
+        
+        // Déclaration des JLabel
+        JLabel JLlib = new JLabel("   Libellé       : ");
         JLabel JLdes = new JLabel("Description : ");
         JLabel JLprix = new JLabel("Prix Hors Taxe : ");
         JLabel JLtaux = new JLabel("Taux TVA : ");
         JLabel JLstock = new JLabel("Stock : ");
 
-        this.add(JLtitre);
-        this.add(JLid);
-        this.add(articleID);
+        // Ajout au panel des JTextField et des JLabel
         this.add(JLlib);
         this.add(articleLib);
         this.add(JLdes);
@@ -77,39 +71,42 @@ public class CreerArticle extends JPanel {
         this.add(articleStock);
         this.add(valider);
 
-        /*id=articleID.getText();
-        lib=articleLib.getText();
-        des=articleDes.getText();
-        px=articlePrix.getText();
-        tx=articleTaux.getText();
-        stk=articleStock.getText();*/
- /*
-        String art = id+","+lib+","+des+","+px+","+tx+","+stk;
-        System.out.println(art+"PROBLEME");*/
+        // Ecoute du bouton valider
         valider.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id, lib, des, px, tx, stk;
-                    boolean entreeOK = false;
-                    Integer id2;
-                    String lib2, des2;
+                    // Déclaration
+                    String lib, des, px, tx, stk;
                     double prixHt2;
                     float tauxTva2;
                     int stock2;
-                    id = articleID.getText();
+                    
+                    // Numéro ID par défaut pour construire un article, mais il est en auto increment
+                    Integer id = 1;
+                    
+                    // Récupération des valeurs saisies dans les JTextField
                     lib = articleLib.getText();
                     des = articleDes.getText();
                     px = articlePrix.getText();
                     tx = articleTaux.getText();
                     stk = articleStock.getText();
+                    
+                    // Contruction de la String qui sera envoyée pour la création de l'article
                     String art = id + "," + lib + "," + des + "," + px + "," + tx + "," + stk;
-                    id2 = Integer.parseInt(id);
+                    
+                    // Test des conversions des types
                     prixHt2 = Double.parseDouble(px);
                     tauxTva2 = Float.parseFloat(tx);
                     stock2 = Integer.parseInt(stk);
+                    
+                    // Création d'un nouvel article
                     app.getServiceCommercial().creer(art);
+                    
+                    // Boite de dialogue indiquant la bonne création d'article
+                    JOptionPane infomationCreation = new JOptionPane();
+                    infomationCreation.showMessageDialog(null, "Le produit a bien été créé", "Validation de votre création", JOptionPane.INFORMATION_MESSAGE);
                 } catch (NumberFormatException exc) {
-                    System.out.println("PROBLEME DE TYPE222");
+                    // En cas d'erreurs sur les types mis dans les champs
                     JOptionPane JOP;
                     JOP = new JOptionPane();
                     JOP.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -120,6 +117,5 @@ public class CreerArticle extends JPanel {
 
         }
         );
-System.out.println("creer produit");
     }
 }

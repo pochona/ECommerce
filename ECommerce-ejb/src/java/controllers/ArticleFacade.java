@@ -102,4 +102,9 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
         this.remove(a);
         return a;
     }
+    
+    public Article editer(Article a){
+        this.edit(a);
+        return a;
+    }
 }

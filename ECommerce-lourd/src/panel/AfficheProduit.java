@@ -8,20 +8,15 @@ package panel;
 import app.App;
 import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import utilities.TabModel;
 
 /**
@@ -55,6 +50,7 @@ public class AfficheProduit extends JPanel {
         Object[][] donneeArticle = new Object[list.size()][6];
         int index = 0;
 
+        // Création de la JTable
         for (ArticleBis articleBis : list) {
             donneeArticle[index][0] = articleBis.getIdBis();
             donneeArticle[index][1] = articleBis.getLibBis();
@@ -67,50 +63,74 @@ public class AfficheProduit extends JPanel {
 
         this.modelArticle = new TabModel(donneeArticle, titreColonnes);
         JTarticle = new JTable(modelArticle);
-
-        this.scrollPane = new JScrollPane(JTarticle);
-
+        
+        // Scroll possible s'il y a beaucoup d'article d'affiché
+        this.scrollPane = new JScrollPane(JTarticle); 
         this.add(scrollPane);
 
-        // Ajout des boutons
+        // JPanel pour les boutons
         JPanel btnPanel = new JPanel();
-        //btnPanel.setLayout(new ());
-
         
+        // Ajout du JButton "boutonModifier"
         btnPanel.add(boutonModifier);
         
+        // Ecoute du Jbutton "boutonModifier"
         boutonModifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
+                // On se place à la colonne 0 pour être directement sur l'ID
                 int col = 0;
-                int row = JTarticle.getSelectedRow(); // On envoie la ligne 
+                int row = JTarticle.getSelectedRow();
+                
+                // On récupére l'ID de la ligne sélectionnée
                 Object cellule = JTarticle.getValueAt(row,col);
                 System.out.println("Id selected : " + cellule);
-                //ActionProduit ap = new ActionProduit(cellule);
+                
+                // test perso pour vérifier si on récupère bien l'artibleBis
+                String i = cellule.toString();
+                Integer id = Integer.parseInt(i);
+                System.out.println("Id selected2 : " + id); // Verif de la bonne conversion
+                ArticleBis artBis = app.getServiceCommercial().retourArticle(id);
+                System.out.println(artBis.toString()); // vérif si on récupère bien l'objet sélectionné
+                
+                // Ouverture d'une nouvelle Frame pour modifier le produit
+                ModifierProduit mp = new ModifierProduit(maFenetre, app, artBis); 
             }
         });
+        
+        // Ajout du JButton "boutonSupprimer"
         btnPanel.add(boutonSupprimer);
         
+        // Ecoute du Jbutton "boutonSupprimer"
         boutonSupprimer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // On se place à la colonne 0 pour être directement sur l'ID
                 int col = 0;
-                int row = JTarticle.getSelectedRow(); // On envoie la ligne 
+                int row = JTarticle.getSelectedRow();
+                
+                // On récupére l'ID de la ligne sélectionnée
                 Object cellule = JTarticle.getValueAt(row,col);
                 String id = cellule.toString();
                 System.out.println("Id selected : " + cellule.toString());
+                
+                // Boite de dialogue pour demander la confirmation de la suppression
                 JOptionPane validation = new JOptionPane();			
                 int option = validation.showConfirmDialog(null, "Voulez-vous vraiment supprimer le produit ?", "Suppression d'un produit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
+                
+                // Si la réponse est Oui
                 if(option == JOptionPane.OK_OPTION){
                     app.getServiceCommercial().supprimer(id);
                     JOptionPane infomationSuppression = new JOptionPane();
                     infomationSuppression.showMessageDialog(null, "Le produit a bien été supprimé", "Validation de votre suppresion", JOptionPane.INFORMATION_MESSAGE);
                     //actualiser();
+                    // Mise à jour non visible directement
                 }
             }
         });
         this.add(btnPanel);
     }
     
+    // Fonction test "actualiser" pour mettre à jour le JTable : KO
     public void actualiser(){
 	
         maFenetre.removeAll();
