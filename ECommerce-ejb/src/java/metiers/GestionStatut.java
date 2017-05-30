@@ -25,9 +25,9 @@ public class GestionStatut implements GestionStatutLocal {
     @Override
     public List<StatutBis> findDescrStatutById(String idStatut) {
         
-        
+        int id = Integer.parseInt(idStatut); 
         TypedQuery<Statut> query = em.createNamedQuery("Statut.findById", Statut.class)
-                                        .setParameter("idStatut", idStatut);
+                                        .setParameter("idStatut", id);
 
 
          
