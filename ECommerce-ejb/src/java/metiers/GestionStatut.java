@@ -29,10 +29,7 @@ public class GestionStatut implements GestionStatutLocal {
         TypedQuery<Statut> query = em.createNamedQuery("Statut.findById", Statut.class)
                                         .setParameter("idStatut", idStatut);
 
-         /*Statut result = query.getSingleResult();
-         
-         StatutBis monStatutBis = new StatutBis(result.getId(), result.getLib(), result.getDescription());
-         return monStatutBis;*/
+
          
         List<Statut> results = query.getResultList();
         List<StatutBis> b = new ArrayList<StatutBis>();
@@ -44,20 +41,7 @@ public class GestionStatut implements GestionStatutLocal {
         return b;
          
     }
-        
-        
-        /*List<StatutBis> b = new ArrayList<StatutBis>();
-        for (Statut monStatut : results) {
-            StatutBis bis = null;
-            try {
-                bis = new StatutBis(monStatut.getId(), monStatut.getLib(), monStatut.getDescription());
-            } catch (NullPointerException e) {
-                bis = new StatutBis(monStatut.getId(), monStatut.getLib(), monStatut.getDescription());
-            }
-            b.add(bis);
-        }
-        return b;*/
-    
+
     
     @PersistenceContext(unitName = "ECommerce-ejbPU")
     private EntityManager em;
