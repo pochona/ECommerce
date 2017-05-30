@@ -43,5 +43,5 @@ public interface ServiceCommercialRemote {
     
     List<CommandeBis> listerCommandeBisALivrer();
     
-    List<StatutBis> findDescrStatutById(String idStatut);
+    StatutBis findDescrStatutById(String idStatut);
 }

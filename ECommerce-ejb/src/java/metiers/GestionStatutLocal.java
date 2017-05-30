@@ -17,6 +17,6 @@ import javax.ejb.Local;
 @Local
 public interface GestionStatutLocal {
     
-    List<StatutBis> findDescrStatutById(String idStatut);
+    StatutBis findDescrStatutById(String idStatut);
     
 }

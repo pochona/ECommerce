@@ -101,7 +101,7 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     }
 
     @Override
-    public List<StatutBis> findDescrStatutById(String idStatut) {
+    public StatutBis findDescrStatutById(String idStatut) {
         return gestionStatut.findDescrStatutById(idStatut);
     }
 }

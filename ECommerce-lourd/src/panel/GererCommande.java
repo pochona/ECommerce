@@ -46,7 +46,6 @@ public class GererCommande extends JPanel {
         JLabel label = new JLabel("Veuillez choisir un client");
         label.setFont(myFont);
         
-     
         //creation liste deroulante
         listeClient = new JComboBox();
         listeClient.addItemListener(listener);
@@ -56,25 +55,23 @@ public class GererCommande extends JPanel {
         for(ClientBis clientBis : listClient) {
             listeClient.addItem(""+clientBis.getIdBis()+"-"+clientBis.getNomBis()+"-"+clientBis.getPrenomBis());
         }
+        
 
          //Postionnement des elements dans une gridlayout
         GridLayout tableau = new GridLayout(3, 1);
-        this.add(label);      
-        this.add(listeClient);
         this.setLayout(tableau);
+        this.add(label);   
+        this.add(listeClient);
 
     }
     
         ItemListener listener = new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-                
-           
+
                 if(e.getStateChange() == ItemEvent.SELECTED) {
                     String clientSelect = (String) e.getItem();
                     String[] parts = clientSelect.split("-");   
-                    System.out.println(parts[0]);
                     ConstruitTab(parts[0]); 
-                    
                 }   
             } 
         };
@@ -82,41 +79,35 @@ public class GererCommande extends JPanel {
         public void ConstruitTab(String idC){
             
         //création tableau commandes
-        repaint();
-        //String idStatut="1";
         
-        String[] titreColonnes = {"Id commande","Date commande", "Id tournée","Id statut"}; 
+
+        String[] titreColonnes = {"Id commande","Date commande", "Id tournée","Statut"}; 
         
         List<CommandeBis> list = this.app.getServiceCommercial().findCommandesClient(idC);
         
-        //List<StatutBis> listStatutBis = this.app.getServiceCommercial().findDescrStatutById("1");
-
-
 
         // Initialisation de la taille
         Object[][] donneeCommande = new Object [list.size()][4];
         int index = 0;
         
             for(CommandeBis commandeBis : list) {
+                //on récupère le statut par l'id du client
+                StatutBis statutBis = this.app.getServiceCommercial().findDescrStatutById(Integer.toString(commandeBis.getIdStatutBis()));
+
                 donneeCommande[index][0] = commandeBis.getIdBis();
                 donneeCommande[index][1] = commandeBis.getDateCommandeBis();
                 donneeCommande[index][2] = commandeBis.getIdTourneeBis();
-                donneeCommande[index][3] = commandeBis.getIdStatutBis();
-                //donneeCommande[index][3] = statutDescr.getDescriptionBis();
-              
+                donneeCommande[index][3] = statutBis.getDescriptionBis();
 
                 index++;
             }
-        
-        TabModel modelCommande = new TabModel(donneeCommande, titreColonnes);
-        JTCommande = new JTable(modelCommande);
-        JScrollPane scrollPaneA = new JScrollPane(JTCommande);
-        this.add(scrollPaneA);
-        modelCommande.fireTableDataChanged(); 
-        System.out.println("construit!");
-        
-        modelCommande.fireTableDataChanged() ;
-        JTCommande.revalidate();
-        
+                
+            
+            TabModel modelCommande = new TabModel(donneeCommande, titreColonnes);
+            JTCommande = new JTable(modelCommande);
+            JScrollPane scrollPaneA = new JScrollPane(JTCommande);
+            this.add(scrollPaneA);
+
         }
+
 }

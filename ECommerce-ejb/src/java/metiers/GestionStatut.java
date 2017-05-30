@@ -23,22 +23,18 @@ import javax.persistence.TypedQuery;
 public class GestionStatut implements GestionStatutLocal {
 
     @Override
-    public List<StatutBis> findDescrStatutById(String idStatut) {
+    public StatutBis findDescrStatutById(String idStatut) {
         
         int id = Integer.parseInt(idStatut); 
         TypedQuery<Statut> query = em.createNamedQuery("Statut.findById", Statut.class)
-                                        .setParameter("idStatut", id);
+                                        .setParameter("id", id);
 
 
          
-        List<Statut> results = query.getResultList();
-        List<StatutBis> b = new ArrayList<StatutBis>();
-        for (Statut monStatut : results) {
-            StatutBis bis = null;
-            bis = new StatutBis(monStatut.getId(), monStatut.getLib(), monStatut.getDescription());
-            b.add(bis);
-        }
-        return b;
+        Statut result = query.getSingleResult();
+         
+        StatutBis monStatutBis = new StatutBis(result.getId(), result.getLib(), result.getDescription());
+        return monStatutBis;
          
     }
 
