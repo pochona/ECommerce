@@ -68,7 +68,7 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     }
     
     public void editer(ArticleBis a){
-        gestionArticle.editer(a);
+        Article article = gestionArticle.editer(a);
     }
     
     public ArticleBis retourArticle(Integer id){

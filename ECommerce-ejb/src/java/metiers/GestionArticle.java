@@ -94,6 +94,10 @@ public class GestionArticle implements GestionArticleLocal{
     
     public Article editer(ArticleBis a){
         Article art = articleFacade.find(a.getIdBis());
+        System.out.println("ID qui arrive dans Gestion Article : "+a.getIdBis());
+        System.out.println("Id de l'article art : "+art.getId());
+        System.out.println("des qui arrive dans Gestion Article : "+a.getDescriptionBis());
+        System.out.println("des de l'article art : "+art.getDescription());
         return articleFacade.editer(art);
     }
     
