@@ -26,8 +26,6 @@ import javax.swing.JTextField;
 public class ModifierProduit extends JFrame{
     
         private JButton fermer, valider;
-        private JLabel JLlib, JLdes, JLpx, JLtva, JLstk;
-        private JTextField JTlib, JTdes, JTpx, JTtva, JTstk;
         private JPanel JP = new JPanel();
         private ArticleBis a;
         private App app;
@@ -54,22 +52,37 @@ public class ModifierProduit extends JFrame{
         String tva = String.valueOf(a.getTauxTvaBis());
         String px = String.valueOf(a.getPrixHtBis());
         String stk = String.valueOf(a.getStockBis());
-        // Attribion des JTextField aux JLabel associés
-        JP.add(JLlib = new JLabel("Libellé"));
-        JP.add(JTlib = new JTextField(a.getLibBis()));
+        
+        // Déclaration des JTextField
+        JTextField JTlib = new JTextField(a.getLibBis());
         JTlib.setPreferredSize(new Dimension(400, 30));
-        JP.add(JLdes = new JLabel("Description"));
-        JP.add(JTdes = new JTextField(a.getDescriptionBis()));
+        JTextField JTdes = new JTextField(a.getDescriptionBis());
         JTdes.setPreferredSize(new Dimension(400, 30));
-        JP.add(JLpx = new JLabel("Prix Hors Taxe"));
-        JP.add(JTpx = new JTextField(px));
+        JTextField JTpx = new JTextField(px);
         JTpx.setPreferredSize(new Dimension(150, 30));
-        JP.add(JLtva = new JLabel("Taux TVA"));
-        JP.add(JTtva = new JTextField(tva));
+        JTextField JTtva = new JTextField(tva);
         JTtva.setPreferredSize(new Dimension(150, 30));
-        JP.add(JLstk = new JLabel("Stock actuel"));
-        JP.add(JTstk = new JTextField(stk));
+        JTextField JTstk = new JTextField(stk);
         JTstk.setPreferredSize(new Dimension(150, 30));
+                
+        // Déclaration des JLabel
+        JLabel JLlib = new JLabel("Libellé");
+        JLabel JLdes = new JLabel("Description");
+        JLabel JLpx = new JLabel("Prix Hors Taxe");
+        JLabel JLtva = new JLabel("Taux TVA");
+        JLabel JLstk = new JLabel("Stock actuel");
+        
+        // Ajout au panel des JTextField et des JLabel
+        JP.add(JLlib);
+        JP.add(JTlib);
+        JP.add(JLdes);
+        JP.add(JTdes);
+        JP.add(JLpx);
+        JP.add(JTpx);
+        JP.add(JLtva);
+        JP.add(JTtva);
+        JP.add(JLstk);
+        JP.add(JTstk);
         
         // Jbutton "valider" et action associée
         valider = new JButton("Valider");
@@ -91,7 +104,7 @@ public class ModifierProduit extends JFrame{
                     px = JTpx.getText();
                     tx = JTtva.getText();
                     stk = JTstk.getText();
-                    
+                    System.out.println("Valeur de lib : "+lib);
                     // Conversion
                     prixHt2 = Double.parseDouble(px);
                     tauxTva2 = Float.parseFloat(tx);
@@ -99,7 +112,9 @@ public class ModifierProduit extends JFrame{
                     
                     // Création d'un nouvel articleBis pour l'éditer
                     ArticleBis abis = new ArticleBis(id, lib, des, prixHt2, tauxTva2, stock2);
+                    System.out.println("description envoyée : "+abis.getDescriptionBis());
                     app.getServiceCommercial().editer(abis);
+                    System.out.println(abis.getIdBis());
                     
                     // Boite de dialogue indiquant le succès de la modification
                     JOptionPane JOP1;
@@ -126,7 +141,8 @@ public class ModifierProduit extends JFrame{
                 // Que l'on clique sur le bouton fermer classique (la croix) de la frame
                 // Ou que l'on clique sur le JButton "fermer"
                 // On quitte toute l'appli
-                System.exit(0); 
+                //System.exit(0);
+                dispose();
             }
         });
         this.add(JP);
