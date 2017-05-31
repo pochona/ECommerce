@@ -44,5 +44,13 @@ public interface GestionCommandeLocal {
     public List<CommandeBis> listerCommandeBisALivrer();
     
     List<CommandeBis> findCommandesByStatut(String idStat);
+    
+    void modifieIdStatut(String idCom);
+    
+    double getPUArticle(String id);
+    
+    int getQteLigne(String id);
+    
+    double getSolde(String id);
 
 }

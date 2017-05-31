@@ -20,7 +20,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import utilities.Log;
 
@@ -166,6 +168,58 @@ public class GestionCommande implements GestionCommandeLocal {
             b.add(bis);
         }
         return b;
+    }
+
+    @Override
+    public void modifieIdStatut(String idCom) {
+        int id = Integer.parseInt(idCom); 
+        TypedQuery<Commande> query = em.createNamedQuery("Commande.findById", Commande.class)
+                                        .setParameter("id", id);
+        Commande result = query.getSingleResult();
+        result.setIdStatut(2);
+    }
+    
+    @Override
+    public double getPUArticle(String idCom) {
+        
+        int id = Integer.parseInt(idCom); 
+        
+        Query q = em.createQuery(
+               "SELECT a.prixHt FROM Article a, Ligne l, Commande c WHERE l.idCommande=c.id AND a.id=l.idArticle AND c.id=:id");
+            q.setParameter("id", id);
+
+            double prixHT =0.0;
+            return prixHT = (double) q.getSingleResult();
+    }
+
+    @Override
+    public int getQteLigne(String idCom) {
+        
+        int id = Integer.parseInt(idCom); 
+        
+        Query q = em.createQuery(
+               "SELECT l.qte FROM Ligne l, Commande c WHERE l.idCommande=c.id AND c.id=:id");
+            q.setParameter("id", id);
+
+            int prixHT =0;
+            return prixHT = (int) q.getSingleResult();    
+    }
+
+    @Override
+    public double getSolde(String idCom) {
+        int id = Integer.parseInt(idCom); 
+        double solde =0.0;
+         try{     
+            Query q = em.createQuery(
+               "SELECT cpt.solde FROM Compte cpt, Commande cmd WHERE cpt.id=cmd.idCompte AND cmd.id=:id");
+            q.setParameter("id", id);
+            solde = (double) q.getSingleResult();
+             
+         }catch(NoResultException e){
+            System.out.println("Pas de compte");
+         }
+
+            return solde;   
     }
 
 }

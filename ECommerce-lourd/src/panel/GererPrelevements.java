@@ -10,8 +10,12 @@ import entitiesBis.CommandeBis;
 import entitiesBis.StatutBis;
 import fenetre.Fenetre;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,15 +33,6 @@ public class GererPrelevements extends JPanel{
     public GererPrelevements(Fenetre maFen, App app){
         this.maFenetre = maFen;
         this.app = app;
-
-        
-        //création bouton
-        JButton bouton = new JButton("Mon premier bouton");
-        
-         //Postionnement des elements dans une gridlayout
-        //GridLayout disposition = new GridLayout(2, 1);
-        //this.setLayout(disposition);
-        this.add(bouton);   
 
         
         //Tableau
@@ -65,5 +60,54 @@ public class GererPrelevements extends JPanel{
         JScrollPane scrollPaneA = new JScrollPane(JTCommande);
         this.add(scrollPaneA);
         
+         //création bouton
+        JButton bouton = new JButton("Effectuer prélèvement");
+
+        this.add(bouton);   
+        
+        
+        // Ecoute du bouton valider
+        bouton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
+                int col = 0;
+                int row = JTCommande.getSelectedRow();
+                //recuperation de l'id de la commande selectionnée
+                Object cellule = JTCommande.getValueAt(row,col);
+                String i = cellule.toString();
+                
+                //recupere le prix unitaire ht de l'article commandé
+                //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
+                double prixht = 0.0;
+                //prixht = app.getServiceComptable().getPUArticle(i);
+                
+                //recupere la qte commande 
+                //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
+                int qte = 0;
+                //qte = app.getServiceComptable().getQteLigne(i);
+                
+                //recupere le solde
+                double solde = 0.0;
+               
+                solde = app.getServiceComptable().getSolde(i);
+                System.out.println("solde "+solde);
+                    
+                
+                
+                if((prixht*qte)<=solde){
+                    app.getServiceComptable().modifieIdStatut(i);
+                     // Boite de dialogue indiquant le succès du prelevement
+                    JOptionPane JOP1;
+                    JOP1 = new JOptionPane();
+                    JOP1.showMessageDialog(null, "Prélèvement effectué!", "Succés", JOptionPane.INFORMATION_MESSAGE);
+                }else {
+                    JOptionPane JOP2;
+                    JOP2 = new JOptionPane();
+                    JOP2.showMessageDialog(null, "Solde insuffisant!", "Erreur", JOptionPane.ERROR_MESSAGE);}
+            }
+            
+        });
+
     }
 }
