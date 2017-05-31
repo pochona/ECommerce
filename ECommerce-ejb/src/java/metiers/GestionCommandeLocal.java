@@ -42,5 +42,7 @@ public interface GestionCommandeLocal {
     List<CommandeBis> findCommandesClient(String idC);
 
     public List<CommandeBis> listerCommandeBisALivrer();
+    
+    List<CommandeBis> findCommandesByStatut(String idStat);
 
 }

@@ -146,4 +146,26 @@ public class GestionCommande implements GestionCommandeLocal {
         return list;
     }
 
+    @Override
+    public List<CommandeBis> findCommandesByStatut(String idStat) {
+         int idStatut = Integer.parseInt(idStat); 
+        
+        TypedQuery<Commande> query = em.createNamedQuery("Commande.findByIdStatut", Commande.class)
+                                        .setParameter("idStatut", idStatut);
+        List<Commande> results = query.getResultList();
+        
+        
+        List<CommandeBis> b = new ArrayList<CommandeBis>();
+        for (Commande maCom : results) {
+            CommandeBis bis = null;
+            try {
+                bis = new CommandeBis(maCom.getId(), maCom.getDateCommande(), maCom.getIdClient(), maCom.getIdTournee(), maCom.getIdStatut());
+            } catch (NullPointerException e) {
+                bis = new CommandeBis(maCom.getId(), maCom.getDateCommande(), maCom.getIdClient(), maCom.getIdStatut());
+            }
+            b.add(bis);
+        }
+        return b;
+    }
+
 }

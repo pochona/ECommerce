@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import services.ServiceCommercialRemote;
+import services.ServiceComptableRemote;
 
 /**
  *
@@ -23,6 +24,9 @@ public class App {
     
     @EJB
     private ServiceCommercialRemote serviceCommercial;
+    
+    @EJB
+    private ServiceComptableRemote serviceComptable;
     
     public App(){
         this.creerLienNaming();
@@ -39,6 +43,7 @@ public class App {
         try {
             context = new InitialContext();
             this.serviceCommercial = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
+            this.serviceComptable = (ServiceComptableRemote) context.lookup("services.ServiceComptableRemote");
         } catch (NamingException ex) {
             Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,5 +52,9 @@ public class App {
     
     public ServiceCommercialRemote getServiceCommercial(){
         return this.serviceCommercial;
+    }
+    
+     public ServiceComptableRemote getServiceComptable(){
+        return this.serviceComptable;
     }
 }

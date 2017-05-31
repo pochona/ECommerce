@@ -40,7 +40,7 @@ public class Fenetre extends JFrame {
     
     
     private JMenuBar menuBar = new JMenuBar();
-    private JMenu menuComm = new JMenu("Service commerciale");
+    private JMenu menuComm = new JMenu("Service commercial");
     private JMenu menuCompt = new JMenu("Service comptable");
     private JMenu menuReapro = new JMenu("Service réapprovisionnement");
     private JMenu menuLivraison = new JMenu("Service livraison");
@@ -85,8 +85,8 @@ public class Fenetre extends JFrame {
         
         this.menuComm.addSeparator(); //Ajout d'un séparateur (trait dans le menu)
         
-        this.menuComm.add(itemGererPrlv); // suivre commande
-        itemGererPrlv.addActionListener(unEcouteur);
+       /* this.menuComm.add(itemGererPrlv); // suivre commande
+        itemGererPrlv.addActionListener(unEcouteur);*/
         
         this.menuComm.addSeparator();
         

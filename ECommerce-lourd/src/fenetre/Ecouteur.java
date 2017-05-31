@@ -12,6 +12,7 @@ import panel.AfficheProduit;
 import panel.CreerArticle;
 import panel.DelencherLivraison;
 import panel.GererCommande;
+import panel.GererPrelevements;
 
 /**
  *
@@ -43,7 +44,7 @@ public class Ecouteur implements ActionListener {
         if (source.equals("Suivre commande")){ // Information sur l'application
             this.fenetre.setContentPane(new GererCommande(this.fenetre, this.app));
         } else if (source.equals("Gérer les prélèvements")){ // Fermer
-            //this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
+            this.fenetre.setContentPane(new GererPrelevements(this.fenetre, this.app));
         } else if (source.equals("Modifier un produit")){ 
             //this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app)); 
         } else if (source.equals("Créer un produit")){
@@ -60,7 +61,7 @@ public class Ecouteur implements ActionListener {
             System.exit(0);
         } else if (source.equals("Information")){
             //this.fenetre.setContentPane(new CreerArticle(this.fenetre, this.app));
-        }
+        } 
         this.fenetre.validate(); // maj des conteneurs
     }
 }
