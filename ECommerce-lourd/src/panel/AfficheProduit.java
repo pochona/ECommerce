@@ -84,14 +84,11 @@ public class AfficheProduit extends JPanel {
                 
                 // On récupére l'ID de la ligne sélectionnée
                 Object cellule = JTarticle.getValueAt(row,col);
-                System.out.println("Id selected : " + cellule);
                 
                 // test perso pour vérifier si on récupère bien l'artibleBis
                 String i = cellule.toString();
                 Integer id = Integer.parseInt(i);
-                System.out.println("Id selected2 : " + id); // Verif de la bonne conversion
                 ArticleBis artBis = app.getServiceCommercial().retourArticle(id);
-                System.out.println(artBis.toString()); // vérif si on récupère bien l'objet sélectionné
                 
                 // Ouverture d'une nouvelle Frame pour modifier le produit
                 ModifierProduit mp = new ModifierProduit(maFenetre, app, artBis); 
@@ -111,7 +108,6 @@ public class AfficheProduit extends JPanel {
                 // On récupére l'ID de la ligne sélectionnée
                 Object cellule = JTarticle.getValueAt(row,col);
                 String id = cellule.toString();
-                System.out.println("Id selected : " + cellule.toString());
                 
                 // Boite de dialogue pour demander la confirmation de la suppression
                 JOptionPane validation = new JOptionPane();			
@@ -178,7 +174,6 @@ public class AfficheProduit extends JPanel {
                 int col = 0;
                 int row = JTarticle.getSelectedRow(); // On envoie la ligne 
                 Object cellule = JTarticle.getValueAt(row,col);
-                System.out.println("Id selected : " + cellule);
                 //ActionProduit ap = new ActionProduit(cellule);
             }
         });

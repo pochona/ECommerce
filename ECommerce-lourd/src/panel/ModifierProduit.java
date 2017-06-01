@@ -104,7 +104,6 @@ public class ModifierProduit extends JFrame{
                     px = JTpx.getText();
                     tx = JTtva.getText();
                     stk = JTstk.getText();
-                    System.out.println("Valeur de lib : "+lib);
                     // Conversion
                     prixHt2 = Double.parseDouble(px);
                     tauxTva2 = Float.parseFloat(tx);
@@ -112,9 +111,10 @@ public class ModifierProduit extends JFrame{
                     
                     // Création d'un nouvel articleBis pour l'éditer
                     ArticleBis abis = new ArticleBis(id, lib, des, prixHt2, tauxTva2, stock2);
-                    System.out.println("description envoyée : "+abis.getDescriptionBis());
                     app.getServiceCommercial().editer(abis);
-                    System.out.println(abis.getIdBis());
+                    
+                    // On ferme la JFrame après la création
+                    dispose();
                     
                     // Boite de dialogue indiquant le succès de la modification
                     JOptionPane JOP1;
