@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import services.ServiceApprovisionnementRemote;
+import services.ServiceBanqueRemote;
 import services.ServiceCommercialRemote;
 import services.ServiceComptableRemote;
 
@@ -32,6 +33,9 @@ public class App {
     @EJB
     private ServiceApprovisionnementRemote serviceAppro;
     
+    @EJB
+    private ServiceBanqueRemote serviceBanque;
+    
     public App(){
         this.creerLienNaming();
         
@@ -48,6 +52,8 @@ public class App {
             context = new InitialContext();
             this.serviceCommercial = (ServiceCommercialRemote) context.lookup("services.ServiceCommercialRemote");
             this.serviceComptable = (ServiceComptableRemote) context.lookup("services.ServiceComptableRemote");
+            this.serviceAppro = (ServiceApprovisionnementRemote) context.lookup("services.ServiceApprovisionnementRemote");
+            this.serviceBanque = (ServiceBanqueRemote) context.lookup("services.ServiceBanqueRemote");
         } catch (NamingException ex) {
             Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,5 +70,9 @@ public class App {
     
     public ServiceApprovisionnementRemote getServiceApprovisionnement(){
         return this.serviceAppro;
+    }
+    
+    public ServiceBanqueRemote getServiceBanque(){
+        return this.serviceBanque;
     }
 }
