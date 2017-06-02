@@ -231,13 +231,13 @@ public class GestionCommande implements GestionCommandeLocal {
     }
 
     @Override
-    public double getPrixTotaleCommande(Integer idArticle) {
+    public double getPrixTotaleCommande(Integer idCommande) {
         double prixTotUnitaire = 0;
         double prixTot = 0;
         double montantTot = 0;
         try {
             // Recuperation des lignes de la commande
-            List<Ligne> maList = getLigneCommande(idArticle);
+            List<Ligne> maList = getLigneCommande(idCommande);
             // Parcours des lignes 
             for (Ligne maLigne : maList) {
                 // Recuperation des articles pour chaque ligne

@@ -5,6 +5,7 @@
  */
 package services;
 
+import controllers.CommandeFacadeLocal;
 import controllers.CompteFacadeLocal;
 import entities.Commande;
 import entities.Compte;
@@ -13,6 +14,8 @@ import exceptions.ExceptionBancaire;
 import exceptions.ExceptionClient;
 import exceptions.ExceptionCommande;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import metiers.GestionClientLocal;
@@ -34,6 +37,9 @@ public class ServiceBanque implements ServiceBanqueRemote {
     @EJB
     private CompteFacadeLocal compteFacade;
     
+    @EJB
+    private GestionCommandeLocal gestionCommande;
+    
     @Override
     public long chercherClient(String nom, String prenom) throws ExceptionClient {
         return gestionClient.chercherClient(nom, prenom);
@@ -50,5 +56,18 @@ public class ServiceBanque implements ServiceBanqueRemote {
         Compte c = compteFacade.validerCoordonnees(numCarte, numCrypto);
         return new CompteShared(c.getNumCarte(), c.getNumCarte(), c.getId(), c.getSolde());
     }
+    
+    @Override
+    public void debiterComptePourCommande(Integer idCommande, double montant) {
+        Commande c;
+        try {
+            c = gestionCommande.findCommande(idCommande);
+            Compte cpt = compteFacade.find(c.getIdCompte());
+            cpt.setSolde(cpt.getSolde() - montant);
+        } catch (ExceptionCommande ex) {
+            System.out.println("commande introuvable");
+        }
+    }
+    
     
 }

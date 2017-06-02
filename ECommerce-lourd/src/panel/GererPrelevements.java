@@ -9,12 +9,15 @@ import app.App;
 import entitiesBis.CommandeBis;
 import entitiesBis.StatutBis;
 import fenetre.Fenetre;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,13 +33,57 @@ public class GererPrelevements extends JPanel{
     Fenetre maFenetre;
     App app;
     
+    private JPanel panelList = new JPanel();
+    private JPanel panelBtn = new JPanel();
+    
+    private JTable jTCommande;
+    private TabModel modelCommande;
+    
+    private double prixTotalCommande;
+    
+    private static final String[] TITRECOLONNES = {"Id commande","Date commande", "Id tournée","Statut"}; 
+    
     public GererPrelevements(Fenetre maFen, App app){
         this.maFenetre = maFen;
         this.app = app;
-
+        this.init();
+    }
+    
+    public void init(){
+        this.setLayout(new BorderLayout());
+        JLabel label = new JLabel("Gérer les prélèvements");
+        label.setFont(new Font(" TimesRoman ", Font.BOLD, 20));
+        this.add(label, BorderLayout.NORTH);
+        this.add(panelList, BorderLayout.CENTER);
+        this.add(panelBtn, BorderLayout.SOUTH);
         
+        
+        this.creerBouton();
+        this.creerList();
+    }
+    
+    
+    public void creerBouton(){
+        //création bouton
+        JButton bouton = new JButton("Effectuer prélèvement");
+
+        this.panelBtn.add(bouton);   
+        
+        
+        // Ecoute du bouton valider
+        bouton.addActionListener((ActionEvent ae) -> {
+            int col = 0;
+            int row = jTCommande.getSelectedRow();
+            //recuperation de l'id de la commande selectionnée
+            Integer idCommande = (Integer) jTCommande.getValueAt(row,col);
+            
+            declencherPrelevement(idCommande);
+        });
+    }
+    
+    
+    public void creerList(){
         //Tableau
-        String[] titreColonnes = {"Id commande","Date commande", "Id tournée","Statut"}; 
         List<CommandeBis> list = this.app.getServiceComptable().findCommandesByStatut("1");
         
         // Initialisation de la taille
@@ -55,57 +102,45 @@ public class GererPrelevements extends JPanel{
                 index++;
             }
         
-        TabModel modelCommande = new TabModel(donneeCommande, titreColonnes);
-        JTable JTCommande = new JTable(modelCommande);
-        JScrollPane scrollPaneA = new JScrollPane(JTCommande);
-        this.add(scrollPaneA);
-        
-         //création bouton
-        JButton bouton = new JButton("Effectuer prélèvement");
-
-        this.add(bouton);   
+        this.modelCommande = new TabModel(donneeCommande, TITRECOLONNES);
+        this.jTCommande = new JTable(modelCommande);
+        this.panelList.add(new JScrollPane(jTCommande));
         
         
-        // Ecoute du bouton valider
-        bouton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                
-                int col = 0;
-                int row = JTCommande.getSelectedRow();
-                //recuperation de l'id de la commande selectionnée
-                Integer cellule = (Integer) JTCommande.getValueAt(row,col);
-                
-                double prixTotCommande = app.getServiceComptable().getPrixTotaleCommande(cellule);
-                System.out.println("prix tot "+prixTotCommande);
-                /*
-                //recupere le prix unitaire ht de l'article commandé
-                //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
-                double prixht = 0.0;
-                prixht = app.getServiceComptable().getPUArticle(i);
-                
-                //recupere la qte commande 
-                //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
-                int qte = 0;
-                //qte = app.getServiceComptable().getQteLigne(i);
-                 */
-                //recupere le solde
-                double solde = 0;
-               
-                solde = app.getServiceComptable().getSolde(cellule.toString());
-                System.out.println("solde "+solde);
-                    
-               
-                
-                if(prixTotCommande<=solde){
-                    app.getServiceComptable().modifieIdStatut(cellule, 2);
-                     // Boite de dialogue indiquant le succès du prelevement
-                    JOptionPane.showMessageDialog(null, "Prélèvement effectué!", "Succés", JOptionPane.INFORMATION_MESSAGE);
-                }else {
-                    JOptionPane.showMessageDialog(null, "Solde insuffisant!", "Erreur", JOptionPane.ERROR_MESSAGE);}
-            }
-            
-        });
-
+    }
+    
+    public void declencherPrelevement(Integer idCommande){           
+        if(this.verifierSolde(idCommande)){
+            app.getServiceComptable().modifieIdStatut(idCommande, 2);
+            this.debiterCompte(idCommande);
+            this.actualiserList();
+             // Boite de dialogue indiquant le succès du prelevement
+            JOptionPane.showMessageDialog(null, "Prélèvement effectué !", "Succés", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(null, "Solde insuffisant !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public boolean verifierSolde(Integer idCommande){
+        this.prixTotalCommande = app.getServiceComptable().getPrixTotaleCommande(idCommande);
+        System.out.println("prix tot "+prixTotalCommande);
+        //recupere le solde
+        double solde = app.getServiceComptable().getSolde(idCommande.toString());
+        System.out.println("solde "+solde);
+        
+        return prixTotalCommande<=solde;
+    }
+    
+    public void debiterCompte(Integer idCommande){
+        this.app.getServiceBanque().debiterComptePourCommande(idCommande, this.prixTotalCommande);
+    }
+    
+    public void actualiserList(){
+        this.panelList.removeAll();
+        
+        this.creerList();
+        
+        this.panelList.revalidate();
+        this.panelList.repaint();
     }
 }
