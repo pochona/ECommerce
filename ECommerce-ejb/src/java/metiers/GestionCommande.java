@@ -222,4 +222,9 @@ public class GestionCommande implements GestionCommandeLocal {
             return solde;   
     }
 
+    @Override
+    public double getPrixTotaleCommande(Integer idArticle) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

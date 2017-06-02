@@ -63,6 +63,11 @@ public class ServiceComptable implements ServiceComptableRemote {
        return gestionCommande.getSolde(idCom); 
     }
 
+    @Override
+    public double getPrixTotaleCommande(Integer idCommande) {
+        return gestionCommande.getPrixTotaleCommande(idCommande);
+    }
+
 
 
     

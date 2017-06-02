@@ -18,18 +18,20 @@ import javax.ejb.Remote;
 @Remote
 public interface ServiceComptableRemote {
     
-    List<CommandeBis> listerCommandeBis();
+    public List<CommandeBis> listerCommandeBis();
     
-    StatutBis findDescrStatutById(String idStatut);
+    public StatutBis findDescrStatutById(String idStatut);
     
-    List<CommandeBis> findCommandesByStatut(String idC);
+    public List<CommandeBis> findCommandesByStatut(String idC);
     
     public void modifieIdStatut(String idCom);
     
-    double getPUArticle(String id);
+    public double getPUArticle(String id);
     
-    int getQteLigne(String idCom);
+    public int getQteLigne(String idCom);
     
-    double getSolde(String idCom);
+    public double getSolde(String idCom);
+    
+    public double getPrixTotaleCommande(Integer idCommande);
     
 }

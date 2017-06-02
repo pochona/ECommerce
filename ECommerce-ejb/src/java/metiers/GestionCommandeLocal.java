@@ -53,4 +53,5 @@ public interface GestionCommandeLocal {
     
     double getSolde(String id);
 
+    public double getPrixTotaleCommande(Integer idArticle);
 }

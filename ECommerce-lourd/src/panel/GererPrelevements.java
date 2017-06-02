@@ -75,36 +75,33 @@ public class GererPrelevements extends JPanel{
                 int row = JTCommande.getSelectedRow();
                 //recuperation de l'id de la commande selectionnée
                 Object cellule = JTCommande.getValueAt(row,col);
-                String i = cellule.toString();
                 
+                double prixTotCommande = app.getServiceComptable().getPrixTotaleCommande((Integer) cellule);
+                /*
                 //recupere le prix unitaire ht de l'article commandé
                 //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
                 double prixht = 0.0;
-                //prixht = app.getServiceComptable().getPUArticle(i);
+                prixht = app.getServiceComptable().getPUArticle(i);
                 
                 //recupere la qte commande 
                 //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
                 int qte = 0;
                 //qte = app.getServiceComptable().getQteLigne(i);
-                
+                 */
                 //recupere le solde
                 double solde = 0.0;
                
-                solde = app.getServiceComptable().getSolde(i);
+                solde = app.getServiceComptable().getSolde(cellule.toString());
                 System.out.println("solde "+solde);
                     
+               
                 
-                
-                if((prixht*qte)<=solde){
-                    app.getServiceComptable().modifieIdStatut(i);
+                if(prixTotCommande<=solde){
+                    app.getServiceComptable().modifieIdStatut(cellule.toString());
                      // Boite de dialogue indiquant le succès du prelevement
-                    JOptionPane JOP1;
-                    JOP1 = new JOptionPane();
-                    JOP1.showMessageDialog(null, "Prélèvement effectué!", "Succés", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Prélèvement effectué!", "Succés", JOptionPane.INFORMATION_MESSAGE);
                 }else {
-                    JOptionPane JOP2;
-                    JOP2 = new JOptionPane();
-                    JOP2.showMessageDialog(null, "Solde insuffisant!", "Erreur", JOptionPane.ERROR_MESSAGE);}
+                    JOptionPane.showMessageDialog(null, "Solde insuffisant!", "Erreur", JOptionPane.ERROR_MESSAGE);}
             }
             
         });
