@@ -54,6 +54,7 @@ public class ModifierStock extends JFrame{
         // Déclaration du JTextField
         JTextField JTstkActuel = new JTextField(stkActuel);
         JTstkActuel.setPreferredSize(new Dimension(150, 30));
+        JTstkActuel.setEditable(false);
         JTextField JTstkNouveau = new JTextField("");
         JTstkNouveau.setPreferredSize(new Dimension(150, 30));
 
@@ -63,7 +64,9 @@ public class ModifierStock extends JFrame{
 
         // Ajout au panel des JTextField et des JLabel
         JP.add(JLstkActuel);
+        JP.add(JTstkActuel);
         JP.add(JLstkNouveau);
+        JP.add(JTstkNouveau);
 
         // Jbutton "valider" et action associée
         valider = new JButton("Valider");
@@ -88,7 +91,7 @@ public class ModifierStock extends JFrame{
                     dispose();
 
                     // Boite de dialogue indiquant le succès de la modification
-                    JOptionPane.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Modification du stock du produit "+idArticle, "Succés", JOptionPane.INFORMATION_MESSAGE);
                 } catch (NumberFormatException exc) {
 
                     // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur

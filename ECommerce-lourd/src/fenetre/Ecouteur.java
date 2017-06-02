@@ -46,13 +46,9 @@ public class Ecouteur implements ActionListener {
             this.fenetre.setContentPane(new GererCommande(this.fenetre, this.app));
         } else if (source.equals("Gérer les prélèvements")){ // Fermer
             this.fenetre.setContentPane(new GererPrelevements(this.fenetre, this.app));
-        } else if (source.equals("Modifier un produit")){ 
-            //this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app)); 
         } else if (source.equals("Créer un produit")){
             this.fenetre.setContentPane(new CreerArticle(this.fenetre, this.app));
-        } else if (source.equals("Supprimer un produit")){ // Fermer
-            System.exit(0);
-        } else if (source.equals("Afficher tous les produits")){ 
+        } else if (source.equals("Gérer tous les produits")){ 
             this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
         } else if (source.equals("Gérer le stock")){
             this.fenetre.setContentPane(new GererApprovisionnement(this.fenetre, this.app));

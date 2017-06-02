@@ -137,6 +137,8 @@ public class ModifierProduit extends JFrame{
         JP.add(fermer);
         fermer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                panelParent.activerBtnModif();
+                panelParent.activerBtnSupprimer();
                 dispose();
             }
         });

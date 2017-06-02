@@ -98,9 +98,9 @@ public class AfficheProduit extends JPanel {
                 // On récupére l'ID de la ligne sélectionnée
                 Object cellule = JTarticle.getValueAt(row,col);
                 String id = cellule.toString();
-                
+                String message = "Voulez-vous vraiment supprimer le produit "+id+" ?";
                 // Boite de dialogue pour demander la confirmation de la suppression			
-                int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer le produit ?", "Suppression d'un produit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, message, "Suppression d'un produit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 
                 // Si la réponse est Oui
                 if(option == JOptionPane.OK_OPTION){

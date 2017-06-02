@@ -48,10 +48,8 @@ public class Fenetre extends JFrame {
 
     private JMenuItem itemSuivreCommande = new JMenuItem("Suivre commande");
     private JMenuItem itemGererPrlv = new JMenuItem("Gérer les prélèvements");
-    private JMenuItem itemModifProduit = new JMenuItem("Modifier un produit");
     private JMenuItem itemCreerProduit = new JMenuItem("Créer un produit");
-    private JMenuItem itemSuppProduit = new JMenuItem("Supprimer un produit");
-    private JMenuItem itemAfficheProduit = new JMenuItem("Afficher tous les produits");
+    private JMenuItem itemAfficheProduit = new JMenuItem("Gérer tous les produits");
     private JMenuItem itemGererStock = new JMenuItem("Gérer le stock");
     private JMenuItem itemDeclencherLivraison = new JMenuItem("Déclencher la livraison");
     private JMenuItem itemFermer = new JMenuItem("Fermer");
@@ -82,17 +80,7 @@ public class Fenetre extends JFrame {
     public void configurerMenu(){
         this.menuComm.add(itemSuivreCommande); //On initialise nos menus avec add - Suivre commande
         itemSuivreCommande.addActionListener(unEcouteur);
-        
-        this.menuComm.addSeparator(); //Ajout d'un séparateur (trait dans le menu)
-        
-       /* this.menuComm.add(itemGererPrlv); // suivre commande
-        itemGererPrlv.addActionListener(unEcouteur);*/
-        
-        this.menuComm.addSeparator();
-        
-        this.menuComm.add(itemModifProduit); // affichage pdts
-        itemModifProduit.addActionListener(unEcouteur);
-        
+
         this.menuLivraison.add(itemSuivreCommande);
         this.menuLivraison.addSeparator();
         
@@ -106,10 +94,7 @@ public class Fenetre extends JFrame {
         
         this.menuComm.add(itemCreerProduit);
         itemCreerProduit.addActionListener(unEcouteur);
-        
-        this.menuComm.add(itemSuppProduit); 
-        itemSuppProduit.addActionListener(unEcouteur);
-        
+         
         this.menuComm.add(itemAfficheProduit); 
         itemAfficheProduit.addActionListener(unEcouteur);
         
