@@ -41,4 +41,8 @@ public interface GestionArticleLocal {
     Article editer(ArticleBis a);
     
     public ArticleBis retourArticle(Integer id);
+    
+    Integer findStock(Integer id);
+    
+    void editerStock(Integer idArticle, Integer nouveauStock);
 }

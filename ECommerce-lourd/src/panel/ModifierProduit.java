@@ -39,8 +39,7 @@ public class ModifierProduit extends JFrame{
         this.idArticle = idArticle;
         this.panelParent = panelParent;
 	this.setSize(500, 250);
-       // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Modification sur un produit");
+        this.setTitle("Modification sur le produit "+idArticle);
         this.setLocationRelativeTo(null);
         this.getContentPane().add(init());
         this.setVisible(true);
@@ -134,7 +133,7 @@ public class ModifierProduit extends JFrame{
         );
         
         // Jbutton "fermer" et action associée
-        fermer = new JButton("Fermer");
+        fermer = new JButton("Annuler");
         JP.add(fermer);
         fermer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

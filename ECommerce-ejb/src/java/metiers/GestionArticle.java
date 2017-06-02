@@ -107,4 +107,17 @@ public class GestionArticle implements GestionArticleLocal{
         ArticleBis abis = new ArticleBis(a.getId(), a.getLib(), a.getDescription(), a.getPrixHt(), a.getTauxTva(), a.getStock());
         return abis;
     }
+    
+    public Integer findStock(Integer id){
+        Article a = articleFacade.find(id);
+        Integer stockArticle = a.getStock();
+        return stockArticle;
+    }
+    
+    public void editerStock(Integer idArticle, Integer nouveauStock){
+        Article art = articleFacade.find(idArticle);
+        art.setStock(nouveauStock);
+        articleFacade.editer(art);
+    }
+    
 }

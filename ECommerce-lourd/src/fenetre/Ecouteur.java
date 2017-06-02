@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import panel.AfficheProduit;
 import panel.CreerArticle;
 import panel.DelencherLivraison;
+import panel.GererApprovisionnement;
 import panel.GererCommande;
 import panel.GererPrelevements;
 
@@ -54,7 +55,7 @@ public class Ecouteur implements ActionListener {
         } else if (source.equals("Afficher tous les produits")){ 
             this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
         } else if (source.equals("Gérer le stock")){
-            //this.fenetre.setContentPane(new AfficheProduit(this.fenetre, this.app));
+            this.fenetre.setContentPane(new GererApprovisionnement(this.fenetre, this.app));
         } else if (source.equals("Déclencher la livraison")){
             this.fenetre.setContentPane(new DelencherLivraison(this.fenetre, this.app));
         } else if (source.equals("Fermer")){
