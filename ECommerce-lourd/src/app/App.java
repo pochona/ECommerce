@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import services.ServiceApprovisionnementRemote;
 import services.ServiceCommercialRemote;
 import services.ServiceComptableRemote;
 
@@ -27,6 +28,9 @@ public class App {
     
     @EJB
     private ServiceComptableRemote serviceComptable;
+    
+    @EJB
+    private ServiceApprovisionnementRemote serviceAppro;
     
     public App(){
         this.creerLienNaming();
@@ -54,7 +58,11 @@ public class App {
         return this.serviceCommercial;
     }
     
-     public ServiceComptableRemote getServiceComptable(){
+    public ServiceComptableRemote getServiceComptable(){
         return this.serviceComptable;
+    }
+    
+    public ServiceApprovisionnementRemote getServiceApprovisionnement(){
+        return this.serviceAppro;
     }
 }
