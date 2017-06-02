@@ -74,9 +74,10 @@ public class GererPrelevements extends JPanel{
                 int col = 0;
                 int row = JTCommande.getSelectedRow();
                 //recuperation de l'id de la commande selectionnée
-                Object cellule = JTCommande.getValueAt(row,col);
+                Integer cellule = (Integer) JTCommande.getValueAt(row,col);
                 
-                double prixTotCommande = app.getServiceComptable().getPrixTotaleCommande((Integer) cellule);
+                double prixTotCommande = app.getServiceComptable().getPrixTotaleCommande(cellule);
+                System.out.println("prix tot "+prixTotCommande);
                 /*
                 //recupere le prix unitaire ht de l'article commandé
                 //TODO changer le return de la methode en liste car plusieurs articles pour une commande sinon erreur
@@ -89,7 +90,7 @@ public class GererPrelevements extends JPanel{
                 //qte = app.getServiceComptable().getQteLigne(i);
                  */
                 //recupere le solde
-                double solde = 0.0;
+                double solde = 0;
                
                 solde = app.getServiceComptable().getSolde(cellule.toString());
                 System.out.println("solde "+solde);
@@ -97,7 +98,7 @@ public class GererPrelevements extends JPanel{
                
                 
                 if(prixTotCommande<=solde){
-                    app.getServiceComptable().modifieIdStatut(cellule.toString());
+                    app.getServiceComptable().modifieIdStatut(cellule, 2);
                      // Boite de dialogue indiquant le succès du prelevement
                     JOptionPane.showMessageDialog(null, "Prélèvement effectué!", "Succés", JOptionPane.INFORMATION_MESSAGE);
                 }else {

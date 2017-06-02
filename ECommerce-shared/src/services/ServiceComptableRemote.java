@@ -24,7 +24,7 @@ public interface ServiceComptableRemote {
     
     public List<CommandeBis> findCommandesByStatut(String idC);
     
-    public void modifieIdStatut(String idCom);
+    public void modifieIdStatut(Integer idCom, Integer idStatut);
     
     public double getPUArticle(String id);
     

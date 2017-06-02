@@ -44,8 +44,8 @@ public class ServiceComptable implements ServiceComptableRemote {
     }
 
     @Override
-    public void modifieIdStatut(String idCom) {
-        gestionCommande.modifieIdStatut(idCom);
+    public void modifieIdStatut(Integer idCom, Integer idStatut) {
+        gestionCommande.modifieIdStatut(idCom, idStatut);
     }
 
     @Override

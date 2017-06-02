@@ -5,9 +5,11 @@
  */
 package metiers;
 
+import controllers.ArticleFacadeLocal;
 import controllers.CommandeFacadeLocal;
 import controllers.LigneFacadeLocal;
 import controllers.StatutFacadeLocal;
+import entities.Article;
 import entities.Commande;
 import entities.Ligne;
 import entities.Statut;
@@ -17,6 +19,8 @@ import exceptions.ExceptionCommande;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -42,6 +46,11 @@ public class GestionCommande implements GestionCommandeLocal {
     @EJB
     private LigneFacadeLocal ligneFacade;
 
+    
+    @EJB
+    private ArticleFacadeLocal articleFacade;
+    
+    
     @Override
     public List<Commande> recupererCommandes() throws ExceptionCommande {
         return commandeFacade.findAll();
@@ -171,12 +180,11 @@ public class GestionCommande implements GestionCommandeLocal {
     }
 
     @Override
-    public void modifieIdStatut(String idCom) {
-        int id = Integer.parseInt(idCom); 
+    public void modifieIdStatut(Integer idCom, Integer idStatut) {
         TypedQuery<Commande> query = em.createNamedQuery("Commande.findById", Commande.class)
-                                        .setParameter("id", id);
+                                        .setParameter("id", idCom);
         Commande result = query.getSingleResult();
-        result.setIdStatut(2);
+        result.setIdStatut(idStatut);
     }
     
     @Override
@@ -224,7 +232,27 @@ public class GestionCommande implements GestionCommandeLocal {
 
     @Override
     public double getPrixTotaleCommande(Integer idArticle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double prixTotUnitaire = 0;
+        double prixTot = 0;
+        double montantTot = 0;
+        try {
+            // Recuperation des lignes de la commande
+            List<Ligne> maList = getLigneCommande(idArticle);
+            // Parcours des lignes 
+            for (Ligne maLigne : maList) {
+                // Recuperation des articles pour chaque ligne
+                Article monArt = articleFacade.find(maLigne.getIdArticle());
+                prixTotUnitaire = (Math.round(monArt.getPrixHt()*(1+monArt.getTauxTva()) * 100.0) / 100.0);
+                prixTot = prixTotUnitaire * maLigne.getQte();
+                montantTot = montantTot + prixTot;
+            }
+            montantTot = Math.round(montantTot*100.0)/100.0;
+        } catch(NoResultException e){
+            System.out.println("Pas de ligne");
+        } catch (ExceptionCommande ex) {
+            System.out.println("Problème de recuperation");
+        }
+        return montantTot;
     }
 
 }

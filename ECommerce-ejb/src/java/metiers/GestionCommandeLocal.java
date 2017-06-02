@@ -45,7 +45,7 @@ public interface GestionCommandeLocal {
     
     List<CommandeBis> findCommandesByStatut(String idStat);
     
-    void modifieIdStatut(String idCom);
+    void modifieIdStatut(Integer idCom, Integer idStatut);
     
     double getPUArticle(String id);
     
