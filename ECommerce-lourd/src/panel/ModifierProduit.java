@@ -23,40 +23,42 @@ import javax.swing.JTextField;
  *
  * @author Amélien
  */
+
 public class ModifierProduit extends JFrame{
     
         private JButton fermer, valider;
         private JPanel JP = new JPanel();
-        private ArticleBis a;
+        private Integer idArticle;
         private App app;
         private Fenetre fen;
+        private AfficheProduit panelParent;
     
-    
-    
-    public ModifierProduit(Fenetre fen, App app, ArticleBis art){
-        this.a = art;
-        this.app = app;
+    public ModifierProduit(Fenetre fen, App app, Integer idArticle, AfficheProduit panelParent){
         this.fen = fen;
+        this.app = app;
+        this.idArticle = idArticle;
+        this.panelParent = panelParent;
 	this.setSize(500, 250);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Modification sur un produit");
         this.setLocationRelativeTo(null);
         this.getContentPane().add(init());
         this.setVisible(true);
     }
     
-    
-    
     public JPanel init(){
+        
+        ArticleBis artBis = app.getServiceCommercial().retourArticle(idArticle);
+        
         // Conversion en string de la TVA et du Prix pour les afficher dans les JTextField
-        String tva = String.valueOf(a.getTauxTvaBis());
-        String px = String.valueOf(a.getPrixHtBis());
-        String stk = String.valueOf(a.getStockBis());
+        String tva = String.valueOf(artBis.getTauxTvaBis());
+        String px = String.valueOf(artBis.getPrixHtBis());
+        String stk = String.valueOf(artBis.getStockBis());
         
         // Déclaration des JTextField
-        JTextField JTlib = new JTextField(a.getLibBis());
+        JTextField JTlib = new JTextField(artBis.getLibBis());
         JTlib.setPreferredSize(new Dimension(400, 30));
-        JTextField JTdes = new JTextField(a.getDescriptionBis());
+        JTextField JTdes = new JTextField(artBis.getDescriptionBis());
         JTdes.setPreferredSize(new Dimension(400, 30));
         JTextField JTpx = new JTextField(px);
         JTpx.setPreferredSize(new Dimension(150, 30));
@@ -98,7 +100,7 @@ public class ModifierProduit extends JFrame{
                     int stock2;
                     
                     // Récupération des champs saisis pour la modif
-                    id = a.getIdBis(); // Ici, on récupère l'id de l'article mais qui n'est pas saisi
+                    id = artBis.getIdBis(); // Ici, on récupère l'id de l'article mais qui n'est pas saisi
                     lib = JTlib.getText();
                     des = JTdes.getText();
                     px = JTpx.getText();
@@ -114,18 +116,17 @@ public class ModifierProduit extends JFrame{
                     app.getServiceCommercial().editer(abis);
                     
                     // On ferme la JFrame après la création
+                    panelParent.actualiser();
+                    panelParent.activerBtnModif();
+                    panelParent.activerBtnSupprimer();
                     dispose();
                     
                     // Boite de dialogue indiquant le succès de la modification
-                    JOptionPane JOP1;
-                    JOP1 = new JOptionPane();
-                    JOP1.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
                 } catch (NumberFormatException exc) {
                     
                     // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
-                    JOptionPane JOP2;
-                    JOP2 = new JOptionPane();
-                    JOP2.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -137,11 +138,6 @@ public class ModifierProduit extends JFrame{
         JP.add(fermer);
         fermer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // PB :
-                // Que l'on clique sur le bouton fermer classique (la croix) de la frame
-                // Ou que l'on clique sur le JButton "fermer"
-                // On quitte toute l'appli
-                //System.exit(0);
                 dispose();
             }
         });
