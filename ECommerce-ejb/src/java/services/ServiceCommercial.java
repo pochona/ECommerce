@@ -104,4 +104,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     public StatutBis findDescrStatutById(String idStatut) {
         return gestionStatut.findDescrStatutById(idStatut);
     }
+
+    @Override
+    public List<CommandeBis> findCommandesByStatut(String idC) {
+        return gestionCommande.findCommandesByStatut(idC);
+    }
 }

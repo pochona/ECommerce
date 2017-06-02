@@ -113,7 +113,7 @@ public class DelencherLivraison extends JPanel {
     
     private void listerCommande(){
 
-        List<CommandeBis> list = this.app.getServiceCommercial().listerCommandeBis();
+        List<CommandeBis> list = this.app.getServiceCommercial().findCommandesByStatut("2");
 
         // Initialisation de la taille
         this.donneeCommande = new Object[list.size()][6];
