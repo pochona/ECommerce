@@ -8,13 +8,13 @@ package panel;
 import app.App;
 import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,13 +30,13 @@ public class GererApprovisionnement extends JPanel{
     Fenetre maFenetre;
     App app;
     private JTable JTarticle;
-    private TabModel tabSelected;
+    
     private JButton boutonModifier = new JButton("Modifier le stock");
     private JScrollPane scrollPane;
     private TabModel modelArticle;
     private String[] titreColonnes = {"ID", "Libellé", "Description", "Prix Hors taxe", "TVA", "Stock"};
-    
-    private JPanel panelList = new JPanel(new FlowLayout());
+    private ModifierStock modifierStock;
+    private JPanel panelList = new JPanel(new BorderLayout());
     private JPanel panelBtn = new JPanel(new FlowLayout());
     
     public GererApprovisionnement(Fenetre maFenetre, App app){
@@ -46,7 +46,7 @@ public class GererApprovisionnement extends JPanel{
         
         GridLayout tableau = new GridLayout(2, 1);
         this.setLayout(tableau);
-        this.add(panelList);
+        this.add(panelList, BorderLayout.CENTER);
         this.add(panelBtn);
     
         this.createList();
@@ -71,7 +71,7 @@ public class GererApprovisionnement extends JPanel{
                 Integer idArticle = Integer.parseInt(i);
                 
                 // Ouverture d'une nouvelle Frame pour modifier le produit
-                ModifierStock ms = new ModifierStock(maFenetre, app, idArticle, gererAppro);
+                modifierStock = new ModifierStock(maFenetre, app, idArticle, gererAppro);
                 
                 // On désactive les JButton modifier et supprimer
                 desactiverBtnModif();
@@ -84,7 +84,7 @@ public class GererApprovisionnement extends JPanel{
         }.init(this));
     }
     
-    public void createList(){
+    private void createList(){
         
         // On récupère la liste des article
         List<ArticleBis> list = this.app.getServiceCommercial().listerBis();

@@ -91,13 +91,6 @@ public class ArticleFacade extends AbstractFacade<Article> implements ArticleFac
         return listSt;
     }
 
-    @Override
-    public Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) throws ExceptionArticle {
-        Article a = new Article(id, lib, description, prixHt, tauxTva, stock);
-        this.create(a);
-        return a;
-    }
-    
     public Article supprimer(Article a){
         this.remove(a);
         return a;

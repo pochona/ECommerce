@@ -9,7 +9,6 @@ import app.App;
 import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -27,11 +26,14 @@ import javax.swing.JTextField;
 public class ModifierProduit extends JFrame{
     
         private JButton fermer, valider;
-        private JPanel JP = new JPanel();
         private Integer idArticle;
         private App app;
         private Fenetre fen;
+        private JPanel panel;
         private AfficheProduit panelParent;
+        private JTextField jTlib, jTdes, jTpx, jTtva, jTstk;
+        private ArticleBis artBis;
+        
     
     public ModifierProduit(Fenetre fen, App app, Integer idArticle, AfficheProduit panelParent){
         this.fen = fen;
@@ -41,13 +43,15 @@ public class ModifierProduit extends JFrame{
 	this.setSize(500, 250);
         this.setTitle("Modification sur le produit "+idArticle);
         this.setLocationRelativeTo(null);
-        this.getContentPane().add(init());
+        this.panel = new JPanel();
+        this.initPanel();
+        this.getContentPane().add(this.panel);
         this.setVisible(true);
     }
     
-    public JPanel init(){
+    private void initPanel(){
         
-        ArticleBis artBis = app.getServiceCommercial().retourArticle(idArticle);
+        this.artBis = app.getServiceCommercial().retourArticle(idArticle);
         
         // Conversion en string de la TVA et du Prix pour les afficher dans les JTextField
         String tva = String.valueOf(artBis.getTauxTvaBis());
@@ -55,94 +59,92 @@ public class ModifierProduit extends JFrame{
         String stk = String.valueOf(artBis.getStockBis());
         
         // Déclaration des JTextField
-        JTextField JTlib = new JTextField(artBis.getLibBis());
-        JTlib.setPreferredSize(new Dimension(400, 30));
-        JTextField JTdes = new JTextField(artBis.getDescriptionBis());
-        JTdes.setPreferredSize(new Dimension(400, 30));
-        JTextField JTpx = new JTextField(px);
-        JTpx.setPreferredSize(new Dimension(150, 30));
-        JTextField JTtva = new JTextField(tva);
-        JTtva.setPreferredSize(new Dimension(150, 30));
-        JTextField JTstk = new JTextField(stk);
-        JTstk.setPreferredSize(new Dimension(150, 30));
+        jTlib = new JTextField(artBis.getLibBis());
+        jTlib.setPreferredSize(new Dimension(400, 30));
+        jTdes = new JTextField(artBis.getDescriptionBis());
+        jTdes.setPreferredSize(new Dimension(400, 30));
+        jTpx = new JTextField(px);
+        jTpx.setPreferredSize(new Dimension(150, 30));
+        jTtva = new JTextField(tva);
+        jTtva.setPreferredSize(new Dimension(150, 30));
+        jTstk = new JTextField(stk);
+        jTstk.setPreferredSize(new Dimension(150, 30));
                 
         // Déclaration des JLabel
-        JLabel JLlib = new JLabel("Libellé");
-        JLabel JLdes = new JLabel("Description");
-        JLabel JLpx = new JLabel("Prix Hors Taxe");
-        JLabel JLtva = new JLabel("Taux TVA");
-        JLabel JLstk = new JLabel("Stock actuel");
+        JLabel jLlib = new JLabel("Libellé");
+        JLabel jLdes = new JLabel("Description");
+        JLabel jLpx = new JLabel("Prix Hors Taxe");
+        JLabel jLtva = new JLabel("Taux TVA");
+        JLabel jLstk = new JLabel("Stock actuel");
         
         // Ajout au panel des JTextField et des JLabel
-        JP.add(JLlib);
-        JP.add(JTlib);
-        JP.add(JLdes);
-        JP.add(JTdes);
-        JP.add(JLpx);
-        JP.add(JTpx);
-        JP.add(JLtva);
-        JP.add(JTtva);
-        JP.add(JLstk);
-        JP.add(JTstk);
+        panel.add(jLlib);
+        panel.add(jTlib);
+        panel.add(jLdes);
+        panel.add(jTdes);
+        panel.add(jLpx);
+        panel.add(jTpx);
+        panel.add(jLtva);
+        panel.add(jTtva);
+        panel.add(jLstk);
+        panel.add(jTstk);
         
         // Jbutton "valider" et action associée
         valider = new JButton("Valider");
-        JP.add(valider);
+        panel.add(valider);
         valider.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    // Déclaration
-                    String lib, des, px, tx, stk;
-                    Integer id;
-                    double prixHt2;
-                    float tauxTva2;
-                    int stock2;
-                    
-                    // Récupération des champs saisis pour la modif
-                    id = artBis.getIdBis(); // Ici, on récupère l'id de l'article mais qui n'est pas saisi
-                    lib = JTlib.getText();
-                    des = JTdes.getText();
-                    px = JTpx.getText();
-                    tx = JTtva.getText();
-                    stk = JTstk.getText();
-                    // Conversion
-                    prixHt2 = Double.parseDouble(px);
-                    tauxTva2 = Float.parseFloat(tx);
-                    stock2 = Integer.parseInt(stk);
-                    
-                    // Création d'un nouvel articleBis pour l'éditer
-                    ArticleBis abis = new ArticleBis(id, lib, des, prixHt2, tauxTva2, stock2);
-                    app.getServiceCommercial().editer(abis);
-                    
-                    // On ferme la JFrame après la création
-                    panelParent.actualiser();
-                    panelParent.activerBtnModif();
-                    panelParent.activerBtnSupprimer();
-                    dispose();
-                    
-                    // Boite de dialogue indiquant le succès de la modification
-                    JOptionPane.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
-                } catch (NumberFormatException exc) {
-                    
-                    // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
-                    JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                actionValider();
             }
-
-        }
-        );
+        });
         
         // Jbutton "fermer" et action associée
         fermer = new JButton("Annuler");
-        JP.add(fermer);
+        panel.add(fermer);
         fermer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                panelParent.activerBtnModif();
-                panelParent.activerBtnSupprimer();
-                dispose();
+                actionAnnuler();
             }
         });
-        this.add(JP);
-        return JP;
+        this.add(panel);
+    }
+    
+    private void actionAnnuler(){
+        panelParent.activerBtnModif();
+        panelParent.activerBtnSupprimer();
+        dispose();
+    }
+    
+    private void actionValider(){
+         try {
+            // Récupération des champs saisis pour la modif
+            Integer id = artBis.getIdBis(); // Ici, on récupère l'id de l'article mais qui n'est pas saisi
+            String lib = jTlib.getText();
+            String des = jTdes.getText();
+            String px = jTpx.getText();
+            String tx = jTtva.getText();
+            String stk = jTstk.getText();
+            // Conversion
+            double prixHt2 = Double.parseDouble(px);
+            float tauxTva2 = Float.parseFloat(tx);
+            int stock2 = Integer.parseInt(stk);
+
+            // Création d'un nouvel articleBis pour l'éditer
+            ArticleBis abis = new ArticleBis(id, lib, des, prixHt2, tauxTva2, stock2);
+            app.getServiceCommercial().editer(abis);
+
+            // On ferme la JFrame après la création
+            panelParent.actualiser();
+            panelParent.activerBtnModif();
+            panelParent.activerBtnSupprimer();
+            dispose();
+
+            // Boite de dialogue indiquant le succès de la modification
+            JOptionPane.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException exc) {
+
+            // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
+            JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

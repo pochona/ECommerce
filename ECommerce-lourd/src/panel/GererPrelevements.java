@@ -11,11 +11,8 @@ import entitiesBis.StatutBis;
 import fenetre.Fenetre;
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
-import javax.persistence.NoResultException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +30,7 @@ public class GererPrelevements extends JPanel{
     Fenetre maFenetre;
     App app;
     
-    private JPanel panelList = new JPanel();
+    private JPanel panelList = new JPanel(new BorderLayout());
     private JPanel panelBtn = new JPanel();
     
     private JTable jTCommande;
@@ -49,7 +46,7 @@ public class GererPrelevements extends JPanel{
         this.init();
     }
     
-    public void init(){
+    private void init(){
         this.setLayout(new BorderLayout());
         JLabel label = new JLabel("Gérer les prélèvements");
         label.setFont(new Font(" TimesRoman ", Font.BOLD, 20));
@@ -63,7 +60,7 @@ public class GererPrelevements extends JPanel{
     }
     
     
-    public void creerBouton(){
+    private void creerBouton(){
         //création bouton
         JButton bouton = new JButton("Effectuer prélèvement");
 
@@ -82,7 +79,7 @@ public class GererPrelevements extends JPanel{
     }
     
     
-    public void creerList(){
+    private void creerList(){
         //Tableau
         List<CommandeBis> list = this.app.getServiceComptable().findCommandesByStatut("1");
         
@@ -104,12 +101,12 @@ public class GererPrelevements extends JPanel{
         
         this.modelCommande = new TabModel(donneeCommande, TITRECOLONNES);
         this.jTCommande = new JTable(modelCommande);
-        this.panelList.add(new JScrollPane(jTCommande));
+        this.panelList.add(new JScrollPane(jTCommande), BorderLayout.CENTER);
         
         
     }
     
-    public void declencherPrelevement(Integer idCommande){           
+    private void declencherPrelevement(Integer idCommande){           
         if(this.verifierSolde(idCommande)){
             app.getServiceComptable().modifieIdStatut(idCommande, 2);
             this.debiterCompte(idCommande);
@@ -121,7 +118,7 @@ public class GererPrelevements extends JPanel{
         }
     }
     
-    public boolean verifierSolde(Integer idCommande){
+    private boolean verifierSolde(Integer idCommande){
         this.prixTotalCommande = app.getServiceComptable().getPrixTotaleCommande(idCommande);
         System.out.println("prix tot "+prixTotalCommande);
         //recupere le solde
@@ -131,11 +128,11 @@ public class GererPrelevements extends JPanel{
         return prixTotalCommande<=solde;
     }
     
-    public void debiterCompte(Integer idCommande){
+    private void debiterCompte(Integer idCommande){
         this.app.getServiceBanque().debiterComptePourCommande(idCommande, this.prixTotalCommande);
     }
     
-    public void actualiserList(){
+    private void actualiserList(){
         this.panelList.removeAll();
         
         this.creerList();

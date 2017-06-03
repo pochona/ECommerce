@@ -6,7 +6,6 @@
 package panel;
 
 import app.App;
-import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -26,11 +25,12 @@ import javax.swing.JTextField;
 public class ModifierStock extends JFrame{
 
     private JButton annuler, valider;
-    private JPanel JP = new JPanel();
+    private JPanel panel;
     private Integer idArticle;
     private App app;
     private Fenetre fen;
     private GererApprovisionnement panelParent;
+    private JTextField jTstkNouveau, jTstkActuel;
 
     public ModifierStock(Fenetre fen, App app, Integer idArticle, GererApprovisionnement panelParent){
         this.fen = fen;
@@ -41,76 +41,73 @@ public class ModifierStock extends JFrame{
        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Modification sur le produit " + idArticle);
         this.setLocationRelativeTo(null);
-        this.getContentPane().add(init());
+        this.panel = new JPanel();
+        this.initPanel();
+        this.getContentPane().add(panel);
         this.setVisible(true);
     }
 
-    public JPanel init(){
+    public void initPanel(){
 
         Integer stockArticle = app.getServiceApprovisionnement().findStock(idArticle);
         // Conversion en string du stock pour l'afficher dans le JTextField
         String stkActuel = String.valueOf(stockArticle);
 
         // Déclaration du JTextField
-        JTextField JTstkActuel = new JTextField(stkActuel);
-        JTstkActuel.setPreferredSize(new Dimension(150, 30));
-        JTstkActuel.setEditable(false);
-        JTextField JTstkNouveau = new JTextField("");
-        JTstkNouveau.setPreferredSize(new Dimension(150, 30));
+        this.jTstkActuel = new JTextField(stkActuel);
+        this.jTstkActuel.setPreferredSize(new Dimension(150, 30));
+        this.jTstkActuel.setEditable(false);
+        this.jTstkNouveau = new JTextField("");
+        this.jTstkNouveau.setPreferredSize(new Dimension(150, 30));
 
         // Déclaration des JLabel
-        JLabel JLstkActuel = new JLabel("Ancien stock");
-        JLabel JLstkNouveau = new JLabel("Nouveau stock");
+        JLabel jLstkActuel = new JLabel("Ancien stock");
+        JLabel jLstkNouveau = new JLabel("Nouveau stock");
 
         // Ajout au panel des JTextField et des JLabel
-        JP.add(JLstkActuel);
-        JP.add(JTstkActuel);
-        JP.add(JLstkNouveau);
-        JP.add(JTstkNouveau);
+        panel.add(jLstkActuel);
+        panel.add(jTstkActuel);
+        panel.add(jLstkNouveau);
+        panel.add(jTstkNouveau);
 
         // Jbutton "valider" et action associée
         valider = new JButton("Valider");
-        JP.add(valider);
+        panel.add(valider);
         valider.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    // Déclaration
-                    String stockString;
-                    int stockInt;
-
-                    stockString = JTstkNouveau.getText();
-                    // Conversion
-                    stockInt = Integer.parseInt(stockString);
-
-                    // Création d'un nouvel articleBis pour l'éditer
-                    app.getServiceApprovisionnement().editerStock(idArticle, stockInt);
-
-                    // On ferme la JFrame après la création
-                    panelParent.actualiser();
-                    panelParent.activerBtnModif();
-                    dispose();
-
-                    // Boite de dialogue indiquant le succès de la modification
-                    JOptionPane.showMessageDialog(null, "Modification du stock du produit "+idArticle, "Succés", JOptionPane.INFORMATION_MESSAGE);
-                } catch (NumberFormatException exc) {
-
-                    // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
-                    JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                actionValider();
             }
-
-        }
-        );
+        });
 
         // Jbutton "fermer" et action associée
         annuler = new JButton("Fermer");
-        JP.add(annuler);
+        panel.add(annuler);
         annuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        this.add(JP);
-        return JP;
+    }
+    
+    public void actionValider(){
+        try {
+            String stockString = this.jTstkNouveau.getText();
+            // Conversion
+            int stockInt = Integer.parseInt(stockString);
+
+            // Création d'un nouvel articleBis pour l'éditer
+            app.getServiceApprovisionnement().editerStock(idArticle, stockInt);
+
+            // On ferme la JFrame après la création
+            panelParent.actualiser();
+            panelParent.activerBtnModif();
+            dispose();
+
+            // Boite de dialogue indiquant le succès de la modification
+            JOptionPane.showMessageDialog(null, "Modification du stock du produit "+idArticle, "Succés", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException exc) {
+            // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
+            JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

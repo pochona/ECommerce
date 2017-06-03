@@ -40,9 +40,7 @@ public interface ArticleFacadeLocal {
     String chercherArticle(String description, String lib);
     
     List<Article> findArticlesCommande(Integer idComm) throws exceptions.ExceptionArticle;
-    
-    Article creer(Integer id, String lib, String description, double prixHt, float tauxTva, int stock) throws ExceptionArticle;
-    
+        
     Article supprimer(Article a);
     
     Article editer(Article a);

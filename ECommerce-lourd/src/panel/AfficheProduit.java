@@ -8,6 +8,7 @@ package panel;
 import app.App;
 import entitiesBis.ArticleBis;
 import fenetre.Fenetre;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -35,8 +36,9 @@ public class AfficheProduit extends JPanel {
     private JScrollPane scrollPane;
     private TabModel modelArticle;
     private String[] titreColonnes = {"ID", "Libellé", "Description", "Prix Hors taxe", "TVA", "Stock"};
+    private ModifierProduit modifierProduit;
     
-    private JPanel panelList = new JPanel(new FlowLayout());
+    private JPanel panelList = new JPanel(new BorderLayout());
     private JPanel panelBtn = new JPanel(new FlowLayout());
     
     
@@ -44,13 +46,16 @@ public class AfficheProduit extends JPanel {
         this.maFenetre = maFenetre;
         this.app = app;
 
-        GridLayout tableau = new GridLayout(2, 1);
-        this.setLayout(tableau);
-        this.add(panelList);
-        this.add(panelBtn);
-    
-        this.createList();
+        this.init();
         
+        this.createList();
+    }
+    
+    private void init(){
+        this.setLayout(new GridLayout(2, 1));
+        this.add(panelList, BorderLayout.CENTER);
+        this.add(panelBtn);
+
         // Ajout du JButton "boutonModifier"
         this.panelBtn.add(boutonModifier);
         
@@ -71,7 +76,7 @@ public class AfficheProduit extends JPanel {
                 Integer idArticle = Integer.parseInt(i);
                 
                 // Ouverture d'une nouvelle Frame pour modifier le produit
-                ModifierProduit mp = new ModifierProduit(maFenetre, app, idArticle, afficheProd);
+                afficheProd.modifierProduit = new ModifierProduit(maFenetre, app, idArticle, afficheProd);
                 
                 // On désactive les JButton modifier et supprimer
                 desactiverBtnModif();
@@ -98,22 +103,31 @@ public class AfficheProduit extends JPanel {
                 // On récupére l'ID de la ligne sélectionnée
                 Object cellule = JTarticle.getValueAt(row,col);
                 String id = cellule.toString();
-                String message = "Voulez-vous vraiment supprimer le produit "+id+" ?";
-                // Boite de dialogue pour demander la confirmation de la suppression			
-                int option = JOptionPane.showConfirmDialog(null, message, "Suppression d'un produit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                
-                // Si la réponse est Oui
-                if(option == JOptionPane.OK_OPTION){
-                    app.getServiceCommercial().supprimer(id);
-                    JOptionPane.showMessageDialog(null, "Le produit a bien été supprimé", "Validation de votre suppresion", JOptionPane.INFORMATION_MESSAGE);
-                    JTarticle.clearSelection();
-                    actualiser();
-                }
+                supprimer(id);
             }
         });
     }
     
-    public void createList(){
+    private void supprimer(String id){
+        // Boite de dialogue pour demander la confirmation de la suppression			
+        int option = JOptionPane.showConfirmDialog(
+                null, 
+                "Voulez-vous vraiment supprimer le produit "+id+" ?", 
+                "Suppression d'un produit", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Si la réponse est Oui
+        if(option == JOptionPane.OK_OPTION){
+            app.getServiceCommercial().supprimer(id);
+            JOptionPane.showMessageDialog(null, "Le produit a bien été supprimé", "Validation de votre suppresion", JOptionPane.INFORMATION_MESSAGE);
+            JTarticle.clearSelection();
+            actualiser();
+        }
+    }
+    
+    private void createList(){
         
         // On récupère la liste des article
         List<ArticleBis> list = this.app.getServiceCommercial().listerBis();
@@ -159,7 +173,6 @@ public class AfficheProduit extends JPanel {
     
     
     public void actualiser(){
-        
         // On vide le JPanel
         this.panelList.removeAll();
         

@@ -44,15 +44,18 @@ public class GestionArticle implements GestionArticleLocal{
         return articleFacade.findAll();
     }
 
+    @Override
     public Article findArticle(Integer id) throws ExceptionArticle {
         return articleFacade.find(id);
     }
 
+    @Override
     public List<Article> getArticleCommande(Integer idCom) throws ExceptionArticle {
         return articleFacade.findArticlesCommande(idCom);
     }
     
     
+    @Override
     public List<ArticleBis> listerBis() {
         List<Article> a = articleFacade.findAll();
         List<ArticleBis> b = new ArrayList<ArticleBis>();
@@ -68,22 +71,24 @@ public class GestionArticle implements GestionArticleLocal{
     }
     
     public Article creer(String art) throws ExceptionArticle{
-        Integer id;
-        String lib, des;
-        double prixHt;
-        float tauxTva;
-        int stock;
-
         String values[] = art.split(",");
+
+        String lib = values[1];
+        String description = values[2];
+        double prixHt = Double.parseDouble(values[3]);
+        float tauxTva = Float.parseFloat(values[4]);
+        int stock = Integer.parseInt(values[5]);
         
-        id = Integer.parseInt(values[0]);
-        lib = values[1];
-        des = values[2];
-        prixHt = Double.parseDouble(values[3]);
-        tauxTva = Float.parseFloat(values[4]);
-        stock = Integer.parseInt(values[5]);
+        Article a = new Article();
+        a.setLib(lib);
+        a.setDescription(description);
+        a.setPrixHt(prixHt);
+        a.setTauxTva(tauxTva);
+        a.setStock(stock);
         
-        return articleFacade.creer(id, lib, des, prixHt, tauxTva, stock);
+        articleFacade.create(a);
+        
+        return a;
     }
     
     public Article supprimer(String i){

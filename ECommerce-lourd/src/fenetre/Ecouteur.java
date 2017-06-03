@@ -30,17 +30,6 @@ public class Ecouteur implements ActionListener {
     }
 // gestion avec le nom du bouton actuellement : à voir si on modifie en classe anonyme ou si on fait un truc plus élégant pour les detections d'actions
     public void actionPerformed(ActionEvent act){
-    /*private JMenuItem itemSuivreCommande = new JMenuItem("Suivre commande");
-    private JMenuItem itemGererPrlv = new JMenuItem("Gérer les prélèvements");
-    private JMenuItem item2bis = new JMenuItem("Gérer les prélèvements");
-    private JMenuItem itemModifProduit = new JMenuItem("Modifier un produit");
-    private JMenuItem itemCreerProduit = new JMenuItem("Créer un produit");
-    private JMenuItem itemSuppProduit = new JMenuItem("Supprimer un produit");
-    private JMenuItem itemAfficheProduit = new JMenuItem("Afficher tous les produits");
-    private JMenuItem itemGererStock = new JMenuItem("Gérer le stock");
-    private JMenuItem itemDeclencherLivraison = new JMenuItem("Déclencher la livraison");
-    private JMenuItem itemFermer = new JMenuItem("Fermer");
-    private JMenuItem itemInfo = new JMenuItem("Information");*/
         String source = act.getActionCommand();
         if (source.equals("Suivre commande")){ // Information sur l'application
             this.fenetre.setContentPane(new GererCommande(this.fenetre, this.app));
