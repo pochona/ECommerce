@@ -6,10 +6,8 @@
 package controllers;
 
 import entities.Client;
-import entities.Ligne;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionClient;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

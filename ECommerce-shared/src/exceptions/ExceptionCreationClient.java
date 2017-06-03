@@ -17,6 +17,6 @@ public class ExceptionCreationClient extends Exception {
     }
     
     public String toString(){
-        return this.erreur;
+        return "Erreur Creation Client : " + this.erreur;
     }
 }

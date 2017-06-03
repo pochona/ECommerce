@@ -8,7 +8,6 @@ package metiers;
 import entities.Article;
 import entitiesBis.ArticleBis;
 import exceptions.ExceptionArticle;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 

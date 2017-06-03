@@ -6,9 +6,6 @@
 package controllers;
 
 import entities.Article;
-import entitiesBis.ArticleBis;
-import exceptions.ErreurConnexionClient;
-import exceptions.ExceptionArticle;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -28,8 +25,6 @@ public interface ArticleFacadeLocal {
     Article find(Object id);
 
     List<Article> findAll();
-    
-    //List<ArticleBis> listerBis();
 
     List<String> lister();
     

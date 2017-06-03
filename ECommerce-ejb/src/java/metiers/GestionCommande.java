@@ -13,14 +13,11 @@ import entities.Article;
 import entities.Commande;
 import entities.Ligne;
 import entities.Statut;
-import entitiesBis.ArticleBis;
 import entitiesBis.CommandeBis;
 import exceptions.ExceptionCommande;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,7 +25,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import utilities.Log;
 
 /**
  *
@@ -71,10 +67,6 @@ public class GestionCommande implements GestionCommandeLocal {
         return statutFacade.find(id);
     }
 
-    /*@Override
-    public int findIdComByClient(int idClient) throws ExceptionCommande{
-        return commandeFacade.findIdComByClient(idClient);
-    }*/
     @Override
     public List<Ligne> getLigneCommande(Integer idCommande) throws ExceptionCommande {
         return ligneFacade.findByIdCommande(idCommande);
@@ -120,14 +112,11 @@ public class GestionCommande implements GestionCommandeLocal {
 
     @Override
     public List<CommandeBis> findCommandesClient(String idC) {
-        //List <Commande> c = commandeFacade.findByIdClient(idClient);
-        
         int idClient = Integer.parseInt(idC); 
         
         TypedQuery<Commande> query = em.createNamedQuery("Commande.findByIdClient", Commande.class)
                                         .setParameter("idClient", idClient);
         List<Commande> results = query.getResultList();
-        
         
         List<CommandeBis> b = new ArrayList<CommandeBis>();
         for (Commande maCom : results) {
@@ -186,7 +175,7 @@ public class GestionCommande implements GestionCommandeLocal {
         Commande result = query.getSingleResult();
         result.setIdStatut(idStatut);
     }
-    
+    /*
     @Override
     public double getPUArticle(String idCom) {
         
@@ -212,7 +201,7 @@ public class GestionCommande implements GestionCommandeLocal {
             int prixHT =0;
             return prixHT = (int) q.getSingleResult();    
     }
-
+*/
     @Override
     public double getSolde(String idCom) {
         int id = Integer.parseInt(idCom); 

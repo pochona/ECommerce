@@ -11,5 +11,14 @@ package exceptions;
  * @author Laura
  */
 public class ExceptionCommande extends Exception{
+    private String erreur;
     
+    public ExceptionCommande(String s){
+        this.erreur = s;
+    }
+    
+    @Override
+    public String toString(){
+        return "Erreur Commande : " + this.erreur;
+    }
 }

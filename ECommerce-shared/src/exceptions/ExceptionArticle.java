@@ -11,5 +11,14 @@ package exceptions;
  * @author Laura
  */
 public class ExceptionArticle extends Exception{
+    private String erreur;
     
+    public ExceptionArticle(String s){
+        this.erreur = s;
+    }
+    
+    @Override
+    public String toString(){
+        return "Erreur Article : " + this.erreur;
+    }
 }

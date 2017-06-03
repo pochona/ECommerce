@@ -17,7 +17,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
-import java.lang.String;
 import metiers.GestionClientLocal;
 import metiers.GestionStatutLocal;
 
@@ -41,36 +40,32 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     @EJB
     private GestionStatutLocal gestionStatut;
     
-    /*
-    @Override
-    public List<ArticleBis> listerBis() {
-        return gestionArticle.listerBis();
-    }*/
-    
     @Override
     public List<String> lister(){
         return gestionArticle.lister();
     }
     
+    @Override
     public List<ArticleBis> listerBis(){
         return gestionArticle.listerBis();
-    }
-    
-    
+    }   
     
     @Override
     public void creer(String art)throws ExceptionArticle{
         Article a = gestionArticle.creer(art);
     }
     
+    @Override
     public void supprimer(String i){
         Article a = gestionArticle.supprimer(i);
     }
     
+    @Override
     public void editer(ArticleBis a){
         Article article = gestionArticle.editer(a);
     }
     
+    @Override
     public ArticleBis retourArticle(Integer id){
         return gestionArticle.retourArticle(id);
     }
@@ -78,11 +73,6 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     @Override
     public List<CommandeBis> listerCommandeBis() {
         return gestionCommande.listerCommandeBis();
-    }
-
-    @Override
-    public List<String> listerCommande() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

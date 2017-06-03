@@ -5,21 +5,17 @@
  */
 package metiers;
 
-import controllers.ClientFacade;
 import controllers.ClientFacadeLocal;
 import controllers.CompteFacadeLocal;
 import entities.Client;
-import entities.Commande;
 import entitiesBis.ClientBis;
 import exceptions.ErreurConnexionClient;
 import exceptions.ExceptionClient;
 import exceptions.ExceptionCreationClient;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import utilities.Log;
 
 /**
  *
@@ -27,9 +23,6 @@ import utilities.Log;
  */
 @Stateless
 public class GestionClient implements GestionClientLocal {
-
-    @EJB
-    private CompteFacadeLocal compteFacade;
 
     @EJB
     private ClientFacadeLocal clientFacade;
@@ -43,12 +36,7 @@ public class GestionClient implements GestionClientLocal {
     public List<Long> listeNumComptes(long idClient) throws ExceptionClient {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-/*
-    @Override
-    public long creerCompte(long idClient) throws ExceptionClient {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-*/
+
     @Override
     public long validerConnexion(String email, String mdp) throws ErreurConnexionClient {
         return clientFacade.validerConnexion(email, mdp);

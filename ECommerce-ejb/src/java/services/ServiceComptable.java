@@ -5,7 +5,6 @@
  */
 package services;
 
-import entities.Commande;
 import entitiesBis.CommandeBis;
 import entitiesBis.StatutBis;
 import java.util.List;
@@ -47,7 +46,7 @@ public class ServiceComptable implements ServiceComptableRemote {
     public void modifieIdStatut(Integer idCom, Integer idStatut) {
         gestionCommande.modifieIdStatut(idCom, idStatut);
     }
-
+/*
     @Override
     public double getPUArticle(String id) {
         return gestionCommande.getPUArticle(id);
@@ -57,7 +56,7 @@ public class ServiceComptable implements ServiceComptableRemote {
     public int getQteLigne(String idCom) {
         return gestionCommande.getQteLigne(idCom);
     }
-
+*/
     @Override
     public double getSolde(String idCom) {
        return gestionCommande.getSolde(idCom); 

@@ -5,7 +5,6 @@
  */
 package services;
 
-import entitiesBis.ArticleBis;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import metiers.GestionArticleLocal;
@@ -21,10 +20,12 @@ public class ServiceApprovisionnement implements ServiceApprovisionnementRemote{
     @EJB
     private GestionArticleLocal gestionArticle;
     
+    @Override
     public Integer findStock(Integer idArticleBis){
         return gestionArticle.findStock(idArticleBis);
     }
     
+    @Override
     public void editerStock(Integer idArticle, Integer nouveauStock){
         gestionArticle.editerStock(idArticle,nouveauStock);
     }

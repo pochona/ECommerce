@@ -5,18 +5,13 @@
  */
 package controllers;
 
-import entities.Commande;
 import entities.Compte;
 import exceptions.ExceptionBancaire;
-import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import utilities.Log;
 
 /**
  *

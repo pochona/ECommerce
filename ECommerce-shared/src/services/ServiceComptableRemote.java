@@ -25,11 +25,11 @@ public interface ServiceComptableRemote {
     public List<CommandeBis> findCommandesByStatut(String idC);
     
     public void modifieIdStatut(Integer idCom, Integer idStatut);
-    
+/*    
     public double getPUArticle(String id);
     
     public int getQteLigne(String idCom);
-    
+*/    
     public double getSolde(String idCom);
     
     public double getPrixTotaleCommande(Integer idCommande);

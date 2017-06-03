@@ -11,4 +11,14 @@ package exceptions;
  */
 public class ErreurConnexionClient extends Exception {
     
+    private String erreur;
+    
+    public ErreurConnexionClient(String s){
+        this.erreur = s;
+    }
+    
+    @Override
+    public String toString(){
+        return "Erreur connexion client : " + this.erreur;
+    }
 }

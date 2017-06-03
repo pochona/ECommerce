@@ -27,7 +27,7 @@ public interface ServiceCommercialRemote {
     
     List<CommandeBis> listerCommandeBis();
     
-    List<String> listerCommande();
+    //List<String> listerCommande();
     
     public void creer(String art) throws ExceptionArticle;
     

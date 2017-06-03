@@ -6,10 +6,7 @@
 package controllers;
 
 import entities.Commande;
-import exceptions.ExceptionCommande;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

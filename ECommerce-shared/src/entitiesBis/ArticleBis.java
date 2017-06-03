@@ -83,11 +83,5 @@ public class ArticleBis implements Serializable {
 
     public int getStockBis() {
         return stockBis;
-    }
-/*
-    public List getList() {
-        return list;
-    }
-  */  
-    
+    }   
 }

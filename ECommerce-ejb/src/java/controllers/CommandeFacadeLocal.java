@@ -6,7 +6,6 @@
 package controllers;
 
 import entities.Commande;
-import exceptions.ExceptionCommande;
 import java.util.List;
 import javax.ejb.Local;
 
