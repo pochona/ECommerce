@@ -84,6 +84,7 @@ public class ModifierStock extends JFrame{
         panel.add(annuler);
         annuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                panelParent.activerBtnModif();
                 dispose();
             }
         });
