@@ -29,7 +29,7 @@ public class GererApprovisionnement extends JPanel{
     
     Fenetre maFenetre;
     App app;
-    private JTable JTarticle;
+    private JTable jTarticle;
     
     private JButton boutonModifier = new JButton("Modifier le stock");
     private JScrollPane scrollPane;
@@ -61,10 +61,10 @@ public class GererApprovisionnement extends JPanel{
                 
                 // On se place à la colonne 0 pour être directement sur l'ID
                 int col = 0;
-                int row = JTarticle.getSelectedRow();
+                int row = jTarticle.getSelectedRow();
                 
                 // On récupére l'ID de la ligne sélectionnée
-                Object cellule = JTarticle.getValueAt(row,col);
+                Object cellule = jTarticle.getValueAt(row,col);
                 
                 // test perso pour vérifier si on récupère bien l'artibleBis
                 String i = cellule.toString();
@@ -105,10 +105,10 @@ public class GererApprovisionnement extends JPanel{
         }
 
         this.modelArticle = new TabModel(donneeArticle, titreColonnes);
-        JTarticle = new JTable(modelArticle);
+        jTarticle = new JTable(modelArticle);
         
         // Scroll possible s'il y a beaucoup d'article d'affiché
-        this.scrollPane = new JScrollPane(JTarticle); 
+        this.scrollPane = new JScrollPane(jTarticle); 
         this.panelList.add(scrollPane);
     }
     

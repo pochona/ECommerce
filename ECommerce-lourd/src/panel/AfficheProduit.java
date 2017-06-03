@@ -30,7 +30,7 @@ public class AfficheProduit extends JPanel {
 
     Fenetre maFenetre;
     App app;
-    private JTable JTarticle;
+    private JTable jTarticle;
     private JButton boutonModifier = new JButton("Modifier");
     private JButton boutonSupprimer = new JButton("Supprimer");
     private JScrollPane scrollPane;
@@ -66,10 +66,10 @@ public class AfficheProduit extends JPanel {
                 
                 // On se place à la colonne 0 pour être directement sur l'ID
                 int col = 0;
-                int row = JTarticle.getSelectedRow();
+                int row = jTarticle.getSelectedRow();
                 
                 // On récupére l'ID de la ligne sélectionnée
-                Object cellule = JTarticle.getValueAt(row,col);
+                Object cellule = jTarticle.getValueAt(row,col);
                 
                 // test perso pour vérifier si on récupère bien l'artibleBis
                 String i = cellule.toString();
@@ -98,10 +98,10 @@ public class AfficheProduit extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // On se place à la colonne 0 pour être directement sur l'ID
                 int col = 0;
-                int row = JTarticle.getSelectedRow();
+                int row = jTarticle.getSelectedRow();
                 
                 // On récupére l'ID de la ligne sélectionnée
-                Object cellule = JTarticle.getValueAt(row,col);
+                Object cellule = jTarticle.getValueAt(row,col);
                 String id = cellule.toString();
                 supprimer(id);
             }
@@ -122,7 +122,7 @@ public class AfficheProduit extends JPanel {
         if(option == JOptionPane.OK_OPTION){
             app.getServiceCommercial().supprimer(id);
             JOptionPane.showMessageDialog(null, "Le produit a bien été supprimé", "Validation de votre suppresion", JOptionPane.INFORMATION_MESSAGE);
-            JTarticle.clearSelection();
+            jTarticle.clearSelection();
             actualiser();
         }
     }
@@ -148,10 +148,10 @@ public class AfficheProduit extends JPanel {
         }
 
         this.modelArticle = new TabModel(donneeArticle, titreColonnes);
-        JTarticle = new JTable(modelArticle);
+        jTarticle = new JTable(modelArticle);
         
         // Scroll possible s'il y a beaucoup d'article d'affiché
-        this.scrollPane = new JScrollPane(JTarticle); 
+        this.scrollPane = new JScrollPane(jTarticle); 
         this.panelList.add(scrollPane);
     }
     

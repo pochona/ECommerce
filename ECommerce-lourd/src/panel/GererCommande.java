@@ -31,7 +31,7 @@ public class GererCommande extends JPanel {
     
     Fenetre maFenetre;
     App app;
-    private JTable JTCommande;
+    private JTable jTcommande;
     private JComboBox listeClient;
     private Font myFont;
     private String idClient;
@@ -125,8 +125,8 @@ public class GererCommande extends JPanel {
         }
 
         TabModel modelCommande = new TabModel(donneeCommande, titreColonnes);
-        JTCommande = new JTable(modelCommande);
-        JScrollPane scrollPaneA = new JScrollPane(JTCommande);
+        jTcommande = new JTable(modelCommande);
+        JScrollPane scrollPaneA = new JScrollPane(jTcommande);
         this.panelListCommande.add(scrollPaneA, BorderLayout.CENTER);
         this.panelListCommande.revalidate();
         this.panelListCommande.repaint();

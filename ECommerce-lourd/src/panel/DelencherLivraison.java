@@ -28,7 +28,7 @@ public class DelencherLivraison extends JPanel {
     Fenetre maFenetre;
     App app;
     // JTable des commandes
-    public JTable JTCommande;
+    public JTable jTCommande;
     // Liste d'id des commandes selectionnées 
     private ArrayList<Integer> commandesSelect;
     // TabModel d
@@ -79,9 +79,9 @@ public class DelencherLivraison extends JPanel {
     private void creerList(){
         this.tabModelCommande = new TabModel(this.donneeCommande, titre);
         this.tabModelSelect = new TabModel(new Object[0][0], titre);
-        JTCommande = new JTable(tabModelCommande);
+        jTCommande = new JTable(tabModelCommande);
         
-        this.scrollPaneCommande = new JScrollPane(JTCommande);
+        this.scrollPaneCommande = new JScrollPane(jTCommande);
         this.scrollPaneSelect = new JScrollPane(new JTable(tabModelSelect));
        
         //this.panelListAll.add(scrollPaneCommande);
@@ -90,9 +90,9 @@ public class DelencherLivraison extends JPanel {
     
     private void actualiserList(){
         System.out.println("panel actu");
-        JTCommande = new JTable(tabModelCommande);
+        jTCommande = new JTable(tabModelCommande);
         this.scrollPaneCommande.removeAll();
-        this.scrollPaneCommande = new JScrollPane(JTCommande);
+        this.scrollPaneCommande = new JScrollPane(jTCommande);
         this.panelListAll.removeAll();
         this.scrollPaneCommande.revalidate();
         this.scrollPaneCommande.repaint();
@@ -125,19 +125,19 @@ public class DelencherLivraison extends JPanel {
         }
         
         this.tabModelCommande = new TabModel(this.donneeCommande, titre);
-        this.JTCommande = new JTable(tabModelCommande);
+        this.jTCommande = new JTable(tabModelCommande);
         
-        JTCommande.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        jTCommande.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             private DelencherLivraison decLivraison;
 
             public void valueChanged(ListSelectionEvent arg0) {
                // decLivraison.JTCommande.clearSelection();
                 int col = 3;
-                int row = decLivraison.JTCommande.getSelectedRow(); // On envoie la ligne 
-                decLivraison.JTCommande.setValueAt("[abcx]", row, col);
-                decLivraison.JTCommande.revalidate();
-                decLivraison.JTCommande.repaint();
-                System.out.println(decLivraison.JTCommande.getValueAt(row, col));
+                int row = decLivraison.jTCommande.getSelectedRow(); // On envoie la ligne 
+                decLivraison.jTCommande.setValueAt("[abcx]", row, col);
+                decLivraison.jTCommande.revalidate();
+                decLivraison.jTCommande.repaint();
+                System.out.println(decLivraison.jTCommande.getValueAt(row, col));
                 //System.out.println(tabModelCommande.getRowCount());
                 //tabModelCommande.removeRow(JTCommande.getSelectedRow());
 
@@ -150,7 +150,7 @@ public class DelencherLivraison extends JPanel {
             }
         }.init(this));
         
-        this.scrollPaneCommande = new JScrollPane(JTCommande);
+        this.scrollPaneCommande = new JScrollPane(jTCommande);
         this.panelListAll.add(scrollPaneCommande);
         this.panelListSelect.add(scrollPaneSelect);
     }
