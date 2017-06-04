@@ -34,4 +34,8 @@ public class CompteShared {
         return id;
     }
     
+    public double getSolde(){
+        return solde;
+    }
+    
 }

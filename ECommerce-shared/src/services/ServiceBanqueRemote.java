@@ -23,5 +23,11 @@ public interface ServiceBanqueRemote {
     public CompteShared validerCoordonnees(String numCarte, String numCrypto) throws ExceptionBancaire;
     
     public void debiterComptePourCommande(Integer idCommande, double montant);
+    
+    public void debiterCompte(Integer idCompte, double montant);
+    
+    public void crediterCompte(Integer idCompte, double montant);
+    
+    public CompteShared findCompteById(Integer idCompte);
 
 }

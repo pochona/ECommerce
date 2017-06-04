@@ -21,6 +21,10 @@
         <servlet-class>WebServices.AuthentificationServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AuthentificationBanqueServlet</servlet-name>
+        <servlet-class>WebServices.AuthentificationBanqueServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>MagasinServlet</servlet-name>
         <servlet-class>WebServices.MagasinServlet</servlet-class>
     </servlet>
@@ -28,6 +32,12 @@
         <servlet-name>PanierServlet</servlet-name>
         <servlet-class>WebServices.PanierServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CompteBanqueServlet</servlet-name>
+        <servlet-class>WebServices.CompteBanqueServlet</servlet-class>
+    </servlet>
+    
+    
     <servlet-mapping>
         <servlet-name>ClientServlet</servlet-name>
         <url-pattern>/ClientServlet</url-pattern>
@@ -35,6 +45,10 @@
     <servlet-mapping>
         <servlet-name>AuthentificationServlet</servlet-name>
         <url-pattern>/AuthentificationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthentificationBanqueServlet</servlet-name>
+        <url-pattern>/AuthentificationBanqueServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MagasinServlet</servlet-name>
@@ -55,6 +69,10 @@
     <servlet-mapping>
         <servlet-name>VerificationBancaireServlet</servlet-name>
         <url-pattern>/VerificationBancaireServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompteBanqueServlet</servlet-name>
+        <url-pattern>/CompteBanqueServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

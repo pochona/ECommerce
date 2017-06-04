@@ -9,4 +9,13 @@ $( document ).ready(function() {
       $("#form-crea").hide();
    });
    
+   $("#btn-crediter").click(function(){
+       $("#form-crediter").show();
+       $("#form-dediter").hide();
+   });
+   
+   $("#btn-debiter").click(function(){
+       $("#form-crediter").hide();
+       $("#form-dediter").show();
+   });
 });
