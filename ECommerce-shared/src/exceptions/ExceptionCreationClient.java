@@ -16,6 +16,10 @@ public class ExceptionCreationClient extends Exception {
         this.erreur = s;
     }
     
+    public ExceptionCreationClient() {
+        this.erreur = "Message non personnalisé.";
+    }
+    
     public String toString(){
         return "Erreur Creation Client : " + this.erreur;
     }

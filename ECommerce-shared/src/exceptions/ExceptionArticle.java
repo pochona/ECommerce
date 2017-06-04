@@ -17,6 +17,10 @@ public class ExceptionArticle extends Exception{
         this.erreur = s;
     }
     
+    public ExceptionArticle() {
+        this.erreur = "Message non personnalisé.";
+    }
+    
     @Override
     public String toString(){
         return "Erreur Article : " + this.erreur;

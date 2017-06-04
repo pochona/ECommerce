@@ -16,6 +16,10 @@ public class ExceptionBancaire extends Exception{
     public ExceptionBancaire(String s){
         this.erreur = s;
     }
+
+    public ExceptionBancaire() {
+        this.erreur = "Message non personnalisé.";
+    }
     
     @Override
     public String toString(){

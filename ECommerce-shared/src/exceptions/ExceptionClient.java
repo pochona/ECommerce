@@ -16,6 +16,10 @@ public class ExceptionClient extends Exception {
         this.erreur = s;
     }
     
+    public ExceptionClient() {
+        this.erreur = "Message non personnalisé.";
+    }
+    
     @Override
     public String toString(){
         return "Erreur Client : " + this.erreur;

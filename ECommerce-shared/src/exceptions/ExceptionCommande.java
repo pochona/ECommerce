@@ -17,6 +17,10 @@ public class ExceptionCommande extends Exception{
         this.erreur = s;
     }
     
+    public ExceptionCommande() {
+        this.erreur = "Message non personnalisé.";
+    }
+    
     @Override
     public String toString(){
         return "Erreur Commande : " + this.erreur;

@@ -17,6 +17,10 @@ public class ErreurConnexionClient extends Exception {
         this.erreur = s;
     }
     
+    public ErreurConnexionClient() {
+        this.erreur = "Message non personnalisé.";
+    }
+    
     @Override
     public String toString(){
         return "Erreur connexion client : " + this.erreur;
