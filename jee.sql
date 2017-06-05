@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 19 Mai 2017 à 17:37
+-- Généré le :  Lun 05 Juin 2017 à 09:32
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -41,9 +41,12 @@ CREATE TABLE `article` (
 
 INSERT INTO `article` (`ID`, `LIB`, `DESCRIPTION`, `PRIX_HT`, `TAUX_TVA`, `STOCK`) VALUES
 (1, 'LibArticle1', 'Description1', 10.5, 0.2, 10),
-(2, 'LibArticle2', 'Description2', 1.5, 0.05, 1),
-(3, 'MonArticle3', 'Description Article 3', 10, 0.2, 15),
-(4, 'MonArticle4', 'Description Article 4', 20, 0.05, 5);
+(2, 'LibArticle2', 'Description2', 1.5, 0.05, 2),
+(3, 'MonArticle3', 'Description Article 3', 10, 0.2, 17),
+(4, 'MonArticle4', 'Description Article 4', 20, 0.05, 15),
+(5, 'Libelléee', 'Descriptionnn', 99.99, 0.2, 0),
+(6, 'Libellé', 'Description', 99.99, 0.2, 0),
+(7, 'Libellé', 'Description', 99.99, 0.2, 0);
 
 -- --------------------------------------------------------
 
@@ -59,16 +62,19 @@ CREATE TABLE `client` (
   `ADRESSE` varchar(255) NOT NULL,
   `TEL` varchar(10) NOT NULL,
   `MAIL` varchar(255) NOT NULL,
-  `MDP` varchar(255) NOT NULL,
-  `LAST_CONNEXION` date NOT NULL
+  `MDP` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `client`
 --
 
-INSERT INTO `client` (`ID`, `NOM`, `PRENOM`, `VILLE`, `ADRESSE`, `TEL`, `MAIL`, `MDP`, `LAST_CONNEXION`) VALUES
-(1, 'pochon', 'amaury', 'TOulouse', 'Mon adresse', '', 'mail@test.fr', 'mdp', '2017-05-03');
+INSERT INTO `client` (`ID`, `NOM`, `PRENOM`, `VILLE`, `ADRESSE`, `TEL`, `MAIL`, `MDP`) VALUES
+(1, 'pochon', 'amaury', 'TOulouse', 'Mon adresse', '', 'mail@test.fr', 'mdp'),
+(2, 'Nom', 'Prenom', 'Ville', 'Adresse', '123456', 'email@test.fr', 'mdp'),
+(3, 'Nom', 'Prenom', 'Ville', 'Adresse', 'Telephone', 'mail@test.frrr', 'mdp'),
+(4, 'abc', 'def', 'Ville', 'Adresse', '123456', 'mail@test.frdede', 'mdp'),
+(5, 'Nom', 'Prenom', 'VIlle', 'Adress', 'Tel', 'fgh@mail.fr', 'mdp');
 
 -- --------------------------------------------------------
 
@@ -91,11 +97,12 @@ CREATE TABLE `commande` (
 
 INSERT INTO `commande` (`ID`, `DATE_COMMANDE`, `ID_CLIENT`, `ID_TOURNEE`, `ID_STATUT`, `ID_COMPTE`) VALUES
 (1, '2017-05-03', 1, NULL, 1, 0),
-(2, '2017-05-09', 2, NULL, 1, 0),
-(3, '2017-05-03', 2, NULL, 1, 0),
-(4, '2017-05-09', 2, NULL, 1, 0),
-(12, '2017-05-19', 1, NULL, 1, 1),
-(11, '2017-05-19', 1, NULL, 1, 1);
+(2, '2017-05-09', 2, NULL, 2, 0),
+(3, '2017-05-03', 2, NULL, 2, 0),
+(4, '2017-05-09', 2, NULL, 2, 0),
+(12, '2017-05-19', 1, NULL, 2, 1),
+(11, '2017-05-19', 1, NULL, 2, 1),
+(13, '2017-05-22', 1, NULL, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +122,7 @@ CREATE TABLE `compte` (
 --
 
 INSERT INTO `compte` (`ID`, `NUM_CARTE`, `CRYPTO`, `SOLDE`) VALUES
-(1, '123456789', '123', 50);
+(1, '123456789', '123', 57.099999999999994);
 
 -- --------------------------------------------------------
 
@@ -141,7 +148,8 @@ INSERT INTO `ligne` (`ID`, `ID_ARTICLE`, `ID_COMMANDE`, `QTE`) VALUES
 (4, 2, 11, 2),
 (5, 3, 11, 1),
 (6, 1, 12, 1),
-(7, 2, 12, 4);
+(7, 2, 12, 4),
+(8, 1, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -232,17 +240,17 @@ ALTER TABLE `tournee`
 -- AUTO_INCREMENT pour la table `article`
 --
 ALTER TABLE `article`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT pour la table `compte`
 --
@@ -252,7 +260,7 @@ ALTER TABLE `compte`
 -- AUTO_INCREMENT pour la table `ligne`
 --
 ALTER TABLE `ligne`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `statut`
 --
