@@ -97,12 +97,4 @@ public class Fenetre extends JFrame {
         this.menuBar.add(menuAutre);
         this.setJMenuBar(menuBar);
     }
-    
-    private JPanel concepteur(){
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-        JLabel label = new JLabel("<html> Application realisée par : <br><br> - BLONDEAU Laura <br>- MERSCH Amélien <br> - POCHON Amaury <br><br><br> Dans le cadre du projet J2EE (M1 MIAGE) proposé par : <br><br> TORGUET Patrice et TEISSIER Cédric</html>");
-        panel.add(label);
-        return panel;
-    }
 }

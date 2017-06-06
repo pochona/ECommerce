@@ -7,18 +7,24 @@ package services;
 
 
 import entities.Article;
+import entities.Commande;
 import entitiesBis.ArticleBis;
 import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
 import entitiesBis.StatutBis;
 import exceptions.ExceptionArticle;
+import exceptions.ExceptionCommande;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
 import metiers.GestionClientLocal;
 import metiers.GestionStatutLocal;
+import utilities.Log;
 
 /**
  *
@@ -98,5 +104,20 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     @Override
     public List<CommandeBis> findCommandesByStatut(String idC) {
         return gestionCommande.findCommandesByStatut(idC);
+    }
+    
+    public void declencherLivraison(Map<Integer, Integer> cmdALivrer){
+        Integer idLivraison = gestionCommande.creerLivraison();
+        Log.log(idLivraison.toString());
+        for(Map.Entry<Integer, Integer> entry : cmdALivrer.entrySet()){
+            Commande c = null;
+            try {
+                c = gestionCommande.findCommande(entry.getKey());
+            } catch (ExceptionCommande ex) {
+                Logger.getLogger(ServiceCommercial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c.setIdTournee(idLivraison);
+            c.setIdStatut(3);
+        }
     }
 }

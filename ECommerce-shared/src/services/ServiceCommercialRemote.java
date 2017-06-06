@@ -11,6 +11,7 @@ import entitiesBis.CommandeBis;
 import entitiesBis.StatutBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Remote;
 
 /**
@@ -46,4 +47,6 @@ public interface ServiceCommercialRemote {
     StatutBis findDescrStatutById(String idStatut);
     
     public List<CommandeBis> findCommandesByStatut(String idC);
+
+    public void declencherLivraison(Map<Integer, Integer> cmdSelected);
 }

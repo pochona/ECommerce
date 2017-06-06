@@ -9,10 +9,12 @@ import controllers.ArticleFacadeLocal;
 import controllers.CommandeFacadeLocal;
 import controllers.LigneFacadeLocal;
 import controllers.StatutFacadeLocal;
+import controllers.TourneeFacadeLocal;
 import entities.Article;
 import entities.Commande;
 import entities.Ligne;
 import entities.Statut;
+import entities.Tournee;
 import entitiesBis.CommandeBis;
 import exceptions.ExceptionCommande;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import utilities.Log;
 
 /**
  *
@@ -42,6 +45,8 @@ public class GestionCommande implements GestionCommandeLocal {
     @EJB
     private LigneFacadeLocal ligneFacade;
 
+    @EJB
+    private TourneeFacadeLocal tourneeFacade;
     
     @EJB
     private ArticleFacadeLocal articleFacade;
@@ -242,6 +247,15 @@ public class GestionCommande implements GestionCommandeLocal {
             System.out.println("Problème de recuperation");
         }
         return montantTot;
+    }
+    
+    @Override
+    public Integer creerLivraison(){
+        Tournee t = new Tournee();
+        t.setDateTournee(new Date());
+        tourneeFacade.create(t);
+        Log.log(t.getDateTournee().toString());
+        return t.getId();
     }
 
 }

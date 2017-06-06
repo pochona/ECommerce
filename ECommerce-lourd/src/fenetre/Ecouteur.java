@@ -6,11 +6,15 @@
 package fenetre;
 
 import app.App;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import panel.AfficheProduit;
 import panel.CreerArticle;
 import panel.DelencherLivraison;
+import panel.DelencherLivraison2;
 import panel.GererApprovisionnement;
 import panel.GererCommande;
 import panel.GererPrelevements;
@@ -46,7 +50,11 @@ public class Ecouteur implements ActionListener {
         } else if (source.equals("Fermer")){
             System.exit(0);
         } else if (source.equals("Information")){
-            //this.fenetre.setContentPane(new CreerArticle(this.fenetre, this.app));
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            JLabel label = new JLabel("<html> Application realisée par : <br><br> - Laura BLONDEAU<br>- Amélien MERSCH<br> - Amaury POCHON<br><br><br> Dans le cadre du projet J2EE du M1 MIAGE</html>");
+            panel.add(label);
+            this.fenetre.setContentPane(panel);
         } 
         this.fenetre.validate(); // maj des conteneurs
     }

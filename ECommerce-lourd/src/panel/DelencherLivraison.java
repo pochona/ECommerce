@@ -8,13 +8,21 @@ package panel;
 import app.App;
 import entitiesBis.CommandeBis;
 import fenetre.Fenetre;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import utilities.TabModel;
@@ -25,87 +33,38 @@ import utilities.TabModel;
  */
 public class DelencherLivraison extends JPanel {
 
-    Fenetre maFenetre;
-    App app;
-    // JTable des commandes
-    public JTable jTCommande;
-    // Liste d'id des commandes selectionnées 
-    private ArrayList<Integer> commandesSelect;
-    // TabModel d
-    private TabModel tabModelCommande;
-    private TabModel tabModelSelect;
+    private Fenetre maFenetre;
+    private App app;
+
+    private JTextField jtfield;
+    
     private JButton boutonLivraison;
     
-    private JPanel panelBtn;
     private JPanel panelList;
-    private JPanel panelListAll;
-    private JPanel panelListSelect;
-    private Object[][] donneeCommande = new Object[0][0];
-    private JScrollPane scrollPaneCommande;
-    private JScrollPane scrollPaneSelect;
+    private JPanel panelRecap;
+    private JPanel panelButton;
+    private JPanel panelText;
     
-    private String[] titre = {"ID", "Date", "Disponibilité articles", "Selectionner"};
+    private JScrollPane scrollPaneCommande;
+    
+    private JTable jTCommande;
+    
+    private TabModel tabModelCommande;
+    
+    private Map<Integer, Integer> cmdSelected = new HashMap<Integer, Integer>();
+    
+    private static final String[] TITRE = {"ID", "Date", "Disponibilité articles"};
+    
     
     public DelencherLivraison(Fenetre maFenetre, App app) {
         this.maFenetre = maFenetre;
         this.app = app;
         
-        this.creerLayout();
-        this.creerList();
         this.listerCommande();
-        //this.actualiserList();
-    }
-    
-    private void creerLayout(){
-
-        this.setLayout(new GridLayout(2,1));
-
-        this.boutonLivraison = new JButton("Valider livraison");        
-        // Ajout des boutons
-        this.panelBtn = new JPanel();
-        this.panelList = new JPanel();
-        this.panelList.setLayout(new GridLayout(1, 2));
         
-        this.panelListAll = new JPanel();
-        this.panelListSelect = new JPanel();
-        this.panelList.add(panelListAll);
-        this.panelList.add(panelListSelect);
+        this.creerList();
         
-        panelBtn.add(boutonLivraison);
-        this.add(panelList);
-        this.add(panelBtn);
-    }
-    
-    private void creerList(){
-        this.tabModelCommande = new TabModel(this.donneeCommande, titre);
-        this.tabModelSelect = new TabModel(new Object[0][0], titre);
-        jTCommande = new JTable(tabModelCommande);
-        
-        this.scrollPaneCommande = new JScrollPane(jTCommande);
-        this.scrollPaneSelect = new JScrollPane(new JTable(tabModelSelect));
-       
-        //this.panelListAll.add(scrollPaneCommande);
-        //this.panelListSelect.add(scrollPaneSelect);
-    }
-    
-    private void actualiserList(){
-        System.out.println("panel actu");
-        jTCommande = new JTable(tabModelCommande);
-        this.scrollPaneCommande.removeAll();
-        this.scrollPaneCommande = new JScrollPane(jTCommande);
-        this.panelListAll.removeAll();
-        this.scrollPaneCommande.revalidate();
-        this.scrollPaneCommande.repaint();
-        this.panelListAll.add(scrollPaneCommande);
-        this.panelListAll.revalidate();
-        this.panelListAll.repaint();
-        
-        this.panelListSelect.removeAll();
-        this.panelListSelect.add(scrollPaneSelect);
-        this.panelListSelect.revalidate();
-        this.panelListSelect.repaint();
-        //this.panelListSelect.add(this.scrollPaneSelect);
-       
+        this.initPanel();
     }
     
     private void listerCommande(){
@@ -113,45 +72,99 @@ public class DelencherLivraison extends JPanel {
         List<CommandeBis> list = this.app.getServiceCommercial().findCommandesByStatut("2");
 
         // Initialisation de la taille
-        this.donneeCommande = new Object[list.size()][6];
+        Object[][] donneeCommande = new Object[list.size()][4];
         int index = 0;
 
         for (CommandeBis maCommande : list) {
-            this.donneeCommande[index][0] = maCommande.getIdBis();
-            this.donneeCommande[index][1] = maCommande.getDateCommandeBis();
-            this.donneeCommande[index][2] = "Article Dispo";
-            this.donneeCommande[index][3] = "[ ]";
+            donneeCommande[index][0] = maCommande.getIdBis();
+            donneeCommande[index][1] = maCommande.getDateCommandeBis();
+            donneeCommande[index][2] = "Article Dispo";
             index++;
         }
         
-        this.tabModelCommande = new TabModel(this.donneeCommande, titre);
+        this.tabModelCommande = new TabModel(donneeCommande, TITRE);
         this.jTCommande = new JTable(tabModelCommande);
-        
+
         jTCommande.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            private DelencherLivraison decLivraison;
 
             public void valueChanged(ListSelectionEvent arg0) {
-               // decLivraison.JTCommande.clearSelection();
-                int col = 3;
-                int row = decLivraison.jTCommande.getSelectedRow(); // On envoie la ligne 
-                decLivraison.jTCommande.setValueAt("[abcx]", row, col);
-                decLivraison.jTCommande.revalidate();
-                decLivraison.jTCommande.repaint();
-                System.out.println(decLivraison.jTCommande.getValueAt(row, col));
-                //System.out.println(tabModelCommande.getRowCount());
-                //tabModelCommande.removeRow(JTCommande.getSelectedRow());
-
-                //decLivraison.actualiserList();
+                int col = 0;
+                int row = getjTCommande().getSelectedRow(); // On envoie la ligne 
+                try{
+                    getjTCommande().clearSelection();
+                    Integer val = (Integer) getTabModelCommande().getValueAt(row, col);
+                    clickValue(val);
+                } catch (java.lang.ArrayIndexOutOfBoundsException e){
+                    // rien
+                }
             }
 
-            private ListSelectionListener init(DelencherLivraison var) {
-                decLivraison = var;
-                return this;
-            }
-        }.init(this));
+        });
         
-        this.scrollPaneCommande = new JScrollPane(jTCommande);
-        this.panelListAll.add(scrollPaneCommande);
-        this.panelListSelect.add(scrollPaneSelect);
     }
+    
+    private void creerList(){        
+        this.scrollPaneCommande = new JScrollPane(jTCommande);
+    }
+    
+    private void clickValue(Integer i){
+        if(cmdSelected.containsKey(i)){
+            cmdSelected.remove(i);
+        } else {
+            cmdSelected.put(i, i);
+        }
+        
+        this.actualiserTxtField();
+    }
+    
+    private void actualiserTxtField(){
+        String val = "Actuellement sélectionné : ";
+        for(Map.Entry<Integer, Integer> entry : cmdSelected.entrySet()){
+            val = val + entry.getKey() + ", ";
+        }
+        jtfield.setText(val);
+    }
+    
+    private void initPanel(){
+        this.setLayout(new BorderLayout());
+        panelList = new JPanel(new BorderLayout());
+        panelRecap = new JPanel(new GridLayout(2, 1));
+        panelList.add(scrollPaneCommande, BorderLayout.CENTER);
+        
+        jtfield = new JTextField();
+        jtfield.setText("Actuellement sélectionné : " );
+        jtfield.setPreferredSize(new Dimension(1080, 30));
+        panelText = new JPanel();
+        panelText.add(jtfield);
+        
+        panelRecap.add(panelText);
+        panelButton = new JPanel();
+        this.boutonLivraison = new JButton("Valider livraison");
+         // Ecoute du Jbutton "boutonModifier"
+        boutonLivraison.addActionListener(new ActionListener() {
+            AfficheProduit afficheProd;
+            public void actionPerformed(ActionEvent e) {
+                declencherLivraison();
+            }
+  
+        });
+        
+        panelButton.add(boutonLivraison);
+        panelRecap.add(panelButton);
+        
+        this.add(panelList, BorderLayout.CENTER);
+        this.add(panelRecap, BorderLayout.SOUTH);
+    }
+    
+    private void declencherLivraison(){
+        app.getServiceCommercial().declencherLivraison(cmdSelected);
+    }
+    
+    private JTable getjTCommande(){
+        return this.jTCommande;
+    }
+   
+    private TabModel getTabModelCommande(){
+        return this.tabModelCommande ;
+   }
 }
