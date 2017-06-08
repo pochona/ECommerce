@@ -8,6 +8,7 @@ package metiers;
 import entities.Commande;
 import entities.Ligne;
 import entities.Statut;
+import entities.Tournee;
 import entitiesBis.CommandeBis;
 import exceptions.ExceptionCommande;
 import java.util.List;
@@ -45,7 +46,7 @@ public interface GestionCommandeLocal {
     
     void modifieIdStatut(Integer idCom, Integer idStatut);
     
-    public Integer creerLivraison();
+    public Tournee creerLivraison();
     /*
     double getPUArticle(String id);
     

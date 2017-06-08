@@ -8,6 +8,7 @@ package services;
 
 import entities.Article;
 import entities.Commande;
+import entities.Tournee;
 import entitiesBis.ArticleBis;
 import entitiesBis.ClientBis;
 import entitiesBis.CommandeBis;
@@ -107,8 +108,8 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     }
     
     public void declencherLivraison(Map<Integer, Integer> cmdALivrer){
-        Integer idLivraison = gestionCommande.creerLivraison();
-        Log.log(idLivraison.toString());
+        Tournee livraison = gestionCommande.creerLivraison();
+        Log.log(livraison.toString());
         for(Map.Entry<Integer, Integer> entry : cmdALivrer.entrySet()){
             Commande c = null;
             try {
@@ -116,7 +117,8 @@ public class ServiceCommercial implements ServiceCommercialRemote{
             } catch (ExceptionCommande ex) {
                 Logger.getLogger(ServiceCommercial.class.getName()).log(Level.SEVERE, null, ex);
             }
-            c.setIdTournee(idLivraison);
+            Log.log("edition ma commande : " + c.getId() + " id tournee : " + livraison.getId());
+            c.setIdTournee(livraison.getId());
             c.setIdStatut(3);
         }
     }

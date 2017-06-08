@@ -158,6 +158,14 @@ public class DelencherLivraison extends JPanel {
     
     private void declencherLivraison(){
         app.getServiceCommercial().declencherLivraison(cmdSelected);
+        cmdSelected.clear();
+        actualiserTxtField();
+        panelList.removeAll();
+        listerCommande();
+        creerList();
+        panelList.add(scrollPaneCommande);
+        panelList.repaint();
+        panelList.revalidate();        
     }
     
     private JTable getjTCommande(){

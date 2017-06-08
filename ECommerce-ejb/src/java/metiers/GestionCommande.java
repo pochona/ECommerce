@@ -250,12 +250,14 @@ public class GestionCommande implements GestionCommandeLocal {
     }
     
     @Override
-    public Integer creerLivraison(){
+    public Tournee creerLivraison(){
         Tournee t = new Tournee();
         t.setDateTournee(new Date());
+        // faux ID pour contrer un problème d'auto incremente
+        t.setId(55);
+
         tourneeFacade.create(t);
-        Log.log(t.getDateTournee().toString());
-        return t.getId();
+        return t;
     }
 
 }
