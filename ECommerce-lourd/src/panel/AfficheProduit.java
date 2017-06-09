@@ -63,24 +63,27 @@ public class AfficheProduit extends JPanel {
         boutonModifier.addActionListener(new ActionListener() {
             AfficheProduit afficheProd;
             public void actionPerformed(ActionEvent e) {
-                
-                // On se place à la colonne 0 pour être directement sur l'ID
-                int col = 0;
-                int row = jTarticle.getSelectedRow();
-                
-                // On récupére l'ID de la ligne sélectionnée
-                Object cellule = jTarticle.getValueAt(row,col);
-                
-                // test perso pour vérifier si on récupère bien l'artibleBis
-                String i = cellule.toString();
-                Integer idArticle = Integer.parseInt(i);
-                
-                // Ouverture d'une nouvelle Frame pour modifier le produit
-                afficheProd.modifierProduit = new ModifierProduit(maFenetre, app, idArticle, afficheProd);
-                
-                // On désactive les JButton modifier et supprimer
-                desactiverBtnModif();
-                desactiverBtnSupprimer();
+                try {
+                    // On se place à la colonne 0 pour être directement sur l'ID
+                    int col = 0;
+                    int row = jTarticle.getSelectedRow();
+
+                    // On récupére l'ID de la ligne sélectionnée
+                    Object cellule = jTarticle.getValueAt(row,col);
+
+                    // test perso pour vérifier si on récupère bien l'artibleBis
+                    String i = cellule.toString();
+                    Integer idArticle = Integer.parseInt(i);
+
+                    // Ouverture d'une nouvelle Frame pour modifier le produit
+                    afficheProd.modifierProduit = new ModifierProduit(maFenetre, app, idArticle, afficheProd);
+
+                    // On désactive les JButton modifier et supprimer
+                    desactiverBtnModif();
+                    desactiverBtnSupprimer();
+                } catch (ArrayIndexOutOfBoundsException exc) {
+                    // Si on selectionne aucune ligne du tableau pour modifier un produit, on gère l'erreur
+                }
             }
             
             private ActionListener init(AfficheProduit p){
@@ -96,14 +99,18 @@ public class AfficheProduit extends JPanel {
         // Ecoute du Jbutton "boutonSupprimer"
         boutonSupprimer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // On se place à la colonne 0 pour être directement sur l'ID
-                int col = 0;
-                int row = jTarticle.getSelectedRow();
-                
-                // On récupére l'ID de la ligne sélectionnée
-                Object cellule = jTarticle.getValueAt(row,col);
-                String id = cellule.toString();
-                supprimer(id);
+                try {
+                    // On se place à la colonne 0 pour être directement sur l'ID
+                    int col = 0;
+                    int row = jTarticle.getSelectedRow();
+
+                    // On récupére l'ID de la ligne sélectionnée
+                    Object cellule = jTarticle.getValueAt(row,col);
+                    String id = cellule.toString();
+                    supprimer(id);
+                } catch (ArrayIndexOutOfBoundsException exc) {
+                    // Si on selectionne aucune ligne du tableau pour supprimer un produit, on gère l'erreur
+                }
             }
         });
     }

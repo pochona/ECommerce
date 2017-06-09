@@ -128,19 +128,25 @@ public class ModifierProduit extends JFrame{
             double prixHt2 = Double.parseDouble(px);
             float tauxTva2 = Float.parseFloat(tx);
             int stock2 = Integer.parseInt(stk);
+            if (prixHt2<00.00){
+                JOptionPane.showMessageDialog(null, "Un article n'est pas gratuit ! Le prix doit est supérieur à 0", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } else if ((tauxTva2<0.00) || (tauxTva2>1.00)) {
+                JOptionPane.showMessageDialog(null, "La TVA doit être comprise entre 0.00 et 1.00","Erreur", JOptionPane.ERROR_MESSAGE);
+            } else if (stock2<0) {
+                JOptionPane.showMessageDialog(null, "Le stock doit être égale ou supérieur à 0","Erreur", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Création d'un nouvel articleBis pour l'éditer
+                ArticleBis abis = new ArticleBis(id, lib, des, prixHt2, tauxTva2, stock2);
+                app.getServiceCommercial().editer(abis);
 
-            // Création d'un nouvel articleBis pour l'éditer
-            ArticleBis abis = new ArticleBis(id, lib, des, prixHt2, tauxTva2, stock2);
-            app.getServiceCommercial().editer(abis);
-
-            // On ferme la JFrame après la création
-            panelParent.actualiser();
-            panelParent.activerBtnModif();
-            panelParent.activerBtnSupprimer();
-            dispose();
-
-            // Boite de dialogue indiquant le succès de la modification
-            JOptionPane.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
+                // On ferme la JFrame après la création
+                panelParent.actualiser();
+                panelParent.activerBtnModif();
+                panelParent.activerBtnSupprimer();
+                dispose(); 
+                // Boite de dialogue indiquant le succès de la modification
+                JOptionPane.showMessageDialog(null, "Modification prise en compte", "Succés", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (NumberFormatException exc) {
 
             // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur

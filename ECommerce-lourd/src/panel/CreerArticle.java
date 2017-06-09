@@ -99,12 +99,19 @@ public class CreerArticle extends JPanel {
             double prixHt2 = Double.parseDouble(px);
             float tauxTva2 = Float.parseFloat(tx);
             int stock2 = Integer.parseInt(stk);
+            if (prixHt2<00.00){
+                JOptionPane.showMessageDialog(null, "Un article n'est pas gratuit ! Le prix doit est supérieur à 0", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } else if ((tauxTva2<0.00) || (tauxTva2>1.00)) {
+                JOptionPane.showMessageDialog(null, "La TVA doit être comprise entre 0.00 et 1.00","Erreur", JOptionPane.ERROR_MESSAGE);
+            } else if (stock2<0) {
+                JOptionPane.showMessageDialog(null, "Le stock initial doit être égale ou supérieur à 0","Erreur", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Création d'un nouvel article
+                app.getServiceCommercial().creer(art);
 
-            // Création d'un nouvel article
-            app.getServiceCommercial().creer(art);
-
-            // Boite de dialogue indiquant la bonne création d'article
-            JOptionPane.showMessageDialog(null, "Le produit a bien été créé", "Validation de votre création", JOptionPane.INFORMATION_MESSAGE);
+                // Boite de dialogue indiquant la bonne création d'article
+                JOptionPane.showMessageDialog(null, "Le produit a bien été créé", "Validation de votre création", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (NumberFormatException exc) {
             // En cas d'erreurs sur les types mis dans les champs
             JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);

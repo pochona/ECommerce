@@ -31,6 +31,7 @@ public class ModifierStock extends JFrame{
     private Fenetre fen;
     private GererApprovisionnement panelParent;
     private JTextField jTstkNouveau, jTstkActuel;
+    private Integer stkActuel;
 
     public ModifierStock(Fenetre fen, App app, Integer idArticle, GererApprovisionnement panelParent){
         this.fen = fen;
@@ -51,10 +52,10 @@ public class ModifierStock extends JFrame{
 
         Integer stockArticle = app.getServiceApprovisionnement().findStock(idArticle);
         // Conversion en string du stock pour l'afficher dans le JTextField
-        String stkActuel = String.valueOf(stockArticle);
-
+        String stockActuel = String.valueOf(stockArticle);
+        stkActuel = Integer.valueOf(stockActuel);
         // Déclaration du JTextField
-        this.jTstkActuel = new JTextField(stkActuel);
+        this.jTstkActuel = new JTextField(stockActuel);
         this.jTstkActuel.setPreferredSize(new Dimension(150, 30));
         this.jTstkActuel.setEditable(false);
         this.jTstkNouveau = new JTextField("");
@@ -96,16 +97,21 @@ public class ModifierStock extends JFrame{
             // Conversion
             int stockInt = Integer.parseInt(stockString);
 
-            // Création d'un nouvel articleBis pour l'éditer
-            app.getServiceApprovisionnement().editerStock(idArticle, stockInt);
+            // Création d'un nouvel articleBis pour l'éditer si stock entré > 0
+            if (stockInt > stkActuel){
+                app.getServiceApprovisionnement().editerStock(idArticle, stockInt);
+                
+                // On ferme la JFrame après la création
+                panelParent.actualiser();
+                panelParent.activerBtnModif();
+                dispose();
 
-            // On ferme la JFrame après la création
-            panelParent.actualiser();
-            panelParent.activerBtnModif();
-            dispose();
-
-            // Boite de dialogue indiquant le succès de la modification
-            JOptionPane.showMessageDialog(null, "Modification du stock du produit "+idArticle, "Succés", JOptionPane.INFORMATION_MESSAGE);
+                // Boite de dialogue indiquant le succès de la modification
+                JOptionPane.showMessageDialog(null, "Modification du stock du produit "+idArticle, "Succés", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Un réapprovisionnement implique avoir plus de stock que l'actuel ! ", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (NumberFormatException exc) {
             // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
             JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);

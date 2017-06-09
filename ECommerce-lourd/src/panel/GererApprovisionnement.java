@@ -58,23 +58,26 @@ public class GererApprovisionnement extends JPanel{
         boutonModifier.addActionListener(new ActionListener() {
             GererApprovisionnement gererAppro;
             public void actionPerformed(ActionEvent e) {
-                
-                // On se place à la colonne 0 pour être directement sur l'ID
-                int col = 0;
-                int row = jTarticle.getSelectedRow();
-                
-                // On récupére l'ID de la ligne sélectionnée
-                Object cellule = jTarticle.getValueAt(row,col);
-                
-                // test perso pour vérifier si on récupère bien l'artibleBis
-                String i = cellule.toString();
-                Integer idArticle = Integer.parseInt(i);
-                
-                // Ouverture d'une nouvelle Frame pour modifier le produit
-                modifierStock = new ModifierStock(maFenetre, app, idArticle, gererAppro);
-                
-                // On désactive les JButton modifier et supprimer
-                desactiverBtnModif();
+                try {
+                    // On se place à la colonne 0 pour être directement sur l'ID
+                    int col = 0;
+                    int row = jTarticle.getSelectedRow();
+
+                    // On récupére l'ID de la ligne sélectionnée
+                    Object cellule = jTarticle.getValueAt(row,col);
+
+                    // test perso pour vérifier si on récupère bien l'artibleBis
+                    String i = cellule.toString();
+                    Integer idArticle = Integer.parseInt(i);
+
+                    // Ouverture d'une nouvelle Frame pour modifier le produit
+                    modifierStock = new ModifierStock(maFenetre, app, idArticle, gererAppro);
+
+                    // On désactive les JButton modifier et supprimer
+                    desactiverBtnModif();
+                } catch (ArrayIndexOutOfBoundsException exc) {
+                    // Si on selectionne aucune ligne du tableau pour modifier le stock, on gère l'erreur
+                }
             }
             
             private ActionListener init(GererApprovisionnement g){
