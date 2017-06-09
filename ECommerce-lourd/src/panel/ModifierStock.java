@@ -10,6 +10,8 @@ import fenetre.Fenetre;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,13 +41,19 @@ public class ModifierStock extends JFrame{
         this.idArticle = idArticle;
         this.panelParent = panelParent;
         this.setSize(500, 250);
-       // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Modification sur le produit " + idArticle);
         this.setLocationRelativeTo(null);
         this.panel = new JPanel();
         this.initPanel();
         this.getContentPane().add(panel);
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                exitProcedure();
+            }
+        });
     }
 
     public void initPanel(){
@@ -116,5 +124,10 @@ public class ModifierStock extends JFrame{
             // En cas d'erreur(s) sur les champs insérés, boite de dialogue d'erreur
             JOptionPane.showMessageDialog(null, "Veuillez vérifier les types renseignés", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    public void exitProcedure() {
+        // Si on ferme la fênetre avec la croix en haut à droite, alors on doit réactiver le bouton
+        panelParent.activerBtnModif();
+        this.dispose();
     }
 }
