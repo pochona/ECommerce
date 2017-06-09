@@ -25,7 +25,7 @@ public class Fenetre extends JFrame {
     private final JMenu menuReapro = new JMenu("Service réapprovisionnement");
     private final JMenu menuLivraison = new JMenu("Service livraison");
     private final JMenu menuAutre = new JMenu("Autre");
-
+    private final JMenuItem itemSuivreCommandeComm = new JMenuItem("Suivre commande");
     private final JMenuItem itemSuivreCommande = new JMenuItem("Suivre commande");
     private final JMenuItem itemGererPrlv = new JMenuItem("Gérer les prélèvements");
     private final JMenuItem itemCreerProduit = new JMenuItem("Créer un produit");
@@ -60,7 +60,8 @@ public class Fenetre extends JFrame {
     private void configurerMenu(){
         this.menuComm.add(itemSuivreCommande); //On initialise nos menus avec add - Suivre commande
         itemSuivreCommande.addActionListener(unEcouteur);
-
+        this.menuComm.add(itemSuivreCommandeComm);
+        itemSuivreCommandeComm.addActionListener(unEcouteur);
         this.menuLivraison.add(itemSuivreCommande);
         this.menuLivraison.addSeparator();
         
