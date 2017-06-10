@@ -112,18 +112,11 @@ public class ModifierProduit extends JFrame{
         panel.add(fermer);
         fermer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                actionAnnuler();
+                exitProcedure();
             }
         });
         this.add(panel);
-    }
-    
-    private void actionAnnuler(){
-        panelParent.activerBtnModif();
-        panelParent.activerBtnSupprimer();
-        dispose();
-    }
-    
+    }    
     private void actionValider(){
          try {
             // Récupération des champs saisis pour la modif
