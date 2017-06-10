@@ -91,7 +91,10 @@ public class CreerArticle extends JPanel {
             String px = articlePrix.getText();
             String tx = articleTaux.getText();
             String stk = articleStock.getText();
-
+            if(lib.equals("") || des.equals("") || px.equals("") || tx.equals("") || stk.equals("")){
+                // a gérer avec une meilleur exception si necessaire
+                throw new NumberFormatException();
+            }
             // Contruction de la String qui sera envoyée pour la création de l'article
             String art = id + "," + lib + "," + des + "," + px + "," + tx + "," + stk;
 
