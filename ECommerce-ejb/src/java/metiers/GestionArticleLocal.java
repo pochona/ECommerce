@@ -6,6 +6,7 @@
 package metiers;
 
 import entities.Article;
+import entities.Commande;
 import entitiesBis.ArticleBis;
 import exceptions.ExceptionArticle;
 import java.util.List;
@@ -44,4 +45,6 @@ public interface GestionArticleLocal {
     Integer findStock(Integer id);
     
     void editerStock(Integer idArticle, Integer nouveauStock);
+    
+    public void destockerCommande(Commande c);
 }

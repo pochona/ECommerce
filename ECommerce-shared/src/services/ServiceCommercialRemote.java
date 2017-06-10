@@ -49,4 +49,6 @@ public interface ServiceCommercialRemote {
     public List<CommandeBis> findCommandesByStatut(String idC);
 
     public void declencherLivraison(Map<Integer, Integer> cmdSelected);
+
+    public boolean getDispoArticleCommande(Integer idBis);
 }

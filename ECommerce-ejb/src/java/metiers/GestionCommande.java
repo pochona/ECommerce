@@ -254,10 +254,13 @@ public class GestionCommande implements GestionCommandeLocal {
         Tournee t = new Tournee();
         t.setDateTournee(new Date());
         // faux ID pour contrer un problème d'auto incremente
-        t.setId(55);
+        t.setId(null);
 
         tourneeFacade.create(t);
-        return t;
+        Integer id = tourneeFacade.getMaxId();
+        Tournee t2 = tourneeFacade.find(id);
+
+        return t2;
     }
 
 }

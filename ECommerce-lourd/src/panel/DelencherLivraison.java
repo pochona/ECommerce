@@ -74,11 +74,11 @@ public class DelencherLivraison extends JPanel {
         // Initialisation de la taille
         Object[][] donneeCommande = new Object[list.size()][4];
         int index = 0;
-
         for (CommandeBis maCommande : list) {
+        System.out.println(maCommande.getIdBis());
             donneeCommande[index][0] = maCommande.getIdBis();
             donneeCommande[index][1] = maCommande.getDateCommandeBis();
-            donneeCommande[index][2] = "Article Dispo";
+            donneeCommande[index][2] = this.app.getServiceCommercial().getDispoArticleCommande(maCommande.getIdBis()) ? "Article Dispo" : "Article non dispo";
             index++;
         }
         
@@ -90,10 +90,14 @@ public class DelencherLivraison extends JPanel {
             public void valueChanged(ListSelectionEvent arg0) {
                 int col = 0;
                 int row = getjTCommande().getSelectedRow(); // On envoie la ligne 
+                
                 try{
-                    getjTCommande().clearSelection();
-                    Integer val = (Integer) getTabModelCommande().getValueAt(row, col);
-                    clickValue(val);
+                    if(getTabModelCommande().getValueAt(row, 2).equals("Article Dispo")){
+                        getjTCommande().clearSelection();
+
+                        Integer val = (Integer) getTabModelCommande().getValueAt(row, col);
+                        clickValue(val);
+                    }
                 } catch (java.lang.ArrayIndexOutOfBoundsException e){
                     // rien
                 }

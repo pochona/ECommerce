@@ -6,8 +6,10 @@
 package services;
 
 
+import controllers.ArticleFacadeLocal;
 import entities.Article;
 import entities.Commande;
+import entities.Ligne;
 import entities.Tournee;
 import entitiesBis.ArticleBis;
 import entitiesBis.ClientBis;
@@ -15,12 +17,14 @@ import entitiesBis.CommandeBis;
 import entitiesBis.StatutBis;
 import exceptions.ExceptionArticle;
 import exceptions.ExceptionCommande;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import metiers.GestionArticle;
 import metiers.GestionArticleLocal;
 import metiers.GestionCommandeLocal;
 import metiers.GestionClientLocal;
@@ -46,6 +50,9 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     
     @EJB
     private GestionStatutLocal gestionStatut;
+    
+    @EJB
+    private ArticleFacadeLocal articleFacade;
     
     @Override
     public List<String> lister(){
@@ -109,7 +116,6 @@ public class ServiceCommercial implements ServiceCommercialRemote{
     
     public void declencherLivraison(Map<Integer, Integer> cmdALivrer){
         Tournee livraison = gestionCommande.creerLivraison();
-        Log.log(livraison.toString());
         for(Map.Entry<Integer, Integer> entry : cmdALivrer.entrySet()){
             Commande c = null;
             try {
@@ -117,9 +123,29 @@ public class ServiceCommercial implements ServiceCommercialRemote{
             } catch (ExceptionCommande ex) {
                 Logger.getLogger(ServiceCommercial.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Log.log("edition ma commande : " + c.getId() + " id tournee : " + livraison.getId());
             c.setIdTournee(livraison.getId());
             c.setIdStatut(3);
+            gestionArticle.destockerCommande(c);
         }
+    }
+
+    @Override
+    public boolean getDispoArticleCommande(Integer idC) {
+        boolean verif = true;
+        List<Ligne> list;
+        try {
+            list = gestionCommande.getLigneCommande(idC);
+            Iterator it = list.iterator();
+            while(verif && it.hasNext()){
+                Ligne l = (Ligne) it.next();
+                Article a = articleFacade.find(l.getIdArticle());
+                if(a.getStock() < l.getQte()){
+                    verif = false;
+                }
+            }
+        } catch (ExceptionCommande ex) {
+            Logger.getLogger(ServiceCommercial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return verif;
     }
 }

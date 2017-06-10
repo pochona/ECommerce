@@ -5,10 +5,12 @@
  */
 package controllers;
 
+import entities.Client;
 import entities.Tournee;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,14 @@ public class TourneeFacade extends AbstractFacade<Tournee> implements TourneeFac
 
     public TourneeFacade() {
         super(Tournee.class);
+    }
+
+    @Override
+    public Integer getMaxId() {
+         Query q = em.createQuery(
+               "select t from Tournee t where t.id = (select max(t2.id) from Tournee t2)");
+            Tournee t = (Tournee) q.getSingleResult();
+            return t.getId();
     }
     
 }

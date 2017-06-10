@@ -7,10 +7,15 @@ package metiers;
 
 import controllers.ArticleFacadeLocal;
 import entities.Article;
+import entities.Commande;
+import entities.Ligne;
 import entitiesBis.ArticleBis;
 import exceptions.ExceptionArticle;
+import exceptions.ExceptionCommande;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -24,6 +29,9 @@ public class GestionArticle implements GestionArticleLocal{
     
     @EJB
     private ArticleFacadeLocal articleFacade;
+    
+    @EJB
+    private GestionCommandeLocal gestionCommande;
 
     @Override
     public long creerArticle(String description, String lib) throws ExceptionArticle {
@@ -119,6 +127,19 @@ public class GestionArticle implements GestionArticleLocal{
         Article art = articleFacade.find(idArticle);
         art.setStock(nouveauStock);
         articleFacade.editer(art);
+    }
+    
+    public void destockerCommande(Commande c){
+        try {
+            List<Ligne> list = gestionCommande.getLigneCommande(c.getId());
+            for(Ligne maLigne : list){
+                Article a = articleFacade.find(maLigne.getIdArticle());
+                editerStock(a.getId(), a.getStock()-maLigne.getQte());
+            }
+        } catch (ExceptionCommande ex) {
+            Logger.getLogger(GestionArticle.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

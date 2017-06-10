@@ -5,14 +5,12 @@
  */
 package utilities;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
  * @author Amaury
+ * Classe permettant de loger plus facilement dans la console Glassfish, et retrouver le message plus facilement
  */
 public class Log {
    

@@ -30,4 +30,5 @@ public interface TourneeFacadeLocal {
 
     int count();
     
+    Integer getMaxId();
 }
