@@ -72,9 +72,12 @@ public class GererPrelevements extends JPanel{
             int col = 0;
             int row = jTCommande.getSelectedRow();
             //recuperation de l'id de la commande selectionnée
-            Integer idCommande = (Integer) jTCommande.getValueAt(row,col);
-            
-            declencherPrelevement(idCommande);
+            try {
+                Integer idCommande = (Integer) jTCommande.getValueAt(row,col);
+                declencherPrelevement(idCommande);
+            } catch (ArrayIndexOutOfBoundsException a){
+                JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée !","Erreur", JOptionPane.ERROR_MESSAGE);  
+            }
         });
     }
     
